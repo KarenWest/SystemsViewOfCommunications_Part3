@@ -1,0 +1,57 @@
+..&K....USER labuser8
+......&K331 Password required for labuser8
+......&U230 User labuser8 logged in
+........USER labuser11
+........331 Password required for labuser11
+........230 User labuser11 logged in
+......8.USER labuser22
+..8.....331 Password required for labuser22
+..8.....230 User labuser22 logged in
+......s~USER labuser33
+..s.....331 Password required for labuser33
+..s.....230 User labuser33 logged in
+.......MUSER labuser44
+...O....331 Password required for labuser44
+...X...230 User labuser44 logged in
+...\...#USER labuser55
+...%...\331 Password required for labuser55
+.../...f230 User labuser55 logged in
+......".USER labuser66
+..".....331 Password required for labuser66
+..".....230 User labuser66 logged in
+......].USER labuser77
+..].....331 Password required for labuser77
+..].....230 User labuser77 logged in
+..x.....USER labuser88
+......x.331 Password required for labuser88
+......x.230 User labuser88 logged in
+..d....OUSER labuser99
+...R..d.331 Password required for labuser99
+...Z..d.230 User labuser99 logged in
+.	O....0USER labuser8
+...1.	O.331 Password required for labuser8
+...9.	O.230 User labuser8 logged in
+6...H.USER labuser11
+6.331 Password required for labuser11
+6.230 User labuser11 logged in
+..".....USER labuser22
+......".331 Password required for labuser22
+......".230 User labuser22 logged in
+..3....USER labuser33
+......3331 Password required for labuser33
+......?230 User labuser33 logged in
+...R...`USER labuser44
+...b...R331 Password required for labuser44
+...j...]230 User labuser44 logged in
+..u..3)USER labuser55
+..3*..u331 Password required for labuser55
+..32..z230 User labuser55 logged in
+......l.USER labuser66
+..l.....331 Password required for labuser66
+..m.....230 User labuser66 logged in
+........USER labuser77
+........331 Password required for labuser77
+........230 User labuser77 logged in
+...#....USER labuser88
+.......#331 Password required for labuser88
+......./230 User labuser88 logged in

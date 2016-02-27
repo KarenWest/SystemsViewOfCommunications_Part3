@@ -1,0 +1,71 @@
+﻿rng(0)
+ 
+% parameters
+n_slots =1000; %
+p=0.1;
+n_users = 4;
+
+% used to init the simulation of the ALOHA  system
+initSimulation(n_users,n_slots)
+
+% result
+n_succ = 0; % number of successful transmissions
+n_empty= 0; % number of empty slots
+n_coll = 0; % number of slots with collisions
+ 
+slot_status = zeros(n_users,n_slots); % used for the plot
+
+% simulate the transmission process for n_slots
+for t = 1:n_slots    % Loop for each slot
+    slot = zeros(1,16); % reset the slot
+    for id=1:n_users
+        % get the current frame and check if it is empty
+        if isempty(getFrame(id))
+            %get a new datagram
+            datagram = getNewDatagram(id);
+            % create the frame using the user id and the datagram
+            frame = createFrame(id,datagram);
+            % save the new frame
+            updateFrame(id,frame);
+        end
+        % determine when to transmit
+        if ( rand(1)<p ) % generate a Bernoulli random variable with parameter p
+            % transmission: update the slot using a logical or
+            slot = or(slot,getFrame(id));
+            % delete the frame, so that we can transmit a new one 
+            resetFrame(id);
+            % update the slot_status for the final plot
+            slot_status(id,t) = 1;
+        end
+    end
+    
+    % is there a new message?
+    if ~isequal(slot,zeros(1,16))
+        % check the received message
+        if checkReceivedFrame(slot,n_users)
+            n_succ = n_succ + 1;  % update the counter of frame trasmitted successfully
+        else
+            n_coll = n_coll + 1; % update the counter for the collisions 
+        end
+    else
+        n_empty = n_empty +1; % update the number of empty frames
+    end
+end
+
+% % % % Revise the following code   % % % %  
+
+efficiency = n_succ / n_slots;
+display(['Efficiency: (n_succ / n_slots): ' num2str(efficiency) ]);
+
+% % % % Do not change the code below % % % %   
+
+display(['Total number of slots: ' num2str(n_slots) ]);
+display(['Empty slots: ' num2str(n_empty) ]);
+display(['Collisions: ' num2str(n_coll) ]);
+display(['Frame transmitted successfully: ' num2str(n_succ) ]);
+
+% plot 
+
+fh = figure(1); 
+window_size =50;
+plotTraffic(fh,slot_status,n_users,window_size);

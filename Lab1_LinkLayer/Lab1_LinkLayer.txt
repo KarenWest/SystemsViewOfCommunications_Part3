@@ -1,0 +1,172 @@
+
+Hello, everyone.
+Welcome to the lab demo for part three of this course.
+Before jumping into part three, let's first
+do a brief review about what we have learned in part one and part two.
+So, in part one we began our journey of building a communication system.
+Where we first investigated the channel effects.
+And then we proposed several techniques to handle
+the bad effects of the channel, including the error correcting
+code, framing, and equalization.
+We also evaluated the effect of the additive noise
+to the BER performance of our communication system.
+In the first week of part two, we introduced
+another component of our communication system called source coding.
+By then we have been looking at the communication system
+from one perspective.
+That is, in the time domain.
+For example, when we want to understand the channel effect,
+we send a step function to the channel.
+And observed they received signal at the receiver side.
+Both the transmitted signal and the received signal
+are represented in time domain.
+However, if we look at the transmitted signal in the frequency domain,
+we can observe some interesting phenomena.
+For example, here we can understand the frequency components
+of the transmitted signal.
+By following a similar idea, if we look at the channel in the frequency domain,
+we can understand it's frequency domain response.
+The understanding of the signals and the channels in the frequency domain
+can explain why we have distortion in that received signal.
+And why we have intersymbol interference.
+Based on the understanding of the signals and the channel,
+we introduced one way to multiplex several data
+streams by asking the users to use different frequencies.
+We call it the frequency-division multi-plexing.
+And finally, we introduced two types of modulation schemes
+called BPSK and QPSK.
+So, by far, we have been focusing on the design of a very simple communication
+system.
+The point to point communication system.
+Where we have one transmitter and one receiver.
+The transmitter wants to transmit information to the receiver,
+through the channel.
+However, in reality, the communication tasks we need to fulfill
+are much more complicated.
+For example, we may have billions of nodes on the Earth.
+And we want to connect them.
+So in part three we'll be focusing on the design of a communication network.
+That can connect billions of nodes on the Earth.
+So let's see how we can solve the problem.
+To answer the question, let's first observe
+what is the practical communication activities on the Earth.
+So we have two regions here.
+North America and Europe.
+We know that there are millions of nodes in both areas.
+They want to communicate with each other.
+One way we can solve this issue is we can build point
+to point links between all of those nodes.
+However, that is not only economically, but also technically, impractical.
+Because you can do a simple calculation.
+In order to connect 1 billion nodes by point to point links,
+how many links do we need in total?
+So what we can do here is, instead of building point
+to point links between all these nodes we can
+build with several powerful channels.
+So that the users on both sides can share those powerful channels.
+The idea here is to allow the users to share the channel so that we
+can significantly reduce the number of links we
+need to build a communication network.
+In fact this solution is called the hierarchical network.
+Let's consider another example.
+Imagine we have several computers on the campus of HKUST.
+Who want to communicate with several other computers
+on maybe another campus at MIT.
+What we can do here is, first we can construct an institutional network
+where we connect all the computers on the campus of HKUST
+to form a small scale network.
+Then we connect this institutional network
+to the regional network in Hong Kong.
+And then we connect the regional network in Hong Kong
+to the global network.
+On the other side, we can do exactly the same thing
+and connect all those computers at MIT to the international network.
+So whenever there are some communication requirements from computers at HKUST
+to computers at MIT, they can share the same communication link.
+The hierarchical network does solve the issue of connecting those users.
+However, it also creates some other problems.
+For example, because this is a network, when
+I want to communicate between one node and another node,
+there will be many different roads.
+And there will be many different ways to connect them.
+The red path here shows one possible candidate.
+The question is, how can I choose the best path.
+So that's one problem we need to answer in the third part of this course.
+On the other hand, we know we have different types of applications.
+For example, we have HTTP, we have email, and we have FTP.
+So there's no way I can use a single protocol to solve all of those issues.
+So we proposed the layered protocol structure.
+The idea here is to ask different layers to provide certain services.
+For example, the physical layer here will handle what we call the bits
+on the wire.
+So basically, it will deal with the problem
+of transmitting bit information on a wired or wireless link.
+Basically, that is what we have been working on in the first two
+parts of this course.
+So, we will not talk about that again.
+Then what does the link layer do?
+The link layer mainly handles the communication between neighbors.
+What do we mean by neighbors?
+Consider this example.
+I have more than 100 students in the same lecture room,
+taking the same lecture.
+They all have their own computers and they all
+want to be connected to the Internet through the Wi-Fi network.
+However, within this classroom there is one, or at most,
+two WI-FI access points.
+So there is no way you can connect all those computers to the Internet
+through the Wi-Fi network at the same time.
+This is what we call the multiple access issue.
+So basically we need to find a way to control
+the access all of those computers to the Internet through the Wi-Fi network.
+There are many different multiple access schemes.
+For example, recall that in part two of this course
+we introduced one way to multiplex several data
+streams by asking the users to use different frequencies.
+We call it the frequency-division multiplexing.
+In fact, we can use the similar idea to handle multiple access issue.
+And we call it the frequency-division multiple access.
+Which was used in the first generation of mobile communications system.
+By following a similar idea, we can ask users to share the channel
+by using different time slots.
+We call it the time division multiple access.
+Which was used in the second generation mobile communication
+system, the GSM system.
+We have other multiple access schemes called CDMA, code division
+multiple access.
+Which is used in the 3G system.
+And also we have orthogonal frequency division multiple access,
+which is used by 4G LTE systems.
+For all the previous multiple access schemes
+we need a central controller to coordinate the access of all users
+to the network.
+What we are going to talk about today is what
+we call the random access protocols.
+Where we do not require a central controller,
+and we'll talk about the ALOHA protocol.
+We considered the slotted ALOHA protocol here.
+For the slotted ALOHA, we first divide time into fixed length time slot.
+And all stations will transmit their packet
+at the beginning of each time slot.
+So it is possible station one will transmit one frame in the first time
+slot.
+And just because we do not have a central controller here,
+it is possible two, or even more than two users,
+will send their packets at the same time.
+For example here, station two and station three
+transmit their frames simultaneously in the second time slot.
+Unfortunately, this will cause what we call a collision.
+An whenever a collision occurs, both those two packets will be lost.
+Slotted ALOHA handles this issue by asking
+those stations, which detect collisions, to retransmit
+their frame in following time slot.
+However, the station needs to wait for a random number of time slots
+before the next frame.
+So it is possible that station two will wait for one more time slot
+to transmit its frame.
+And station three will wait for three more time slots to transmit its frame.
+And because the waiting time here is random,
+it is possible we can avoid collision.
+So that both the packets can be successfully received by the receiver.
+We call it the random access protocol just because the waiting time here
+is random.

@@ -1,0 +1,44 @@
+graph = [  0   2   5   1  inf inf;
+           2   0   3   2  inf inf;
+           5   3   0   3   1   5 ;
+           1   2   3   0   1  inf;
+          inf inf  1   1   0   2 ;
+          inf inf  5  inf  2   0 ];
+
+n_nodes = size(graph,1);
+
+neighbors = cell(n_nodes,1);
+costs= cell(n_nodes,1);
+RT = cell(n_nodes,1); % routing table
+rowsColsOfGraph = cell(n_nodes,1);
+
+for n=1:n_nodes
+
+    % % % % Revise the following code   % % % %  
+    
+        %disp(graph(n)); NOTE--n_nodes goes 1-6, and graph(n) are the cols of graph    
+        
+        % find the neighbors
+        % find the connection cost of each neighbor
+        % init the routing table (RT)
+        for row = 1:n_nodes
+           if ((graph(row,n) ~= 0) && (graph(row,n) ~= inf))
+               rowsColsOfGraph{n} = [rowsColsOfGraph{n}; row,n];
+               costs{n} = [costs{n}; graph(row,n)];
+               neighbors{n} = [neighbors{n}; row];
+               RT{n} = [RT{n}; row, graph(row,n)];
+           elseif (graph(row,n) == inf)
+               RT{n} = [RT{n}; 0,inf];
+           elseif (graph(row,n) == 0)
+               RT{n} = [RT{n}; 0, 0];
+           end
+           
+        end
+        %disp(costs{n});
+        %disp(neighbors{n});
+        %disp(RT{n});
+        %disp(rowsColsOfGraph{n});
+             
+   
+    % % % % Do not change the code below % % % %  
+end

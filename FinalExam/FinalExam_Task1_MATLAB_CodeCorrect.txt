@@ -1,0 +1,87 @@
+﻿% parameters
+n_slots =1000;
+n_users = 4;
+p_min = 0.01;
+p_max= 0.7;
+
+initSimulation(n_users,n_slots);
+
+p_trace = zeros(n_slots,1);
+succ_trace =  zeros(n_slots,1);
+coll_trace =  zeros(n_slots,1);
+
+% counters
+n_succ = 0; % number of successful transmissions
+n_empty= 0; % number of empty slots
+n_coll = 0; % number of slots with collisions
+
+frame = zeros(n_users,16);
+
+% Each user always sends the same frame to speed up the simulation
+for id=1:n_users
+    %get a new datagram
+    datagram    = getNewDatagram(id);
+    frame(id,:) = createFrame(id,datagram);
+end
+
+%
+% simulate the transmission process for n_slots
+%
+p=p_min;
+for t = 1:n_slots,
+    % transmit frames by statistical multiplexing    
+    send_frame = rand(n_users,1)<p;
+    slot = sum(frame(find(send_frame),:),1) >=1;
+
+    % check the received message
+    % % % % Revise the following code   % % % %
+    if ~isequal(slot,zeros(1,16))
+        if checkReceivedFrame(slot,n_users)
+            % frame transmitted successfully
+            n_succ = n_succ + 1; 
+            p = min(2*p,p_max);
+        else
+            % a collision occurred
+            n_coll = n_coll + 1;
+            p = max(p_min, p/2);
+        end
+    else
+        % frame is empty
+        n_empty = n_empty +1; % update the number of empty frames
+    end
+   
+    % % % % Do not change the code below % % % %
+    % store data for visualization
+    succ_trace(t) = n_succ;
+    coll_trace(t) = n_coll;
+    p_trace(t) = p;
+end
+
+% plot figure of efficiency versus transmit probability
+figure(2); hold off;
+p_list = linspace(0,1,200);
+expeff= n_users*p_list.*(1-p_list).^(n_users-1);
+plot(p_list,expeff,'-','LineWidth',2); hold on;
+plot(mean(p_trace(501:1000))*[1 1],[0 0.5],'--','LineWidth',2);
+legend('Expected Efficiency','Average Probability','Location','eastoutside');
+xlabel('probability')
+h=gca;
+h.YGrid='on';
+
+%
+figure(1); 
+subplot(2,1,1);
+plot(p_trace,'-','LineWidth',2)
+xlabel('Time slots'); ylabel('Probability');
+axis([0 n_slots 0 1]);
+h=gca;
+h.YGrid='on';
+subplot(2,1,2);
+plot(succ_trace./[1:n_slots]','-','LineWidth',2)
+xlabel('Time slots'); ylabel('Efficiency');
+axis([0 n_slots 0 0.5]);
+h=gca;
+h.YGrid='on';
+
+
+      

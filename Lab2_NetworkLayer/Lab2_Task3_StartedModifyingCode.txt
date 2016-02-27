@@ -1,0 +1,163 @@
+﻿global n_nodes max_time
+% load neighbors,costs and RT
+load RT_initial.mat
+
+n_nodes = size(RT,1);      % nodes in the network
+max_time = 3; % number of iterations
+
+for time=1:max_time
+    % at each iteration update the routing table of each node
+    for n=1:n_nodes
+        % get advetisement from connecting nodes
+        % Update routing table for node n, given the routing tables of other nodes
+        for i=1:length(neighbors{n})
+            
+            % Check all connected node 
+            linked = neighbors{n}(i);
+            %disp(linked);
+            
+            % cost of the connection between nodes n and linked
+            cost = costs{n}(i); 
+            %disp(cost);
+            % update the routing table of the node n
+            %savedCosts = [];
+            %savedNeighbors = [];
+            %savedRTrowsK = [];
+            %update = 0;
+            for k=1:n_nodes     
+                % update the cost between node n and node k
+                
+                % % % % Revise the following code   % % % %  
+                      
+                % RT{linked}(k,2) = cost of neighbor linked to get to node k = A
+                % RT{n}(k,2) = cost of node n to get to node k = B = cost
+                % RT{n}(linked,2) = cost of node n to get to node linked = C
+                % if cost of B > cost of (A + C) then update route cost of n to A+C                
+                
+                A = RT{linked}(k,2);
+                B = RT{n}(k,2);
+                C = RT{n}(linked,2);
+                %disp(linked);
+                %disp(k);
+                %disp(n);
+                %disp(A);
+                %disp(B);
+                %disp(C);
+                if (B > A + C) || ((B == inf) && (A ~= inf) && (C ~= inf))
+                    %update = update + 1;
+                    %disp(B);
+                    %disp(A+C);
+                    %disp(linked);
+                    %save values since other neighbors may have better cost to dest
+                    RT{n}(k,2) = A + Cost;
+                    RT{n}(k,1) = linked;
+                    
+                    %savedCosts = [ savedCosts A+C ];
+                    %savedNeighbors = [ savedNeighbors linked ];
+                    %savedRTrowsK = [ savedRTrowsK k];
+                end
+                %if (k == n_nodes) && (update > 1) %take lowest cost of all neighbors
+                    %minCost = min(savedCosts);
+                    %for i = 1:length(savedCosts)
+                        %if (savedCosts(i) == minCost)
+                            %neighborWithMinCost = savedNeighbors(i);
+                            %RTrowKtoUpdate = savedRTrowsK(i);
+                        %end
+                    %end
+                    %disp(n);
+                    %disp(savedCosts);
+                    %disp(minCost);
+                    %disp(savedNeighbors);
+                    %disp(neighborWithMinCost);
+                    %disp(RTrowKtoUpdate);
+                    %RT{n}(RTrowKtoUpdate,2) = minCost;
+                    %RT{n}(RTrowKtoUpdate,1) = neighborWithMinCost;
+                %end
+                %        RT{n}(k,1) = ...
+                %        FT{n}(k,2) = ...
+                %    end
+                
+                % % % % Do not change the code below % % % %  
+            end          
+        end
+        sendAdvertisement(RT{n});
+    end
+    % show the new routing table for the node 1
+    RT{1} 
+end
+
+to share:
+                % RT{linked}(k,2) = cost of neighbor linked to get to node k = A
+                % RT{n}(k,2) = cost of node n to get to node k = B = cost
+                % RT{n}(linked,2) = cost of node n to get to node linked = C
+                % if cost of B > cost of (A + C) then update route cost of n to A+C                
+                
+                A = RT{linked}(k,2);
+                B = RT{n}(k,2);
+                C = RT{n}(linked,2);
+                if (B > A + C) || ((B == inf) && (A ~= inf) && (C ~= inf))
+                    RT{n}(k,2) = A + C;
+                    RT{n}(k,1) = linked;                    
+                end
+                
+output error - The variable RT{3} at time 2 is incorrect - ?? - seems correct to me?
+
+Node 1: neighbors: 2,3,4 costs: 2,5,1
+RT{1}
+time1:	time2:  time3:
+0 0	0 0     0 0
+2 2     2 2     2 2
+4 4     4 3     4 3
+4 1     4 1     4 1
+4 2     4 2     4 2
+3 10    4 4     4 4
+
+Node 2: neighbors: 1,3,4 costs: 2,3,2
+RT{2}
+time1:	time2:  time3:
+1 2     1 2     1 2
+0 0     0 0     0 0
+3 3     3 3     3 3
+4 2     4 2     4 2
+4 3     4 3     4 3
+3 8     4 5     4 5
+
+Node 3: neighbors: 1,2,4,5,6 costs: 5,3,3,1,5
+RT{3}
+time1:	time2:  time3:
+4 4     4 3     4 3
+2 3     2 3     2 3
+0 0     0 0     0 0
+5 2     5 2     5 2
+5 1     5 1     5 1
+5 3     5 3     5 3
+
+Node 4: neighbors: 1,2,3,5 costs: 1,2,3,1
+RT{4}
+time1:	time2:  time3:
+1 1     1 1     1 1
+2 2     2 2     2 2
+5 2     5 2     5 2
+0 0     0 0     0 0
+5 1     5 1     5 1
+5 3     5 3     5 3
+
+Node 5: neighbors: 3,4,6 costs: 1,1,2
+RT{5}
+time1:	time2:  time3:
+4 2     4 2     4 2
+4 3     4 3     4 3
+3 1     3 1     3 1
+4 1     4 1     4 1
+0 0     0 0     0 0
+6 2     6 2     6 2
+
+Node 6: neighbors: 3,5 costs: 5,2
+RT{6}
+time1:	time2:  time3:
+5 4     5 4     5 4
+5 5     5 5     5 5
+5 3     5 3     5 3
+5 3     5 3     5 3
+5 2     5 2     5 2
+0 0     0 0     0 0

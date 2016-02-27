@@ -1,0 +1,29 @@
+graph = [  0   2   5   1  inf inf;
+           2   0   3   2  inf inf;
+           5   3   0   3   1   5 ;
+           1   2   3   0   1  inf;
+          inf inf  1   1   0   2 ;
+          inf inf  5  inf  2   0 ];
+
+n_nodes = size(graph,1);
+
+neighbors = cell(n_nodes,1);
+costs= cell(n_nodes,1);
+RT = cell(n_nodes,1); % routing table
+
+for n=1:n_nodes
+
+    % % % % Revise the following code   % % % %  
+    
+        % find the neighbors
+        neighbors{n} = 0;
+        
+        % find the connectin cost of each neighbor
+        costs{n} = 0;
+        
+        % init the routing table (RT)
+        RT{n} = [ zeros(n_nodes,1), repmat(inf,n_nodes,1)];
+             
+   
+    % % % % Do not change the code below % % % %  
+end

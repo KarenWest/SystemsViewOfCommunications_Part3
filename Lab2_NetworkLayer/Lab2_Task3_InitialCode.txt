@@ -1,0 +1,40 @@
+﻿global n_nodes max_time
+% load neighbors,costs and RT
+load RT_initial.mat
+
+n_nodes = size(RT,1);      % nodes in the network
+max_time = 3; % number of iterations
+
+
+for time=1:max_time
+    % at each iteration update the routing table of each node
+    for n=1:n_nodes
+        % get advetisement from connecting nodes
+        % Update routing table for node n, given the routing tables of other nodes
+        for i=1:length(neighbors{n})
+            
+            % Check all connected node 
+            linked = neighbors{n}(i);
+            
+            % cost of the connection between nodes n and linked
+            cost = costs{n}(i); 
+            
+            % update the routing table of the node n
+            for k=1:n_nodes     
+                % update the cost between node n and node k
+                
+                % % % % Revise the following code   % % % %  
+                   
+                %    if .....
+                %        RT{n}(k,1) = ...
+                %        FT{n}(k,2) = ...
+                %    end
+     
+                % % % % Do not change the code below % % % %  
+            end          
+        end
+        sendAdvertisement(RT{n});
+    end
+    % show the new routing table for the node 1
+    RT{1} 
+end

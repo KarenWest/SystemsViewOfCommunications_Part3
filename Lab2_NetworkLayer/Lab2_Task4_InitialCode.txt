@@ -1,0 +1,16 @@
+﻿ % % % % Revise the following code   % % % %
+graph = ...
+        [ 0 2 5 1 inf inf; 
+          2 0 3 2 inf inf;
+          5 3 0 3 1 5;
+          1 2 3 0 1 inf;
+          inf inf 1 1 0 2;
+          inf inf 5 inf 2 0];
+
+% find the shortest path from source to destination          
+source = 8;
+dest = 10;
+ 
+[path, cost] = getPathDijkstra(graph, source, dest);
+path
+cost

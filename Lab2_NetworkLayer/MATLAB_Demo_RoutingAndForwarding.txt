@@ -1,0 +1,64 @@
+
+Now we will see how we can use a MATLAB function to implement the Dijkstra's algorithm.
+
+So we still consider the same network here.
+However, for ease of programming, we use numbers to denote the node.
+So instead of using U, V, W, X, Y, Z here, we use 1, 2, 3, 4, 5, 6.
+And our objective here is to find the shortest path from node 1 to node 6.
+Unfortunately, computers do not have the ability of human being
+to understand the graph or the connection of the network
+by looking at them.
+So we need to find a way to represent the connection or we call it
+the graph structure here so that computers can also
+understand how those nodes are connected and what
+is the link cost between any two nodes.
+The method that we use here is what we call
+the matrix representation of a graph.
+So since we have six nodes here, we need a 6 by 6 matrix.
+And all the entries here will represent the link cost between any two nodes.
+For example, the link cost between any node to itself is definitely 0,
+so the diagonal entries here will have 0 as their value.
+However, the link cost between node 3 and 1 is 5.
+So both the two entries 1, 3 and 3, 1 we will have 5 as its value.
+And similarly, since node 1 and node 6 are not directly connected.
+So the link cost here is set to be infinity.
+Now we will see how we can write a program
+to simulate the performance of the Dijkstra's algorithm.
+
+So in this program, we will see how we can
+use MATLAB to implement the Dijkstra's algorithm to find the shortest path
+between any two nodes of a network.
+The network structure we considered here is
+exactly the same as the one we have shown in the previous slides.
+So we have in total six nodes here, and all the link costs
+between any two nodes are labeled by the number near the edges
+connecting those nodes.
+So the first step, we need to use a matrix
+to represent the connection between any two nodes
+and to identify the link cost.
+For example, because the link cost between any node to itself is 0,
+so the diagonal entries here will have 0 as their value.
+And because the link cost between node 1 and node 3
+is 5, so the entries 1, 3 and 3, 1 are set to be 5.
+Similarly, because there is no direct connection between node 1 and node 6.
+So the entries 1, 6 and 6, 1 are set to be infinity.
+Here, we choose node 1 to be the source and node 6 to be the destination,
+and let's run the program.
+
+OK.
+So the program tells us the shortest path from node 1
+to node 6 is through the nodes 4 and 5.
+So the path is 1, to 4 to 5 to 6, and the cost is 1 plus 1 plus 2 equals 4.
+Now let's see what happens if I change the destination node from 6 to 3.
+So before I run the program, let's look at the network structure
+and see whether we can figure out what is the shortest path by inspecting
+this connection structure here.
+So we can go directly from 1 to 3 with a cost 5.
+We can also go from 1 to 2 to 3 with a cost 2 plus 3 equals 5.
+We can also even go from 1 to 4 to 5 to 6, and then back to 3.
+And obviously, the link cost is much higher.
+So let's run the program and see what the program will tell us.
+If we run the program and the result here shows to be from node 1
+to node 4 to node 5 and then to node 3.
+So the shortest path from node 1 to node 3 is 1, 4, 5, 3.
+And then the total cost is 1 plus 1 plus 1 equals 3.

@@ -1,0 +1,78 @@
+﻿rng(0)
+
+% parameters
+n_slots =1000; 
+p_list = 0:0.05:1;
+n_users = 4;
+
+% counters
+ n_succ = zeros(1,length(p_list)); % number of successful transmissions
+ n_empty= zeros(1,length(p_list)); % number of empty slots
+ n_coll = zeros(1,length(p_list)); % number of slots with collisions
+   
+frame = zeros(n_users,16);
+
+%send always the same frame to speed up the simulation
+for id=1:n_users
+    %get a new datagram
+    datagram = getNewDatagram();
+    frame(id,:) = createFrame(id,datagram);
+end
+
+for pc=1:length(p_list)
+    p = p_list(pc);
+    % simulate the transmission process for n_slots
+    for t = 1:n_slots    % Loop for each slot
+         send_frame = rand(n_users,1)<p;    
+         slot = sum(frame(find(send_frame),:),1)>=1;  % Logical OR of transmitted frames
+         % check the received message
+          if ~isequal(slot,zeros(1,16))
+              if checkReceivedFrame(slot,n_users)
+                  n_succ(pc) = n_succ(pc) + 1;  % update the counter of frame trasmitted successfully
+              else
+                  n_coll(pc) = n_coll(pc) + 1;
+              end
+          else
+              n_empty(pc) = n_empty(pc) +1; % update the number of empty frames
+          end
+            
+    end
+end
+% % % % Revise the following code   % % % %
+% for each value of p_list, store efficiency of system
+eff_v = zeros(1,length(p_list)); 
+% for each value of p_list, store theoretical efficiency by lecture equation
+expeff_v = zeros(1,length(p_list)); 
+% for each value of p_list, store the fraction (0 to 1) of total slots that are empty
+empty_v = zeros(1,length(p_list)); 
+% for each value of p_list, store the fraction (0 to 1) of total slots that have collisions
+coll_v = zeros(1,length(p_list)); 
+
+
+for pc=1:length(p_list)
+    total = n_succ(pc) + n_coll(pc) + n_empty(pc);
+    eff_v(pc)  = n_succ(pc) / total;
+    empty_v(pc) = n_empty(pc) / total;
+    coll_v(pc) = n_coll(pc) / total;
+    p = p_list(pc);
+    if (p ~= 0) && (p~= 1) 
+        exponentValue = n_users - 1;
+        exponentPart = (1 - p)^exponentValue;
+        expeff_v(pc) = n_users * p * exponentPart; 
+    end
+    
+end
+
+% % % % Do not change the code below % % % %
+
+figure(1); hold off;
+plot(p_list,eff_v,'LineWidth',2);
+hold on;
+plot(p_list,expeff_v,'--','LineWidth',2);
+plot(p_list,coll_v,'LineWidth',2);  
+plot(p_list,empty_v,'LineWidth',2);  
+legend('Efficiency','Expected Efficiency','Collisions','Empty Slots','Location','east');
+xlabel('probability')
+h=gca;  
+h.YGrid='on';
+

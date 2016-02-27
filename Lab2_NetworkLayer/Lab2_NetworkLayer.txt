@@ -1,0 +1,101 @@
+
+Hello, everyone.
+Welcome to the lab demo for lab 2.
+In lab 1, we have introduced this layered protocol
+to provide service for our communication network.
+In total, there are five layers, namely the physical layer, the link layer,
+the network layer, the transport layer, and the application layer.
+We have known that the physical layer mainly
+handles the bits "on a wire" issue, which is
+about the transmission of bit information on a wired or wireless link.
+
+In lab 1, we have talked about the link layer,
+which is about the data transfer between neighbors.
+For example, its major responsibility is to handle the multiple access
+issues for several computers connecting to the same network.
+In this lab, we will talk about the third layer, the network layer,
+whose major duty is about the forwarding and the routing of a packet
+from the source to the destination.
+So consider the network here where
+we have the source computer and the destination computer.
+We want to send a packet from the source to the destination.
+However, because the network is very complex,
+we may have different ways to connect the source and the destination.
+For example, the red path here indicates one possible way
+to forward a packet from the source to the destination.
+However, we have several other ways.
+For example, we can go-- even go around here and go to the destination.
+So the question is, how can we decide which way is the best?
+In this lab, we will introduce an algorithm
+to find what we call the shortest path between the source and the destination.
+So consider here we have a network where we have u, v, w, x, y, z.
+6 nodes.
+And the link cost between any two nodes is
+labeled by the number near the edge connecting those two nodes.
+For example, the link cost between node w and node z is 5.
+The link cost between node u and node v is 2.
+We can simply regard the link cost here as the transmission
+delay between any two nodes.
+And our objective here is to find the path from node u
+to node z with the minimum cost.
+Or we can call it the shortest path.
+The algorithm we are going to use today is the Dijkstra's algorithm,
+which is an iterative algorithm.
+Let's see how it works.
+So we start from the source node, u.
+We define a set which includes u as its element.
+And then, for the other nodes outside the set,
+we will find their shortest path to the source node.
+For example, the shortest path from u to v is through the direct link uv.
+And the shortest path from u to w is through the direct link
+uw with link cost 5.
+The shortest path from u to x is through the link ux.
+However, the nodes y and z are not directly connected to node u.
+So their link cost to the source node u will be infinity.
+Out of all of those paths we have identified,
+we will choose the one with the minimum link cost.
+And obviously, the solution is the link ux.
+And now I will include x into the set.
+So by now we have finished one iteration,
+and we will now repeat the previous steps again.
+So for all those nodes, v, w, y, z, outside the set,
+I will determine their shortest path to the source node u, either directly
+or through the node x.
+For example, now the shortest path from u to v is the direct link.
+However, the shortest path from u to w is no longer
+the direct path but the link u, x, and w,
+because now the link cost is 1 plus 3 equals
+4, which is less than the link cost 5.
+Similarly, the shortest path from u to y is through the links uxy,
+and because z is not directly connected with either u or x,
+so the link cost here is infinity.
+Out of the three yellow paths here, we need
+to choose the one with the minimum link cost.
+And there are two paths, uv or uxy.
+Both of them have a link cost 2.
+So we can choose either of them.
+Here, we choose the one uxy, and I will include y into the set.
+So by now we've finished another iteration.
+So you can see that the Dijkstra's algorithm is an iterative algorithm,
+and in each iteration we will include another node into the set.
+So now I'm going to repeat the previous steps again.
+For all those nodes, v, w, z, outside the set,
+I will determine their shortest path to the source node u.
+So obviously, the shortest path from u to v is the link uv,
+and the shortest path from u to w is through the links u, x, y, w.
+The shortest path from u to z is through the links u, x, y, z.
+And out of the three yellow paths here, I
+need to choose the one with the minimum link cost,
+and obviously, it is the link uv.
+So now I include v into the set.
+I will repeat the steps.
+Out of the two nodes, w and z, I find the minimum cost path,
+which is uxyw and uxyz.
+Out of the two paths, I find the one with less link cost, which is uxyw.
+So I include w into the set.
+And finally, I can find the shortest path from u
+to z through the links u, x, y, z.
+So by now, we have built the paths between u and any other nodes.
+And all those paths will have the minimum link cost.
+So now, the minimum cost path from u to z will be through the links u, x, y, z.
+And the link cost now is 1 plus 1 plus 2 equals 4.

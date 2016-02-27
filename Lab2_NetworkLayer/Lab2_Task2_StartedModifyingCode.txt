@@ -1,0 +1,67 @@
+graph = [  0   2   5   1  inf inf;
+           2   0   3   2  inf inf;
+           5   3   0   3   1   5 ;
+           1   2   3   0   1  inf;
+          inf inf  1   1   0   2 ;
+          inf inf  5  inf  2   0 ];
+
+n_nodes = size(graph,1);
+
+neighbors = cell(n_nodes,1);
+costs= cell(n_nodes,1);
+RT = cell(n_nodes,1); % routing table
+
+for n=1:n_nodes
+
+    % % % % Revise the following code   % % % %  
+    
+        % find the neighbors
+        %disp(graph(n)); NOTE--n_nodes goes 1-6, and graph(n) are the cols of graph    
+        [row,col,v] = find(graph(n));
+        vecs[n_nodes] = [];
+        vecs[n] = [(row,col)];
+        for row = 1:(n_nodes - 1)
+            [row,col] = find(graph(n+1));
+            vecs[n] = [vecs[n]; (row,col)];
+        end
+
+        
+        
+        % find the neighbors
+        %NOT RIGHT OF COURSE, but started it!
+        %n is the column vector - need to make sure each col vector spot's
+        %neighbors are in the right location - also concatenate part I added
+        %syntax likely wrong!
+        
+        %another thought - did I goof?  Think so.
+        %graph(i,j) = COSt, and you get the neighbor from the i,j, i&j are neighbors if cost not zero or inf
+        %think I added the cost to my neighbors when I used the find function in MATLAB - check back later!
+        
+        neighbors{n} = 0;
+        for row = 1:n_nodes %n = cols, so this loops on the rows 
+            if (n == 1) % first col neighbors, one to the right or one below col 1
+                neighbors{n} = [find((graph(2,n) ~= 0) && (graph(1,n+1) ~= 0)) && find(graph(2,n) ~= inf) && find(graph(1,n+1) ~= inf)];
+            else if (n == n_nodes) %last col neighbors, one to the left or one below col 6
+                neighbors{n} = find((graph(2,n) ~= 0) && (graph(1,n-1) ~= 0)) && find(graph(2,n) ~= inf) && find(graph(1,n+1) ~= inf);
+            else if (n > 1) and (n < 6) % mid-graph cols 2-5, neighbors left and right
+                                        % have to check whether neighbors above, below
+                if (row > 1) && (row < 6) % will have neighbors above,below,right,left
+                    neighbors{n} = find((graph(row,n-1) ~= 0) && find(graph(row,n-1) ~= inf) && find((graph(row,n+1) ~= 0) && find(graph(row,n+1) ~= inf) && find((graph(row-1,n) ~= 0) && find(graph(row-1,n) ~= inf) && find((graph(row+1,n) ~= 0) && find(graph(row+1,n) ~= inf));
+                else if (row == 1) % neighbors are row below
+                    neighbors{n} = find((graph(row+1,n) ~= 0) && find(graph(row+1,n) ~= inf));
+                else if (row == 6) % neighbors are row above
+                    neighbors{n} = find((graph(row-1,n) ~= 0) && find(graph(row-1,n) ~= inf));
+                end                
+            end
+        end        
+        % find the connectin cost of each neighbor
+        numNeighborsForN = size(neighbors{n},1);
+        for neighborNum = 1:numNeighborsForN
+            costs{n} = graph(n,neighbors{neighborNum});
+        
+        % init the routing table (RT)
+        RT{n} = [ zeros(n_nodes,1), repmat(inf,n_nodes,1)];
+             
+   
+    % % % % Do not change the code below % % % %  
+end

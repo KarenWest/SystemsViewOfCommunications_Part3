@@ -1,0 +1,90 @@
+﻿% text message to be transmitted
+tx_msg = 'Hello! How are you doing today?';
+
+p_loss = 0.0;         % error probability
+d_min = 5;            % minimum delay in unit of time-slot
+d_max = 5;            % maximum delay
+time_out = 30;        % time out
+win_size = 4;         % size of the sliding window
+
+% create the packets
+tx_bs = text2bitseq(tx_msg);
+send_packet_list = packetize(tx_bs);
+% number of packets
+num_packets = size(send_packet_list,1); 
+% checklist for the received acknowlegments
+% used to determine when to terminate simulation
+ack_received = zeros(num_packets,1); 
+
+% initialize list of received packets
+receiver_packet_list = [];
+
+% initialize the transport layer parametters
+start_transport(p_loss, d_min, d_max, 2550);
+
+run = true;      % set to false when the whole message has been sent
+t = 0;           % time index
+window = [];    % window of outstanding packets
+time_sent = []; % time packets were sent
+last_sent = 0;   % number of last packet sent
+while run,
+    t = t + 1;  % update timer 
+    
+    % check for acknowledge of previous packet 
+    % (send_ack is empty if no acknowlegment has been received)
+    send_ack = sender_get_ack();
+    if ~isempty(send_ack)
+        % get the acknowledgment and convert it to a decimal number
+        ack_num = binvec2dec(send_ack);
+        % update the list of the received acknowledgements
+        ack_received(ack_num)=1;
+        if sum(ack_received) == num_packets
+            % stop because all packets received
+            run = false;
+        end
+        
+        % check if the ack refers to a packet in the window
+        ind = find(ismember(window,ack_num));
+
+        % if so, remove it from the window
+        if ~isempty(ind),
+        
+        % % % % Revise the following code   % % % %
+
+
+        % % % % Do not change the code below % % % %
+        end
+    end
+    
+    % check for a time out
+    TO_list = find(t > time_sent + time_out);
+    if ~isempty(TO_list),
+        % there was a timeout, resend a packet
+        packet = send_packet_list(window(TO_list(1)),:);
+        sender_send_packet(packet);
+        time_sent(TO_list(1)) = t;
+    elseif length(window) < win_size,
+        % the sliding window is not full, send another packet
+        if last_sent < num_packets,
+            last_sent = last_sent + 1;
+            packet = send_packet_list(last_sent,:);
+            sender_send_packet(packet);
+            window = [window last_sent];
+            time_sent = [time_sent t];
+        end
+    end
+    
+    % execute one iteration of receiver
+    receiver_packet_list = receiver_stopwait(receiver_packet_list);
+    
+    %% execute one iteration of transport layer
+    if step_transport(),
+        % stop because max number of iterations reached
+        run = false;
+    end
+end
+rx_msg = reconstruct_msg(receiver_packet_list)
+
+% plot the traffic in the network
+transmission_display();
+      
