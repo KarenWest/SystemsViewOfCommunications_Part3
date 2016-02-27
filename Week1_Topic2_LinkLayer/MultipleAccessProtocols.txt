@@ -1,0 +1,172 @@
+
+
+Multiple access protocols are the protocols
+that govern how multiple nodes can get access to a shared communication
+channel.
+So here I show you four nodes that are all connected to the same channel.
+It might be a wired channel or a wireless channel.
+And so the channel interface or the link layer
+is going to be controlling their access to this.
+When we talk about multiple access protocols,
+there are several terms that are used almost synonymously or interchangeably,
+when we talk about it, for example, multiple access, channel
+access referring to the shared channel or channel sharing or media access
+control.
+What is a multiple access protocol?
+A multiple access protocol is a distributed algorithm
+that controls or determines how nodes can share a particular channel.
+Ideally, what we would want is that if there's
+only a single node in the channel or only one
+of the nodes wants to transmit at one time,
+it has full access to the full channel so it
+can transmit at the maximum channel rate, which
+we'll call R. When there are M nodes that want to transmit at the same time
+or approximately at the same time, they can all
+send at an average rate of R divided by M.
+So they all get equal access to the channel.
+This is the idea of fairness.
+We'd also like this algorithm to be fully decentralized.
+So by that, we mean that there's no special node or controller that's
+coordinating the transmissions, ideally, because that adds additional overhead.
+Also, it makes it more difficult when new users come in and others go out.
+The controller has to deal with all those kinds of situations.
+We'd like to avoid synchronization of clocks or what we call slots.
+And we'd also like to avoid the need for any kind of extra communication
+channels, what we call out-of-band communication
+Channels, to ensure that people are communicating correctly.
+And finally, we'd like this multiple access protocol
+to be as simple as possible.
+So when we talk about multiple access protocols,
+there are several different types of protocols that we can talk about.
+These are roughly divided into what we would
+call taking turns protocols, channel partitioning
+protocols, and random access protocols.
+And some of these we've talked about before.
+But we'll talk about these two here, and then we'll
+leave the discussion of random access protocols to the later sections.
+So let's take a look at the taking turns type of protocols.
+And in particular, we'll look at something called token passing.
+In this case, we have a set of nodes here.
+They're all connected to a common medium.
+And they're kind of configured in a ring-like topology.
+And the idea of token passing is very much like the way
+that you manage access to the shared communication in a room,
+let's say the air medium when people are in a meeting.
+What you have to do is you have to manage who
+can talk at any one particular time.
+And so the way that the token passing algorithm works
+is that there's a token that passed from node to node.
+So you might think (nodes) of these as being different people in the room.
+And so if this person in the room has the token, he can talk.
+But he doesn't have anything to say, so he just
+passes a token on to the next node or the next person in the room.
+He doesn't have anything to say so he just passes
+the token on to the third person.
+He has something to say.
+He has something waiting in his queue.
+And so what he'll do is he'll attach that data packet or the datagram
+to the token, and then it will pass to the destination.
+In this case, we'll assume that the destination is the next node.
+And then once that next node has taken the data from that token,
+then what will happen is that he'll see whether he has anything to transmit.
+He doesn't.
+So in this case, he'll just pass the token back
+through the ring to the first person,
+and then the process will repeat.
+The token will just keep on getting passed around.
+And whenever somebody has something to transmit,
+he'll just add that data to the token.
+And it will just continue going on like that.
+So that is an example of taking turns, something that,
+for example, happens a lot in meetings.
+And so there are other kinds of taking turns protocols, for example,
+polling, where you might have one central governor asking each node
+whether they want to transmit.
+And so that would be something more like a chairman of a meeting
+just going around and asking each person in the room
+whether they have an opinion about a particular topic.
+
+So that's the taking turns kind of protocol.
+The channel partitioning kind of protocol
+divides the channel up into different chunks.
+We've actually already seen an example of channel partitioning with access
+to a shared medium in Part Two, where we talked about frequency division
+multiple access.
+Remember, we had this idea that the wireless channel is a shared medium,
+but there are many, many different frequencies that we can transmit over.
+And so we divide that frequency spectrum up into different parts.
+And those are all partitioned by the government.
+
+Another type of channel partitioning protocol
+is something which is called time division multiple access.
+And I'll talk about that a little bit here.
+So intuitively, you can think about time division multiple access as the way
+that we do classroom scheduling in an university.
+We have one classroom -- that's a shared medium --
+but we have multiple classes that want to use that medium
+So what do we do?
+We schedule each class into a different time within the day,
+
+And so in the time division multiple access, that idea of one day
+is the idea of a round.
+So each node or each class gets access to the channel or the classroom
+at a different time in the round or a different time in the day.
+And so in each round or each day, each class or node
+gets access to the channel for a fixed amount of time, a fixed length time
+slot, where it can transmit its information.
+So for example, in a university setting that might be one hour--
+the lecture time is one hour.
+In the time division multiple access setting for networking,
+that fixed length time might be the amount of time
+it takes to transmit one packet.
+So I show you an example of a time division multiple access protocol.
+Down here, we have 1 round here.
+We have four nodes that want to share the channel.
+And so what happens is that during this one round,
+the red channel can transmit first then, the green channel, then the black channel,
+then the yellow channel.
+And they all have equal amounts of time,
+you can see where they can transmit.
+And then what happens is that the rounds just continue or repeat.
+So in this round only the red person or the red node had data transmit.
+Here, the red and the green node had data transmit and so on.
+And so the big advantage of the time division multiple access protocol
+is that it's a very, very fair protocol.
+Everybody as an equal amount of time that they can use the channel for.
+It also guarantees that there are no packet
+collisions if everybody is
+working according to the same clock,
+so they know when to access the channel.
+And it's also relatively simple, conceptually.
+However, there are some big disadvantages to the time division
+multiple access protocol.
+Number one, it requires a central resource allocator.
+It needs somebody to say which node in a network has access to the channel
+at which time.
+For example, in the university this is handled
+by the scheduling office: what HKUST would call the ARR or the Admissions
+Records and Registration Department.
+They handle how all the classrooms are scheduled within the university.
+And that has to happen once at the beginning of the semester.
+And if a new class comes in or somebody wants to change their schedule,
+that's a big problem.
+And so that's why that usually doesn't happen within the university setting.
+The other thing is that synchronization is needed.
+We need to know exactly when we have to get access to the channel.
+So we can't just randomly appear at the channel and expect to start using it.
+And so one of the problems here is that the channels here
+are underutilized if the nodes have limited data to transmit.
+So for example, if there are some periods
+where I don't have something to say, then we can just skip that lecture.
+But the problem is that once we've skipped that lecture, because we've
+already allocated that lecture time, the classroom is just
+going to be sitting there empty.
+And that's a waste.
+So in summary then, we've talked about the concept of a multiple access
+protocol as a way of governing access to a shared medium.
+There are several different types of multiple access protocols.
+We've talked about two of them here.
+And moving forward, we're going to be looking in closer
+detail at this idea of random access.
+And in particularly, we'll be looking at the particular example of the ALOHA
+protocol.

@@ -1,0 +1,154 @@
+
+
+Let's take a look at a concrete example of how addressing is done,
+by looking at IP addressing.
+So remember, in general, the problem of addressing
+is that we have a network, the network consists of many entities
+hosts and routers and what we want to be able to do
+is know, for a particular packet, where it's going,
+and also perhaps where it is.
+And so in order to do that, we give every node
+an address, where I've, for simplicity, used letters here for the addresses.
+But let's look at how addresses actually look like in the internet protocol.
+So an IP address is a unique global address for a network interface.
+And so, many of us have looked at that when
+we've been playing with our computers and the networking there,
+and we know that our computers all have an IP address.
+Actually, more precisely, a network interface
+has an IP address, where a network interface
+is a connection between a host or router and a particular physical link.
+And so actually, your computer, which is an example of a host,
+may have actually more than one IP address,
+because it typically has two types of links.
+One would be a wired link, the other one might be a wireless link.
+Routers, on the other hand, typically have many interfaces,
+because what they want to do is take a packet in along one port,
+and then send it in many possible different directions.
+And so each one of those ports would have its own IP address.
+And so I show you an example of a network on the right hand side
+there, where we can see that the router there in the center
+has three connections that it's making.
+And so each of those interfaces then has its own IP address.
+Each of the hosts here, I've assumed that there's just
+a wired connection between them, and so they all have just one IP address
+corresponding to that one single connection.
+What you can see about the IP address is it
+has this stereotypical form, where there are four digits separated by periods.
+What does that mean?
+It turns out that the IP address is actually encoding a 32-bit number.
+So if I look at, for example, a particular example here corresponding
+to that one computer on the upper left hand corner,
+you can see those four numbers, each of them lies between 0 and 255.
+So each of them, then, encodes by itself a single 8-bit number.
+So here, for example, the first number, 223,
+has a binary coding that looks like this.
+So each of those four numbers, then, encodes a binary number,
+and when I put those 4 8-bit binary numbers together,
+I get a 32-bit number.
+And so that's what the IP address is, in particular under IPV4.
+And typically we split the number into two parts--
+the most significant bits in the front here are called the subnet part,
+and the least significant bits are called the host part.
+A subnet has both a logical and a physical definition.
+Logically, a subnet consists of a set of device interfaces
+that all share the same subnet address.
+So if this is the subnet part consisting of 24 bits,
+that corresponds to the first three decimal numbers.
+So if I look on the right hand side in that network diagram there,
+we can see that in the upper left hand corner there,
+there's an area delimited by green.
+And all of those device interfaces there are all have
+the same first three numbers, 223.1.1.
+And so, logically, they're all on the same subnet,
+because those first 24 bits of all those addresses are the same.
+Physically, we often refer to a subnet as being
+a set of devices that are connected to each other
+without an intervening router.
+So you can see, connected to that one router there,
+there are three different subnets in this diagram.
+Now, what you can see is that the subnet address,
+or the length of the subnet address, determines
+how many hosts can sit on that subnet.
+So for example, if I have 24 bits in the subnet here, then
+that means that I have 8 bits left over to specify different hosts.
+And so that means I can have around 254 different hosts on that subnet.
+So even though the 8 bits there typically encode 256 different numbers
+from 0 to 255, the two endpoints, all 0s and all 1s, are usually reserved.
+So all 0s is usually reserved to refer to the subnet as a whole,
+and all 1s is typically reserved for broadcast packages that
+should be received by all of the members of the subnet there.
+We might have different desired sizes for different subnets.
+In order to accommodate that, we've developed something called
+Classless InterDomain Routing, or CIDR.
+This allows the subnet portion of an address to have an arbitrary length.
+And so when we specify these, we have an address format that
+looks similar to what we had before.
+We have four decimal numbers here, each encoding an 8-bit number.
+I'll call those a, b, c, and d. Then we
+add an additional number x, where x is the length
+of the subnet portion in bits.
+So I show you two different subnet addresses as shown over here.
+One of them here has a 20-bit subnet portion,
+the other one here has a 23-bit subnet portion.
+But what you can see here is that the first
+four numbers, are exactly the same here.
+Now because the subnet portion here is 20 bits,
+that means the subnet is specified by these first 20 bits over here,
+and then the host portion has 12 bits to play with.
+Whereas over here, when the subnet address is 23 bits long,
+then the host portion only has 9.
+So you can see that, obviously, there's about 8 times as many hosts that
+can be accommodated in this subnet, compared with this one over here.
+So finally, the question might be, well, how
+do we actually get IP addresses for our devices or hosts?
+And so, there are several different ways, or several different stages,
+this occurs at.
+If I'm talking about an individual host, or an individual device,
+typically that host obtains an address from a network
+that it's connected to via a process that is called Dynamic Host
+Configuration Protocol, or DHCP.
+This allows IP addresses to be allocated dynamically, or on the fly.
+In the early days of the internet, IP addresses were allocated manually.
+But this was somewhat inflexible, because if that particular user who
+had been allocated that IP address was not on the network,
+nobody else could use that, because he might be there.
+And so, by developing DHCP, what's happened
+is that we can actually give a particular host
+a lease for a particular IP address for a certain amount of time.
+And then after that time has expired, another person
+might be able to use that, or another host
+might be able to use that IP address.
+So it allows for more dynamic allocation of IP addresses.
+And of course this is important as the devices
+that we're using to connect to the internet become more mobile.
+For a particular network, where does it get the IP addresses
+that it can give out to hosts using DHCP?
+Well, it turns out that networks are allocated portions of an internet
+service provider's address space.
+So an internet service provider is a larger organization,
+and it has a subnet address that perhaps might look something like this.
+So we have four decimal numbers there, but then this subnet address
+is the first 20 bits as shown over here.
+And so the host part, then, has 12 bits.
+And that allows enough room for around 4,000 hosts.
+Now, it can then take that room for 4,000 hosts
+and give it out to smaller networks, maybe eight different networks,
+as shown over here.
+And each of those networks might divide that space of 4,000 hosts equally.
+So that each of them would get about 500 hosts.
+The way that it does that, is each of the networks
+here would have its own subnet address.
+The subnet address is longer.
+So now instead of being 20 bits long, it's 23 bits long,
+but all of the networks under this ISP have the same first 20 bits of those 23
+bits.
+That indicates that they're all under this ISP's space.
+But the last three bits are different.
+And so three bits, then, give us enough room for eight different networks,
+because 2 to the 3 is 8.
+The last question you might ask is, well,
+the ISP has to get its allocation from somewhere,
+and where does that come from?
+And it turns out that those are centrally
+allocated through an organization called ICANN, or the Internet Corporation
+for Assigned Names and Numbers.

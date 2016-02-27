@@ -1,0 +1,125 @@
+
+
+Let's take a look at how forwarding allows the network
+to globally route packets from a source to a desired destination using
+only local operations.
+Let's remember, in forwarding what we do is
+we take the output of the routing step.
+So the routing step says for a particular node,
+let's say C, what is the best path from C to every other node?
+Given the output of this routing algorithm,
+we construct what's called the forwarding table for node C. What
+this does is it tells us for a packet at node C that
+wants to go to any of those other nodes, it
+has to take one of these four links, L1 through L4.
+And the forwarding table simply tells us for a particular destination
+that you want to go to as a packet, which output (link) should you take.
+Now, in order to illustrate the way this local decision allows
+the network to route packets correctly globally,
+I'm going to use a slightly different notation that will make things
+a little bit easier to understand.
+So from the routers point of view, this is a very efficient representation,
+because all it has to do is take an incoming packet,
+look at its destination, and just send it to a corresponding link.
+what I will do is use a slightly different notation,
+in order for us to represent the same information as in the forwarding table,
+but in a way that's a little bit easier for us as humans to understand.
+What I'll do is, I'll notice that, for example,
+for link one, that is the link that should be taken if the package is
+destined for A and B. So I'll just label link
+one with the corresponding destinations.
+So, for example, link two leads to D and E, so I'll label it D
+and E. Link three leads to FHI, so I'll label it that.
+And link four leads to the remaining nodes,
+so I'll label it with those remaining nodes.
+And so that's how I'll denote things.
+And so, intuitively, what you can think is if the packet is here at C,
+then if I know its destination, then I can just
+look for the destination on here and follow the corresponding link.
+So now given that, let's try to figure out
+what happens when we try to deliver a packet using these purely
+local forwarding operations.
+So let's suppose that we have a datagram that's sitting here,
+generated at node A. And the datagram tells us
+that the destination of this packet should be node
+L, so all the way down there on the lower right hand corner.
+Now datagram here is at A, and A is going to make purely a local decision,
+and so what it's going to do is it's going to look in its forwarding table
+and it's going to know, well, all packages, except those destined for A,
+have to go out on this one link.
+And so it will send that package out on that link.
+Then at node B, there will be a different forwarding table,
+that was constructed by looking at its own routing algorithm
+and then constructing the forwarding table.
+And then we'll look and say well, everything that's destined for L
+has to go out on this link down here, so it
+will follow that one to node J. Node J has its own forwarding table,
+and so you can see that in order to get to node L,
+it will follow that link down there on the bottom right.
+That will take it to node K, and then K will know, well,
+everything that's destined for node L has to go out on the right hand side
+output as well.
+And so it would send it out on that shared channel through the link layer,
+and eventually deliver it to its destination.
+So you can see here, we've done global routing from A to L,
+but each node operates independently and locally.
+And so this is really what allows the scalability of the internet,
+because we really don't have to have a global planner that plans out the path
+all the way from A to L in advance.
+So this is kind of like if they're going on the subway.
+You go to one subway station, you get there,
+and then you ask the person, how do I get to my destination?
+He goes, I don't know exactly, but I know that you
+have to take this line to get there.
+But I don't know what to do after that.
+And so what you do is, you take that line to the next station,
+then ask somebody else there what to do.
+So a very local, distributed way, but it still allows global routing of packets.
+One of the interesting phenomenon on this
+though, is that if I have two packets, let's say at node A,
+that are both destined for the same destination, node L,
+they might take different paths because of the fact
+that the routing table, or the forwarding table,
+might be changing dynamically in response to changes in the network
+configuration.
+And so that might actually cause not only packets to take different paths,
+but also arrive at the destination in different orders.
+So what I'll show you here is two different packets.
+I'll put the data inside here, let's say in the segment part of it.
+I'll say that that data is T and B, Indicating top and bottom.
+And I'll assume that these are in a queue, where
+the bottom one will leave first.
+And what I'll assume in this simulation here is that when it arrives at node B,
+the first node that came out, the bottom one,
+will take this path here, but then between the time
+that the bottom one and the top one get to node B,
+the local forwarding table for B is changed so that the top one will go out
+on this node down here.
+So we'll see then that here they took different paths at B.
+And what happened is now, when they get to the bottom node
+down there at node L, what you can see is that the top one, which actually left
+after the bottom one, arrived first, so now it's on the bottom,
+and the bottom one is now on the top.
+So they've flipped in their order of arrival.
+That's highly possible with this networking algorithm
+that we've talked about.
+And so dealing with that has to be handled at another layer.
+Typically that's done at the transport layer.
+So in summary then, we've seen that using this purely local operation,
+we can achieve global routing of the packet to its correct destination.
+One of the big advantages of this is that there's
+no need for a call setup or setting up a particular dedicated line.
+The packets just go into the network, and eventually they get there
+but they can be scrambled and even sometimes lost.
+The packets are forwarded using only information about the destination host.
+They only know where they want to go, they
+don't know how they want to get there.
+All of the questions about "how" are handled by the router
+when the packet gets there.
+And so because of that property, packets between the same source
+and the destination are handled independently.
+This is what allows for the scalability of the internet.
+But on the other hand, they may take different paths
+and may arrive in different orders,
+and some of them may not even get to the destination. And so, moving forward,
+we'll have to look at ways of dealing with that.

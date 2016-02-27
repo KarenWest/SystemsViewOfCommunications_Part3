@@ -1,0 +1,224 @@
+
+
+Now let's look at another algorithm for routing, which
+is called the link-state algorithm.
+Just like the distance vector algorithm, this
+can be formulated in the same kind of common plan for distributed routing.
+You do three steps.
+We first determine who are our neighbors, which of our neighbors
+is alive, following this HELLO protocol.
+Then we advertise some information about the network to our neighbors.
+And you'll see that the link-state will do
+a very different kind of advertisement than the distance vector
+computation did.
+And because of that, it will have actually
+more information about the state of the network,
+and so then its integration step will look very different
+than the distance vector algorithm.
+So how does the link-state routing algorithm work?
+Well, in the advertisement stage what it does
+is each node sends information about its links to its neighbors.
+So it's not sending information about estimated cost
+to all nodes in the network.
+What it's doing is just saying these are the nodes that I'm connected to
+and this is what the costs of those links are.
+Now, if they receive information about links from their neighbors,
+they actually resend that information to their neighbors as well.
+And so what this is called is flooding the network.
+I get information from my neighbor, and then I pass that on to my neighbors,
+and he passes it on to his neighbors.
+And so eventually, through this communication process
+we haven't done any integration at all
+through this communication process, every node in the network
+will discover about every other node in the network
+and who they're linked to and the costs of those links.
+So we'll actually have knowledge about the complete graph.
+Every node after this advertising process
+will have information about the complete graph.
+And so now that it knows information about the complete graph, what
+it can actually do then is then run an algorithm given that knowledge.
+In particular, what we'll look at is an algorithm called Dijkstra's algorithm.
+And it will compute the shortest path to all of the other nodes using
+that Dijkstra's algorithm.
+So this is in spirit very different than the distance vector algorithm,
+where the computation was iterative and involved message passing.
+Now it's just purely information gathering that's iterative,
+and the actual computation just takes place in one shot.
+And so if it gets new information what it will do
+is it can just re-run that same computation again.
+So the key to the link-state algorithm then
+is if I have complete knowledge about the graph and all the costs,
+how do I find the shortest path to all the nodes?
+And that's what Dijkstra's algorithm does.
+So let's look at Dijkstra's algorithm.
+Dijkstra's algorithm consists of an initialization stage
+and then a looping stage where we perform some iterations in order
+to find the shortest path.
+Dijkstra's algorithm takes place at every node independently based
+on its own estimate of the complete graph.
+And so the node that's performing the computation (what we'll call the source
+node), we'll denote that by u.
+What's going to happen is that the node is
+going to maintain a list of nodes called N prime
+where the least cost path is known.
+And so in the initialization, N prime is just u, the source node.
+So it only knows that it can reach itself with minimum cost.
+That cost is 0, of course.
+Now what it will do is it will also compute D of v, where v are computed
+for all nodes adjacent to u.
+So everything that you can reach in one hop,
+it will compute a D of v, which is our current estimate of the least path
+cost from u to v. And it will just assume
+that that's the cost to go directly from u to v. So that might not
+be the actual least cost path.
+It's just the current estimate of the least path cost.
+In addition to that, it will maintain a state here,
+or a value here, p of v, which is the predecessor node to get to v, the node
+that I'm at right before I get to v if I'm following the best cost path.
+And so now because we're assuming everything starts from u
+the predecessor node is always u. If I can't reach any node in one step
+(so it's not adjacent), then I'll just say that I can't reach it all.
+I'll set the cost path to be infinity, and I'll say p of v is undefined.
+Now, once I've done that initialization, what I'm going to do is
+I'm going to go through this iteration here where
+I'm going to search through all the nodes here, v,
+that I know I can reach.
+I'm going to find the node that I can reach the fastest with the lowest cost,
+and I'm going to call that w.
+And I'm going to put that into my set N prime, which
+is the set of all nodes whose least cost path is known.
+The reason for that is because if I can reach w
+with the lowest cost in one step out of all the other nodes,
+then there's no way I can find a shorter path by going
+through any of the other nodes.
+Because I already know that by going to any of the other nodes
+I'm already bigger than that cost that I would
+be to go to w directly in one hop.
+So now I can look across all of these nodes
+it's not all the nodes in the network, but just the ones that
+are adjacent to you and I can put that into the set N prime.
+And what I'm going to do then is look at all the connections to that node,
+w, and do a calculation where I try to calculate
+what is the cost to get to all nodes v going through w.
+And I'm going to look at the cost to go to w plus the cost to go from w to v,
+and see whether that's less than my current estimate.
+So I have a current estimate to get to node
+v, which is D of v. I'm going to compute the estimate going through w
+and see if this is shorter.
+And if it's shorter, what I'm going to do
+is I'm going to update the cost D of v and also update the predecessor
+node to say that I should go to v, and if I go to v,
+the node that I'm at right before that is just the node w.
+So let's take a look at an example of running Dijkstra's algorithm
+on a particular network.
+So here I show you one network.
+This would be constructed by the node after the advertisement stage, where
+it was flooded with all this information about all the nodes and all the links
+in the network and their cost, and it constructs this network.
+Now, I'm assuming that the node that we're interested in is A.
+So he's the source, and he wants to compute
+how do I get to all the other nodes.
+And so right now in the beginning, it only
+knows that it can get to node A itself with least cost, and that cost is 0.
+So it puts itself into the set of nodes with least cost, and then from there
+it looks at all the connections from this node A to all the other nodes.
+Here it can connect to node D and node B.
+So it can connect to node B here with a cost of 2.
+So the cost to get to node B is 2.
+Before it gets to B it goes through A, so that's the predecessor node.
+It can't get to C. It can get to D with a cost of 1,
+and the predecessor node is A. It can't get to F or E.
+Now that we've done that, what we can do is we can say,
+well, now let's look across all the nodes
+and see which is the node that I can get to with least cost.
+And if I look at that, the node that I can get to with least
+cost is node D. That's this column shown down here.
+So what I'll do then is I'll take D and I'll
+put that into the set of nodes with known least cost.
+And I know that the least cost to get to D is 1.
+Now what I'm going to do is I'm going to look at all the neighbors of D.
+So if I look at D, the neighbors are B I've already
+looked at A so I've got B, C, and E. So I
+can get to B from D with cost 1 plus 2.
+And that's bigger than my existing estimate of going there directly,
+so I don't update anything there.
+But now I know that I can get to nodes E and C
+where I take the best path cost to D, which is 1 here.
+And I add that to the cost to get to C here, which is 3.
+So I get 1 plus 3 or 4.
+And if I want to go to E, I get 1 plus 1 or 2.
+And the predecessor node to get to C or E is D.
+Now I take this information and I look now across the set of nodes,
+and I find which of the nodes here has the lowest cost to get to,
+and I notice that there's two of them.
+I can get to B with a cost of 2, and I could also get to E with a cost of 2.
+So it turns out that it doesn't matter.
+I can choose either one of them.
+So I'm going to choose node E. I'm going to take E and put it
+into my set of best cost nodes.
+I know that I can get to node E with a cost of 2.
+I read it out over here.
+Before that I'm at D, so that corresponds to this path over here.
+And now for E here, I'm going to look at well,
+if I know I can get to E with a cost of 2,
+how fast can I get to the other locations?
+I can get to C and F from E. So before, I didn't know I could get to F. See
+here, the cost was infinity.
+And so now I can take that cost to get to E, which is 2,
+add it to the cost to get to F, and so I get 4.
+So I know I can get to F with a cost of 4 and the predecessor node is E.
+I can also look at the cost to get to C. I know I can get to E with a cost of 2,
+and from there I can get here to C with a cost of 1.
+So that's a total cost of 3.
+That was actually better than my previous estimate.
+Before I thought I should go to C through D with a cost of 4,
+but now I know I can actually do better than that.
+I can get to C with a cost of 3 by going through E.
+Now I repeat the process.
+I look across that list, and I say, well, now the lowest cost node is B.
+So I add B into the network, and I update the corresponding estimates
+of how I can get to all the other nodes.
+It turns out that now there's no change, so I can now just look across that list
+and say, well, now the lowest cost node is C. I can add that into the list
+here.
+Look across again.
+The lowest cost note is now F, and I add that into the network.
+And now I'm done.
+I have finished the algorithm.
+Now, from this algorithm I have this table.
+How do I figure out what the shortest paths are?
+Well, actually that's relatively easy.
+What I can do is I can simply go through and I can look at all these places
+where the table ends, because that's the shortest
+path to get to each of those nodes and it tells me what the predecessor is.
+So now if I just highlight all of those bottom terms
+here in green, what you can see is I get a list that looks like this.
+And I can just start adding. Each of those corresponds to a link.
+For example, this first one here corresponds
+to going from A to D through A. That corresponds to that link,
+so I just add that link and I'll color that in green.
+The next one would be saying I can get to E through D,
+and so I'll add that one.
+I can get to E through D. The next one will be I can get to B from A,
+so I'll add that one in.
+The next one will be, let's say I can get to C through E,
+so I'll add that link in.
+And the final one will say I can get to F through E,
+so I'll add that link from E to F there.
+So now the green lines that I've shown you here are paths through the network.
+I can get to any node through the green lines.
+And if I follow those green lines, I will have the shortest path.
+Now, once I have these green lines here what I can do
+is I can then construct the forwarding table.
+To construct the forwarding table, I simply
+have to take the set of best paths that I have
+and then look at all the destinations.
+So here are the possible destinations: B through F.
+That corresponds to these five nodes here.
+And I just find which link should I follow to get there.
+So in order to get to B, I should just follow the link to B.
+Then to get to all the other nodes I just follow the link through D.
+And that's the forwarding table.
+Now any time a packet comes into A, I can look at its desired destination
+and send it out either along this link here or this link here.
+And that's solving the forwarding problem using the link-state algorithm.

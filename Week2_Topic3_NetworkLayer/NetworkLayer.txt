@@ -1,0 +1,139 @@
+
+
+Let's talk about the network layer.
+We've divided our discussion of networking
+up into five different layers, from application to physical,
+and the network layer lies here in the middle between the transport
+and the link layer.
+To understand what the network layer does, let's
+go back to our idea of sending a text message from one user
+to another user's cellphone.
+The two users might be located quite a distance apart,
+so they're not talking to the same base station.
+So when one user creates a text message and sends it,
+it will go through the link layer in order to get to the base station.
+But because the two are not at the same base station,
+it has to get from the sender's base station to the receiver's base station
+where it can be sent again over the link layer to the receiver's phone.
+Now, it's the job of the network layer to ensure
+that that package, or text message, gets from the source base station
+to the destination base station.
+And the key difficulty here is that there's no direct connection
+from the source to the receiver.
+They're connected by a network where it might take several steps
+to go from the source to the receiver.
+And so the other thing that you notice here
+is that not only it might take several steps,
+but there also might be many different paths that the text message can take.
+And so the idea of the network layer is to make sure
+that the best path, in some sense, is found.
+Probably the most common example of the network layer
+is called the IP or Internet Protocol.
+In order to deliver packets over a network,
+the network layer must perform several different functions.
+We'll talk about four of them-- addressing,
+encapsulation, routing, and forwarding.
+In subsequent videos, we'll go into more detail on these three here.
+Let's take a look at a cartoon diagram of a network.
+A network consists of several different entities connected together.
+These ones here shown as laptops are hosts.
+These are typically what we think of as our devices that we're using,
+like our computers or our cellphones.
+The core of the network is made up of a connection
+of what we call routers, shown by these symbols down here.
+The reason that these symbols are used here
+is because we have arrows coming in and out, indicating
+that the router typically has several ports or input/output
+places where it can make connections.
+And the goal of the router is to take packets coming out on one port
+and route them to another port so that the packet can
+go to the correct location.
+Now, in this part here, the core of the network
+consists of the connections shown between the six
+different routers over here.
+And these ones from the router to the host
+are often implemented using a link layer connection.
+So you see, for example, here we have a shared connection
+that might be handled using the link layer connections
+that we talked about earlier.
+Now, let's think about the general problem of taking
+some kind of information, let's say a segment
+coming from the transport layer, and delivering it from this host
+here to another host at the other side of the screen.
+What are the different functions that have to take place in order
+for that to succeed?
+Well, what we can see here is that, number 1,
+the network consists of many, many different entities.
+And in order for us to ensure delivery from this one to the other one,
+we have to know where we are in the network and where we're going.
+So that's the function of addressing.
+What we want to do is we want to assign a unique name
+or address to every single node in that network.
+So here, for simplicity, I just denote the addresses using letters.
+
+The next step that has to happen is what's called encapsulation.
+Remember, the segment is a packet coming from the transport layer.
+When it goes to the network layer, we add additional information
+to that segment.
+That process is called encapsulation.
+And that creates what's called a datagram, the packet in the network
+layer.
+The key information that we have to add in the network layer
+is information about the destination node.
+There's a lot of other information contained in the datagram that's added,
+but the key information is what is the destination of the packet.
+So at every point in this chain, the packet knows where it's going,
+and the routers know where the packet is going.
+The next step is called routing.
+Routing needs, in some sense, information about the global state of the network.
+The idea is that we have a particular node that we might be interested in,
+and what we want to know is, what is the best path
+from this node A to every other node.
+And so solving that problem is the problem of routing.
+And the solution of that might look something like this.
+So we see that for node A here, we have paths in green.
+And if I follow the path from, let's say A to H
+here-- using the green lines will get the best path.
+So there are many possible paths,
+but the best path according to this solution here would be from A, B, C, I
+to H. Of course, it might also be possible to, let's say,
+go A, B, J, I, H as well.
+But in some sense, this path going through C rather than J
+is the better path.
+And so the job of the routing algorithm is to find that out.
+The next step is forwarding.
+Forwarding uses the result of the routing algorithm.
+So it assumes, let's say for example, that it has
+a solution to the routing algorithm.
+So it knows the best path from node C to every other node.
+Forwarding is a very local operation.
+From this information from the routing algorithm,
+what it tries to do is find what's called the forwarding table for node C.
+What is the forwarding table for node C?
+Well, if I look at and consider a packet sitting at node C,
+there are four different links that it can go out.
+So I denote those by L1 through L4.
+The forwarding table tells us-- well, if I
+know where I want to go, if I know my destination might
+be any one of these nodes A through L, then which of the links
+should I go out on?
+For example, if I want to go to nodes A and B, I should go out on link L1.
+And if I want to go, let's say, to nodes J, K, G, and L,
+I would go out on link 4.
+And so what the forwarding algorithm does
+is simply take a packet-- remember, the datagram
+contains information about its destination,
+and given the packet and its destination,
+it just sends it to one of those links using that forwarding table.
+In summary then, in order to ensure delivery from source
+to destination over a network, the network layer
+performs these four different functions:
+Addressing, where we put a name to every node in the network.
+Encapsulation, where we take segments from the transport layer
+and add additional information, in particular the destination
+address, to create the datagram.
+Routing, where we determine the best path from a source
+to any other destination.
+And finally, forwarding, where we look at locally
+routing a packet at one particular node onto the correct link,
+so that it can get to the next stage of its journey.

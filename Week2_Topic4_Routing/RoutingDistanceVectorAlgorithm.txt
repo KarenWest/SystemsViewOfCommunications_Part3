@@ -1,0 +1,235 @@
+
+
+Let's take look at one particular example of a routing algorithm.
+This algorithm is called the distance vector algorithm.
+Now the goal of the distance vector algorithm
+is for every node to construct a routing table.
+Now the routing table is very similar to the forwarding table
+that we looked at before.
+What we have is for every node, let's say A,
+we consider that to be the source S. That has to reach its destination, D,
+and that destination could be any of the other nodes in the network.
+So for example, if it wants to reach node B, what
+it knows is that in order to reach node B,
+it has to go out on the link connecting it to B. So it has two neighbors here,
+so that means it has two links, one going to B and one going to C.
+So I'm going to label the links by the neighbor that it connects to.
+So in order to get to B, it just takes the link out to B
+and that has a cost of 1.
+For example, if it wants to go to D, what it will do
+is it will take the link out to B and then
+that will take a cost of 2: 1 plus 1.
+And so what I want to do with the distance vector algorithm
+is construct this table as you see here.
+Very similar to the forwarding table, although the forwarding table didn't
+have any information about these costs.
+But it turns out that the information about these costs,
+or the current estimate of what the cost is to get from let's say A to D,
+is going to be a very important part of the distance vector algorithm.
+Because what the distance vector algorithm is going to do is it's
+going to take an initial estimate of these costs,
+and then update them iteratively based on information from its neighbors.
+The distance vector algorithm follows the steps shown on this slide here.
+We'll go through an example in a little bit,
+but let's just give an overview of the way the algorithm works.
+The algorithm starts out with an initial estimate
+of the routing table for each node.
+So this algorithm is going to be run at each node independently,
+and I illustrate here for node B what the initial estimate
+of the routing table is.
+Each node only knows that it can reach itself with a cost of 0.
+So in the routing table, we illustrate that by saying for the source node B,
+all the destinations have infinite costs to be reached
+indicating they cannot be reached except for B which has 0 cost,
+because you're already at B.
+Now every node starts out with this initial guess,
+and then what it will do is in the advertisement stage,
+it will essentially broadcast that initial guess to all of its neighbors.
+In fact, it doesn't need to broadcast the link it needs to follow,
+it just has to broadcast for every destination what's
+the cost to reach that destination.
+So it will give you pairs of destinations and costs.
+So for example, B will tell node A in the beginning
+that, oh, I can reach myself with a cost of 0.
+Every node also knows the link cost to its neighbor.
+So A knows that it costs 1 unit to get to B, and 2 units to get to C.
+But it doesn't know anything about how much it takes to get to D or anything
+like that.
+And so it needs to learn about that through the integration step.
+So once it receives an advertisement from its neighbors
+which is in the form of a set of destinations and costs
+to those destinations through the neighbor it's
+going to compute what is the cost to reach
+this particular destination through the neighbor that just gave him
+the advertisement.
+So for example, node A might look at the information from node B,
+and then figure out, well, based on what B knows
+and what he thinks about how quickly he (B) can get to D,
+how quickly can I (A) get to D through B?
+And so that's going to be the cost, which is the link cost to the neighbor
+(So A would look at link cost to get to B, which would be 1.)
+plus the advertised cost for B to get to D.
+But in this state, in this initial point here, B
+doesn't know that it can get to D.
+And so now what it will do then is
+node A will calculate whether the cost that it calculated here
+is less than its current estimate of the cost to get to D.
+Remember it has an estimate of the cost it takes to D
+it might be infinity if it doesn't think it can get there
+but it has a current estimate.
+So if this cost of getting to D through B
+is less than its current estimate of what the cost is, what it will do
+is it will replace the cost our current estimate of the cost
+with this cost here and update its routing table to say
+I can get to D faster than I currently can,
+if I go through B.
+So it will update the routing table to indicate
+that I should get to, let's say D, through B.
+Now once it's done that, all the other nodes will be doing the same thing.
+So B will also be listening to D, C, and A for their advertisements.
+That will enable it to update its own routing table.
+It will have a new routing table, which it can then advertise to A,
+and the whole process will iterate.
+And eventually, hopefully what happens with the distance vector algorithm
+is that the routing table there will converge
+to the optimal routing table that would result if the nodes had
+full knowledge about the network.
+Note the interesting thing about here, though,
+is that actually A has no knowledge about the actual topology
+of the network.
+It only knows that it's connected to B and C,
+and that B and C can reach other destinations with some cost,
+but it has no idea how that's actually done.
+Nonetheless, despite this very local information,
+it can still construct a best path, or at least
+a routing table or a forwarding table, based on what the actual best
+path is to get to any other node.
+To make this concrete, let's take a look at a particular example
+of the calculations that take place in the distance vector algorithm.
+So here I show you a relatively simple network.
+It consists of five nodes.
+What we're going to have to do for those five nodes is compute five routing tables.
+So I show you the routing tables here for A, B, C, D, and E over there, laid
+out in the same way as the network.
+Now initially, all of the routing tables will have a very similar structure.
+Each node knows it can reach itself with 0 cost,
+indicating that the node is alive.
+But it has no knowledge about whether it can reach
+any of the other nodes in the network.
+Now, what's going to happen in the first iteration
+is that there's going to be an advertisement.
+All of those advertisements are going
+to take place simultaneously, but I'll just step through it
+as if only one advertisement comes in.
+So let's assume that only one set of advertisements come in for one node.
+So for example, let's assume that A receives advertisements from B and C.
+And it knows that B is alive, and C is alive.
+So now it knows that it can reach B and C and they're alive,
+and so it can update its routing table.
+And so now because B and C say they can
+reach themselves with cost 0, A knows that it can reach B with cost 1
+plus the cost to reach node B, which is 0, from itself.
+And so that's just (a total) cost (of) 1.
+And it can reach node C with cost 2 to reach C,
+and then C reaches itself with cost 0.
+Now B will do exactly the same thing.
+For example, B is going to receive advertisements from A, C, and D,
+and it will update its costs accordingly:
+1, 4, and 1. So that corresponds to those links leaving B.
+And all the other nodes
+are going to do exactly the same calculation.
+And so they're going to get new estimates of their routing tables based
+on all of the advertisements that they've integrated.
+So for example, you can see C here is connected to all of the other nodes,
+and so it gets an estimate of how it can reach all the other nodes now.
+This is the state of the routing tables after one iteration of the distance
+vector algorithm.
+Now in the next iteration, what's going to happen
+is that A is going to receive new advertisements from its neighbors, B
+and C, reflecting the fact that they now have updated routing tables.
+And so if we look at, for example, the connection to E over here,
+after one iteration A didn't know that it could reach E.
+But after one iteration, C knows that it can reach E with a cost of 2.
+So when the advertisement from C comes to A,
+A will then know that it can reach E by first going to C with a cost of 2,
+and then going to E with a cost of 2 as well, shown here.
+And so we're going to get A can get to E with a total cost of 4,
+if it goes through C.
+Similarly, if we look at D, initially A does not know that it can get to D.
+But after 1 iteration, both B and C know that they can get to D.
+And so now A can either get to D through B or through C.
+So it has to choose one of them, so it's going to compare the two of them.
+So what it's going to do is it's going to say,
+well, suppose that I can get to B with a cost of 1.
+Once I'm at B, I can get to D with a cost of 1, so that will be a cost of 2.
+Or I can get from A to C with a cost of 2, and then from C
+to D with a cost of 5, a total cost of 7.
+So that's these two routes here, this one here, and that one here.
+And obviously the route through B is better,
+and so what A will do after the advertisements and integrating them,
+will say that it can get to D with a cost of 2 if it goes through B.
+Another interesting thing that can happen
+is that even if we have an existing estimate of the cost
+to get to a certain node, that cost and routing can be updated.
+And to see that, let's look at node B. For node B, after one iteration
+it thinks that it can get to node C with a cost of 4.
+That's because there's this direct link from B to C, with a cost of 4.
+Now after that first iteration, A knows that it can get to C with a cost of 2,
+and so when it advertises that to B in the second iteration,
+B will know that well, I can also get to C with a cost of 3,
+by going first to A with a cost of 1, and then to C with a cost of 2.
+And so after the second iteration, it will change this entry here
+to update the routing to go through A and the cost will go down by 1 to 3.
+In addition to the three specific cases that we've highlighted here,
+after the advertisement step in the integration,
+many, many more of the tables will be updated.
+And all of those updated values are shown here in green.
+This is the state of the routing tables after two iterations of the distance
+vector algorithm.
+What we've seen is that after
+every iteration, what we get is information about paths
+that have longer and longer hops.
+For example, in the first iteration A knew about nodes
+that it was one hop away from, B and C. But now after the second iteration,
+it knows about nodes that it's 2 hops away from, D and E.
+And as the distance vector algorithm proceeds,
+it gets information propagated to it about paths
+with more and more hops.
+Even though some of those paths may have more hops,
+they may actually be shorter.
+And so what can happen is that we can update
+existing paths with new information.
+So for example here, if we look at the path from A
+to E through C, after 2 iterations it knows about this one here.
+But after those two iterations, B also knows
+that it can get to E with a cost of 2 through D.
+And so now in the third iteration, what it
+will do is B will advertise that fact to A. And A will say,
+oh, well B can get to E with a cost of 2,
+and I know that I can get to B with the cost of 1.
+So therefore my total cost to E if I go through B will be 3.
+And that's better than going to C, what I thought before.
+And so after the third iteration, what will happen
+is that it will update this entry of the routing table
+to say that I should go to E through B with a cost of 3.
+And now after the third iteration, all of the paths are now updated
+and the algorithm has converged.
+And the routing tables will not change after this.
+So for the fourth iteration and so on, all the routing tables
+remain constant, assuming that the state of the network hasn't changed.
+If the state of the network does change, then what will have to happen
+is that these routing tables will be updated.
+For example, perhaps B will tell node A that in order
+to get to node D, instead of taking 1 cost,
+maybe this cost will change and will change to 2.
+And so in that case, A will have to update this cost here to reflect that.
+And maybe if that cost gets too high, maybe A
+will have to find another path to get to D. Maybe that link will shut down,
+and so the cost will go to infinity and so
+A will need to find another path to get to D.
+And so that will have to happen iteratively as information flows
+through this network.
+But interestingly here, even though A really only
+has very, very local information, it still
+converges to a routing table that reflects
+global information about the best path to take through the network.

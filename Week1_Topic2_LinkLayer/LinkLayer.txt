@@ -1,0 +1,128 @@
+
+Let's talk about the link layer.
+We commonly divide our discussion of the Internet protocol
+stack into five different layers-- the application, transport, network, link,
+and the physical layers.
+And in this topic, we'll be talking about the link layer.
+The role of the link layer is to handle data
+transfer from one node in the network to a physically adjacent node
+in the network.
+One common example of this is the 802.11 protocol, commonly known as Wi-Fi.
+In this case, what we can have is multiple computers or mobile devices
+all trying to access the Internet through the same router.
+In this case, the link layer has to handle that communication process
+seamlessly.
+The link layer itself is implemented on something
+called the network adapter or the network interface card.
+If you have an older computer, you might need
+to add a card that looks like this in order
+to gain access to the Wi-Fi network.
+But now in modern computers, this card is already
+prebuilt into most of the computers that we already buy.
+In order to ensure reliable data transfer,
+the link layer must offer several different services
+or perform different functions.
+Some of these functions we've seen in previous parts of the course.
+For example, we've talked about the idea of framing
+in Part 1, when we looked at the idea that in order
+to ensure reliable communication in asynchronous communication,
+we had to add additional bits that would allow us to perform synchronization
+so we would know when data was being transmitted.
+When we move to the network situation, remember,
+we have packets that are called different things depending
+on what layer they're in.
+So for example, we're talking about the link layer now-- in that case,
+the packets are called frames.
+But in the previous layer, the packets are called datagrams.
+And so what the frame is then is just the datagram
+that needs to be transmitted plus some additional information contained
+in the header and the trailer.
+Some of this additional information might
+be used for the process of error detection or error
+correction, another concept that we talked about in Part 1.
+Remember that in error correction or error
+detection, what we needed to do was add additional information to the data
+that we are transmitting in order to make sure that we could reliably detect
+errors and if possible, correct them.
+In the link layer, if an error is detected,
+there are several different options that might be executed.
+For example, if there were only a small number of bits in error,
+it might correct them automatically.
+If there were too many errors to correct automatically, then what might happen
+is that that entire packet or frame might be dropped
+It might ask it, ”What did you say?
+I didn't get that correctly.
+Can you retransmit that and tell me again?”
+Another function of the link layer is flow control.
+Different devices might have different desires to transmit
+different amounts of information.
+And one node in the network might be overwhelmed,
+and so it might ask other nodes transmitting to it to slow down.
+And so that's the idea of flow control.
+In this particular topic, what we'll be concentrating most of our attention on
+is what's called the media access control section.
+And this is the one that allows the link layer to share
+a channel among multiple users.
+And so, in this case here, we have many, many different nodes
+like I said in the wireless mode—connected
+to a single shared communication channel, as I show you here.
+So this one here shows you a particular node that we might have.
+And so I show you four nodes all connected to the communication channel.
+What the link layer does is it takes the datagrams from the network
+layer inside the channel interface of the network of the link layer,
+What it will do is add additional information to construct a frame
+and then send that over the shared channel.
+And then at the other end, the receiving end,
+the channel interface of the link layer will strip the data
+and then pass it back into the network layer.
+The key problem, though, is that this is a shared channel,
+and so multiple nodes might want to transmit information at the same time.
+And so one of the key functions of the link layer in this media access control
+part is to ensure that we can avoid collisions,
+and if we actually have a collision between two nodes trying
+to transmit at the same time, we can actually
+handle that in a robust manner.
+When we talk about the link layer, there are several performance metrics
+which we would like to optimize.
+One of these performance metrics is utilization.
+This tells us how well are we using the channel.
+We want this to be high.
+Ideally, 100% of the time, we'd like to be transmitting useful data.
+Unfortunately, this isn't possible.
+There's some waste.
+For example, when we construct the frame,
+we have to add additional information, the header and the trailer,
+and that's packet overhead, which doesn't really
+contain the real information in the datagram that we want to send.
+Other things that might happen would be collisions,
+in which case packets would be lost, so that's wasted time.
+There are also times when the network isn't transmitting any information at all,
+and so that's also in some sense a waste.
+Another aspect that we'd like to optimize
+is the dynamism and the scalability of the network.
+If we think about things like the cellular telephone
+network or the Wi-Fi network, we know that most
+of the nodes that are accessing the network through those layers,
+those link layers, are moving.
+They're mobile.
+And so the total number of nodes, for example
+in a room using a Wi-Fi network might change dynamically, for example
+as people come and go or as people turn on their devices
+and turn off their devices.
+So as the number of nodes changes, we'd like
+to be able to use the network without having
+to stop and reconfigure the whole network every time somebody new joins
+or somebody leaves.
+We'd also like to accommodate as many users as possible.
+And finally, the final thing that we'd like to talk about is fairness.
+Ideally, what we'd like to be able to do is
+divide the capacity, the total capacity of that link, equally among all users
+according to their needs.
+This is a very difficult concept, actually,
+in practice to define because there's this idea of how do we actually
+equally or fairly share a resource among different users
+according to what their needs are.
+How do we define that?
+And so the concept of fairness is a difficult one to define formally
+and to deal with, but it's still an important concept
+that we need to ensure if we have to have people using our link layer.

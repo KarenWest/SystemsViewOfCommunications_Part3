@@ -1,0 +1,103 @@
+
+In this part of the course, we'll be centering our discussion
+around a particular example of a network that's the most popular network now,
+known as the Internet.
+In this video, what I'd like to do is talk about
+what are the components of the Internet and a little bit
+about how the Internet is organized.
+The Internet is actually not one network,
+but it's actually a network of networks.
+So here in this diagram what you can see is
+that within each square or dotted square, that I have here,
+we have one network.
+So for example, at my home I might have a small network there consisting
+of a few computers and maybe a server containing my media, music,
+and video files or something like that, so I
+can access them anywhere from my house.
+But, of course, there are other networks.
+For example, at my institution or my university
+I might have a larger network that consists
+of many, many computers and more servers,
+for example, email servers, web servers, and things like that.
+I can also have mobile networks for when I'm on the road.
+So for example, if I'm accessing the network from my cell phone,
+I might go through a base station.
+And those base stations might be connected themselves through a network.
+So I have multiple networks,
+and actually all of these networks communicate with each other.
+So for example, when I'm on the road, and I'm on the mobile network,
+I can actually check my email, which might
+be residing on a server within my institutional network.
+And so in order for me to make that connection between different networks,
+we have more networks over here known as Internet Service Providers,
+or ISPs, which connect those networks together.
+Each network consists of a set of nodes.
+Some of those nodes might be routers.
+Those routers are these circular symbols that are shown here.
+These routers forward data along multiple paths.
+So you can see here, let's say, this router here
+has multiple paths for data coming in here.
+That data might go out along multiple paths from that router.
+The router needs to decide, for any particular piece of data,
+where to forward that (piece of) data to.
+Those routers are really what make the connections between two different end
+systems or hosts.
+So for example, if I wanted to access my email, which might be residing over
+here, from my mobile phone, then I have to go
+through a set of links that consist of routers.
+My mobile phone here and my server here
+are what are known as hosts or end systems.
+They are the things that are running the actual applications,
+for example my email client or my email server that I can use in order
+to send messages and things like that.
+Individually, each of these nodes, whether they be, let's say
+an end system or a router, are connected by point-to-point communication links.
+And those links can take many, many different forms.
+They might go over fiber optic cables.
+They might go over copper wire.
+They might travel wirelessly or even through satellites.
+So you can see now, through the Internet there's a wide diversity of things
+that are interconnected to each other.
+And they're connected through a wide variety of different possible links
+between nodes.
+Roughly speaking, the Internet has a hierarchical kind of structure.
+At the center of that hierarchy, or the top level of that hierarchy,
+are what are called tier-1 ISPs.
+These tier-1 ISPs, or Internet service providers,
+provide coverage over wide ranges, for example global or national coverage.
+Examples of these might be large companies like Verizon or China
+Telecom.
+These tier-1 ISPs treat each other as equals.
+They connect among each other to provide access between customers
+of different tier-1 ISPs.
+These tier-1 ISPs are at the top level of the hierarchy.
+But it's not a strict hierarchy because there's not
+only one tier-1 ISP, but actually several tier-1
+ISPs that are all connected in parallel or privately with each other.
+At the next lower level of the hierarchy are what are called tier-2 ISPs.
+Tier-2 ISPs provide coverage over smaller, regional areas.
+They're actually customers of the tier-1 ISPs,
+so they get connectivity to the Internet through a tier-1 ISP.
+But there's no strict hierarchy here either.
+For example, you might have a tier-2 ISP connecting to this tier-1 ISP,
+as well as this tier-1 ISP in order to provide better access, let's say,
+to different destinations.
+You might also have tier-2 ISPs connecting privately
+among each other, so connections occur within one level of that hierarchy.
+And so you can see, again, that it's not a strict hierarchy.
+Finally, at the lowest level, we have what are called tier-3 and local ISPs.
+These ISPs provide what's called the last-hop connection.
+These provide the connection finally to your mobile tablets
+or your mobile phone or your laptop computer or your server.
+So these tier-3 or local ISPs are the closest ones
+to the hosts or the end systems.
+They are customers of the higher tier ISPs.
+What you can see here is that you might have two different users that
+are connected to two different local ISPs,
+for example one user up here on the upper left-hand side
+and another one there on the lower right-hand side.
+And so these two PCs, let's say, might want to talk to each other using Skype.
+And in order to establish a connection from one PC
+to the other one, what you can see is that the data
+from one PC to the other one must flow through a variety
+of different networks.

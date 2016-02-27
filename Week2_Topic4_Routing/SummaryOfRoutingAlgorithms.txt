@@ -1,0 +1,125 @@
+
+
+In this video, I'd like to summarize routing algorithms
+by comparing the different properties of the distance vector and the link state
+algorithm and then talk about how the problem becomes
+more difficult than the idealized situation that we've talked about here
+when we're dealing with practical networks.
+So let's take a look at the two algorithms that we've looked at.
+One of them was the distance vector algorithm.
+The other one was the link state algorithm.
+They're both solving the same problem.
+Essentially you want to infer what is the best path through the network.
+And eventually use that to construct the forwarding table.
+The distance vector constructs the corresponding forwarding table
+in an iterative manner without ever knowing anything completely
+about the network.
+So this is considered to be a decentralized algorithm
+because the router who's computing the forwarding table only
+knows the link costs to his physically connected neighbors.
+It doesn't know anything about how those neighbors are
+connected to anything else.
+All it knows is how much cost each of those neighbors
+thinks it has to reach the other nodes in the network.
+So what happens then is there's an iterative computation
+process of computation while we're exchanging information
+with the neighbors.
+So remember, we're doing this advertising, updating,
+advertising, update.
+And it's through this iterative process that global information is propagated,
+and eventually causes the routing to converge to the correct routing table,
+even though we never see an entire picture of the network.
+On the other hand, the link state algorithm
+is an example of a global algorithm.
+Remember what happened there was during the advertising phase
+we did this flooding process where we took information
+about links of our neighbors and told that to our neighbors
+and they told their neighbors.
+And eventually, it's just like a rumor.
+Everything is spread to everybody.
+And so everybody knew everything.
+So now everybody has global knowledge about the topology of the network
+and all of the link costs.
+And so we look at this from the point of view of message passing,
+distance vector seems to be a little bit simpler because all you do
+is you pass the information that you have to your neighbor and your neighbor
+just uses that.
+But he doesn't pass that information directly to anybody else.
+He just passes his own information.
+So everybody's just passing one message to his neighbors, whereas in link state
+there's a lot more message passing that takes place
+because once I get some information about my neighbors, I pass that on.
+And then maybe another neighbor has
+gotten neighbor information from his neighbor
+and I have to pass that on as well.
+On the other hand, if we look at the convergence properties,
+the distance vector algorithm has the disadvantage
+that it has variable convergence time.
+We saw this a little bit in the video about the distance vector
+where we saw that every iteration the network
+gets more and more information about nodes
+that are farther and farther away.
+So as the number of nodes in the network scales then,
+the amount of time that it takes for me to update that information
+in my routing table also scales.
+And so that especially becomes problematic
+if there are changes in the network because it
+will take some time for those changes to propagate through and eventually update
+the routing table.
+Whereas in the link state algorithm, because I
+can update my global model of the entire network at once,
+I can just re-run the Dijkstra's algorithm and that algorithm
+itself has the order of n squared convergence, so that's somewhat fixed.
+So we can see here that we have two very different algorithms for solving,
+essentially, the same problem.
+And they have their own advantages and disadvantages.
+The situation that we've considered, though, in our examples
+and in defining the algorithms, assumed a very simple case.
+We assume that we had a static network, relatively small number of nodes.
+In practical situations, routing is hard.
+And there's several reasons for that.
+Number one, routing is inherently a distributed problem.
+Even when we're doing the link state algorithm
+where we assume we have global knowledge about the network,
+we still have to do this message flooding stage where
+we're passing information all around.
+So all that message flooding all has to take place locally because, remember,
+the network, each node is just connected to its neighbors
+and there's no global interconnection between the neighbors.
+But at the same time, in order to do optimal routing
+we need to have global information about the network.
+
+One of the difficulties impacting in practical routing algorithms
+is handling dynamic changes to the network.
+So in a real network, we can have links that are failing,
+switches or routers that are failing, some nodes may go offline.
+And so they're not available anymore.
+And so those things can happen at any time.
+They can happen at arbitrary points in time.
+Also we might think we have perfect knowledge about the network
+because we've gotten all this flood of messages,
+for example, in link state algorithm.
+But we have to realize that the networking process is not reliable.
+We can have packets or messages that are lost and we wouldn't know that.
+And so if we didn't know that, we would have a global model of the network,
+but that might be wrong.
+And so we might be sending our packets down the wrong path because
+of those things.
+
+When we have very, very large networks it
+turns out that the algorithms become more difficult to run.
+So the scaling to large size networks becomes more difficult.
+And also, this routing depends on cooperation
+between many, many different agents because everybody's
+operating independently, looking at only information from its neighbors.
+So there's a lot of trust that's involved
+in this system where I trust that the information that you're giving me
+is reliable and I trust that, based on this,
+I'm going to get consistent routing of the packets.
+And so this is one reason why, at the network layer,
+it's actually hard to guarantee that if I send a packet down this path,
+that is actually going to get to its destination.
+And so in order to insure very reliable transportation-- for example,
+like we would need if we were doing financial transactions-- what
+we need to do is look at another layer in order to do that.
+And we'll discuss that next time.

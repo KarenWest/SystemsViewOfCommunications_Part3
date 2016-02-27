@@ -1,0 +1,110 @@
+
+The Aloha Protocol is the simplest example
+of what we call a Random Access Protocol.
+Let's start this discussion with a small analogy.
+You can think about the shared channel that we're
+trying to access here, in this case, as being a narrow hallway.
+And so, in this case, people might be trying
+to access that same narrow hallway, but they're arriving
+at that hallway at different times.
+But only one person can pass through the hallway at any one time.
+So in this case, when somebody gets to the hallway, you can just walk through.
+But if two people get there at the same time, then they're going to collide.
+And we need some way of kind of dealing with that.
+And so what might happen is that if both of us come to the same hallway,
+at the same time, we back up a little bit
+and there's a little bit of negotiation as to who goes first.
+And that's somewhat random.
+So the Random Access Protocol is very much along the same ideas
+as that shared hallway.
+What we have now, is instead of people trying to access the hallway,
+we have nodes trying to access a shared channel.
+And when a node has data to send, what it does
+is just simply tries to transmit that data at the full channel data rate
+R. So that's just like you arrive at the hallway
+and you just walk right through.
+But if we have two or more nodes that want to transmit at the same time,
+then there's a collision.
+They can't do that transmit because there's not enough room in the channel.
+And so what the Random Access Protocol then specifies
+is number one, how do you detect that a collision has occurred?
+And then, what you do in the case of a collision?
+How do you recover from that collision?
+Now the big advantage of the Random Access Protocol
+is that there's no a priori coordination among the nodes.
+
+So for example, if I'm trying to access the hallway,
+it's not as if there's only a certain amount of time during the day
+that I can access that hallway.
+I just go and I just try to use it, whenever I want.
+It can scale, then, dynamically with the size of the network,
+because the more people that come in, they could just
+try to use the hallway as they want.
+And so if we only have one single active node,
+then he has full access to that entire channel.
+And hopefully, these kind of Random Access Protocols are relatively simple.
+However, there are some disadvantages.
+Because there's no coordination, there
+is the possibility that two nodes can come and try to transmit the same time.
+And so, because of that, there's going to be reduced channel utilization
+because of those collisions, and also because of the fact
+that we have to have some way of dealing with those collisions.
+The Aloha Protocol is the simplest of these Random Access Protocols.
+And in some sense, it's the ancestor of all of these.
+The Aloha Protocol was developed by Norm Abramson of the University of Hawaii
+in order to connect the islands of Hawaii
+to each other via a satellite network.
+The basic idea is that all of these islands would have data to send.
+And they would send it on one common frequency up to the satellite.
+The satellite would then rebroadcast that information down
+to the islands on another frequency.
+And so the idea then would be that if this island, let's
+say, wanted to transmit information to this island, what would happen
+is that it would transmit its information up to the satellite.
+The satellite would retransmit to all of them,
+and there would be some labeling that would indicate that this island here
+was the intended target.
+The problem though, was that the islands
+couldn't hear each other transmitting.
+So they would transmit, but it might happen
+that two islands were both transmitting up to the satellite at the same time.
+In that case, the satellite would be confused.
+There would be a collision.
+And so, The Aloha Protocol was a very simple example
+of a randomized contention protocol developed to deal with that.
+And so we call these kinds of Random Access Protocols also contention
+based protocols, because all of the nodes are contending
+or kind of competing for access to the channel.
+And in the Aloha Protocol, what happens is that each node or island
+executes independently this procedure.
+If the node has a packet to transmit, then it just goes ahead
+and tries to transmit that packet.
+If the satellite detects a collision, then it
+will indicate that to the transmitting nodes.
+And then, each transmitting node will have to retransmit its packet.
+But before it retransmits that packet, it waits a random amount of time
+before doing so.
+And so the nodes that are waiting to transmit are said to be backlogged.
+And this randomization of the amount of time that each node waits
+was intended to avoid collisions, but do it in a decentralized way,
+so we wouldn't have to dictate who goes first and who goes second.
+So let's see an example of that using the shared channel and the nodes
+that we've seen before.
+So here we have four nodes.
+And you might have two nodes here with data
+that they want to transmit up to the satellite on that shared frequency.
+And so if they both transmit at the same time, what will happen
+is that they will both arrive at the shared channel at the same time,
+and there's a collision there.
+And so that will be detected by the nodes, and they'll have to retransmit.
+And so they'll wait a random amount of time,
+and perhaps in that random amount of time,
+the first one will then transmit first.
+And then that packet will go on to its destination.
+And then after some random amount of time, the second node will transmit
+and its packet will then go on to its destination.
+And so then, by randomizing that, it avoids the collision.
+But at the same time, there's a little bit of wastage
+because you're not coordinating the effort.
+People are waiting a random amount of time,
+And during that time, the channel is being wasted.

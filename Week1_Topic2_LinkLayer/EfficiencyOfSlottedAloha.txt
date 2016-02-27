@@ -1,0 +1,232 @@
+
+
+So how well does Aloha utilize the channel that's available to it?
+Well, let's study this by examining the efficiency of a particular variant
+of Aloha, which we call slotted Aloha.
+In slotted Aloha, what we do is we take a time interval,
+and we divide it into a number of equal length slots
+where the length of the slot is equal to the amount of time
+it takes to transmit one packet.
+For example, here I've taken a time interval and divided it into 25 slots.
+We further make the assumption that each packet can only be transmitted
+starting at the start of each slot.
+So what that means, then, is that each packet occupies one slot only,
+and it doesn't leak over into another slot.
+What I show you here are different slots and different nodes
+transmitting packets where the different nodes are shown in different colors.
+Now, what you can see here is in the first slot, only
+one node transmits, and so that packet will go through.
+But in the second slot here, we have two nodes transmitting at the same time,
+and so there's a collision.
+So whenever there's a collision, as we can see in the case here, what happens
+is that both packets are lost.
+So that's a wasted slot.
+That's not the only reason slots can be wasted, because there can also
+be spots where the channel is idle where nobody's transmitting, as shown here.
+So if we want to know, then, what the utilization of the channel is,
+we use a measure, which is called the efficiency.
+What the efficiency measures is the fraction
+of slots that have a successful transmission.
+So for example, in the case here, we had 25 slots in total shown.
+And if we look at the number of successful transmissions,
+that's 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13.
+So the efficiency, then, is 13/25.
+
+There's a very closely related term, which is known as throughput.
+That's the number of successful packets that are
+transmitted in a unit time interval.
+That's related to the efficiency, but it also depends on the slot length.
+So for example, if the time interval shown here was one second, then
+I would have 13 packets per second.
+But if it was one minute, then I would have 13 packets per minute.
+So in terms of packets, the throughput is lower
+even though the efficiency is the same.
+In order to analyze the efficiency of slotted Aloha mathematically,
+we'll make certain assumptions.
+The first assumption we'll make is that the nodes operate independently.
+In other words, there's no interaction between them,
+and the nodes don't really know what the other nodes are intending on doing.
+They only know when a collision occurs.
+We'll also assume that each node has a queue to hold packets for transmission.
+So a queue is just a waiting area, and it
+may hold several packets that are all waiting to be sent.
+And if the node has a queue which is non-empty, then we refer to that node
+as being backlogged.
+If the queue is empty, then the node is essentially silent.
+It's not really participating in the channel at all.
+And so we're really only interested in what's
+happening with the backlogged nodes, and in that case, what
+we're going to assume is that the backlogged nodes send packets
+in a time slot with probability, p.
+So they have a packet to send, and intuitively,
+what they do is they flip a coin.
+And that coin has a probability, p, of coming up heads.
+And if the coin comes up heads, then they put the packet into the slot.
+And so the waiting time that they have-- this random waiting time — is essentially
+the amount of coin flips, or slots, they have to wait until they flip heads.
+Finally, we're going to assume that there are N nodes that
+are backlogged, where N can vary.
+And so now with these assumptions, we can derive an expression
+for the efficiency of slotted Aloha.
+That expression is shown down here as the term E.
+And so remember the efficiency is the fraction of successful transmissions
+or the probability of a successful transmission.
+So when does a successful transmission occur?
+Well, it occurs if a node transmits.
+So the probability that a node transmits is p,
+but at the same time, no other node can transmit.
+So the probability that another node does not transmit is 1 minus p,
+and since there are N minus 1 other nodes,
+we take that 1 minus p and raise it to the N minus 1 power
+to get the probability that no other nodes transmit.
+And so this term p times 1 minus p to the N minus 1
+is the probability that a particular node can transmit without a collision.
+But since there are N nodes that might transmit,
+we multiply that by N to get the final expression for the efficiency.
+Now, the efficiency here depends on p and N.
+And I show you a plot of the efficiency on the right-hand side
+where I have the plot as a function of p.
+And so what we can see then is, for a particular value of N,
+the number of backlogged nodes, the efficiency
+reaches a peak somewhere for p between 0 and 1.
+W  hen p is equal to 0, the efficiency
+is 0 because no nodes are transmitting.
+All nodes are transmitting with probability 0.
+And at 1, we have 0 efficiency because all nodes, or all backlogged nodes,
+are transmitting with probability 1.
+And so they are always colliding with each other.
+So the maximum efficiency is going to be occurring somewhere in between 0 and 1.
+We can actually derive an expression for the location of that maximum
+by taking the expression that we derived for the efficiency
+and differentiating it with respect to p and setting the result equal to 0.
+So if I take this expression here, and I differentiate with respect to p,
+I use the product rule because I have one term in p and 1 minus p.
+So if I differentiate with respect to p of p,
+then I just get N times 1 minus p.
+And if I differentiate this term with respect to p,
+then I just get N times p times N minus 1 times 1 minus p to the N minus 2.
+Now, I can set this result equal to 0 to find the location of the maximum.
+I'm going to divide through by N. That will cancel out.
+And I'm going to divide through by all of the 1 minus p's.
+I'm going to have N minus 2 of them, and that's going to leave one of them
+behind.
+So I get one 1 minus p left over here.
+And then I get N minus 1 times p over here.
+If I look at this, I have a minus p that cancels with a minus minus p.
+So what I get then, in the end, is 1 minus N times p.
+And that's equal to 0 when p is equal to 1/N.
+So what that means, then, is that, in order
+to achieve maximum efficiency if I have N nodes,
+each node must transmit within a slot with probability 1/N.
+So that's intuitively appealing.
+For example, if I have 3 nodes, then each node
+should transmit with probability 1/3.
+So if I look at the plot over there, and I look at the blue curve
+for N is equal to 3, I can see that the maximum there occurs at p
+is equal to 1/3.
+For N is equal to 5, I have the maximum at 1/5, or 0.2.
+For N is equal to 10, I the maximum at 1/10, or 0.1, and so on.
+What we can also see from those curves is that the maximum efficiency
+decreases with the number of nodes.
+That intuitively makes sense because the more nodes that
+are trying to use the channel, we should be having more collisions,
+and so there's going to be some loss of efficiency there.
+But it seems like it's not going to 0, but plateauing
+at some value somewhere around 0.37.
+And so we can find that limiting value by looking
+at the value of the maximum for each value of N.
+So if we know the maximum for each value of N occurs when p is equal to 1/N,
+then we can take this value of p and substitute it back into the efficiency
+equation that we see over here.
+And so I'll get N times 1/N, so that will give me 1.
+Those will cancel.
+And I'll get 1 minus 1/N to the N minus 1 as shown over here.
+So that's the value of the maximum, the maximum efficiency,
+for each value of N. And if I let N,
+in that term, go to infinity,
+then what will happen is I'll get e to the minus 1.
+And so e to the minus 1 is about 0.37, or 37%.
+And so what that tells us is that the efficiency of slotted Aloha
+Is, maybe surprisingly, low.
+It's only about 1/3.
+So that means that the channel is really only being effectively utilized
+1/3 or a little bit more than 1/3 of the time.
+So that might seem low to you, but we have to trade that off against the fact
+that we have a very, very scalable protocol.
+We can add nodes, subtract nodes, because all the nodes are essentially
+operating independently in this case.
+It's also very simple.
+If we look at the protocol, each node just flips a coin
+and determines whether or not it's going to transmit in that particular time
+frame.
+So we have the advantages of simplicity and scalability trading off
+against what might be considered intuitively
+to be a relatively low channel efficiency.
+
+There's one more issue that we need to look at in the protocol,
+and that is how do we set this value of p.
+So in order to achieve maximum efficiency,
+each node must set its value of p, the probability of transmitting
+in a particular time slot, to be 1/N, where N is the number of backlogged nodes.
+But how does it know the number of backlogged nodes?
+One possibility might be there would be somebody counting the number of backlogged
+nodes, but that would imply some kind of centralized controller
+running this thing.
+So we don't want to have that.
+So we want to have each node then trying to figure out
+how to set its own value of p independently of all the other ones
+to maintain that scalability.
+There's a very intuitively appealing way to do that.
+Each node could actually maintain its own individual value of p.
+So now rather than having all nodes having the same value of p,
+they all have their own individual value of p.
+And they're going to adjust that value of p
+up and down depending on how many collisions they encounter.
+And so the idea, then, is that if it's encountering many collisions,
+then it's probably trying to put for many packets onto the channel.
+And so it should perhaps lower its value of p.
+On the other hand, if it keeps on transmitting packets successfully,
+then maybe what it should do is increase the value of p
+because there are fewer number of nodes that
+are trying to transmit at that time.
+And so one particular strategy for doing this
+is called binary exponential backoff.
+So each node would execute this algorithm independently.
+So they would come up with some initial guess
+of p based on some idea of how many nodes are typically in the system.
+So, for example, if typically 12 nodes are in the system,
+it would start out with p is equal to 1/12.
+And then if it didn't have any packets to transmit, it just
+wouldn't change that value of p.
+But if it did have a packet to transmit and it turned out
+that it ran into a collision, then what it would do
+is it would try to reduce its value of p, perhaps by dividing by 2.
+So that's why we call it binary exponential
+because we're dividing by 2.
+And then every time it gets a collision, it will keep on dividing by 2.
+And so we'll get this exponential decrease
+if it keeps on running into collisions.
+So we get, for example, 1/12, them 1/24, then 1/48, and so on.
+We set this value here p_min, which will be a lower bound on the value of p.
+So that avoids the problem where p gets too low.
+Because if p gets too low, then essentially what will happen
+is that the node will never retransmit, and it will never
+know that it's actually ok to retransmit.
+And it could end up being shut out from the transmission
+or the use of that channel altogether.
+On the other hand, if it transmits the packet and everything is fine,
+then what it will do is increase its value of p.
+So it might double its value of the p.
+In this case, that would also lead to an exponential increase.
+And we're going to set a maximum value, p_max, which
+is going to limit the maximum probability the node can transmit at.
+And so these updates, then, assure that the value of p chosen by the node
+will lie somewhere between p_min and p_max.
+And that avoids the situation which could
+occur where one node starts to think that it has a lot of space,
+and so it starts transmitting a lot.
+Then, the other node tries to sneak in, but it
+keeps on getting hammered by the node that has been transmitting a lot.
+And so its value of p would go to 0 whereas the other 231 00:13:54,620 --> 00:13:56,400 node's probability, p, would go to 1.
+And that wouldn't be very fair.
+And so this setting of the limits p_min and p_max tries avoid that situation.

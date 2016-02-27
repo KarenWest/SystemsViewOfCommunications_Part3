@@ -1,0 +1,149 @@
+
+In this video, I'd like to talk about how
+we're going to organize our discussion of networks and networking.
+We're going to organize our discussion using the concept of layering.
+The reason we need to use layering is that networks
+are very complex entities.
+They consist of many, many different parts,
+for example, many different kinds of hosts, like servers, PCs,
+mobile phones. These hosts might be running a wide variety
+of different applications.
+There are routers also, and they might be
+connected by links via various different media, wireless or wired.
+There could be different kinds of communication protocols going
+on, as well as different types of hardware and different types of software
+in the network.
+And so the question then is, given all these different interacting parts,
+how can we organize the network and organize our discussion of it?
+And we're going to do that using a concept which we'll call layering.
+To introduce layering, what I'll do is I'll
+talk about a kind of every day example: air travel.
+So in order to get from one city to another by airplane,
+passengers have to travel up and down through the layers
+that I've identified here.
+So for example, if I want to travel from Hong Kong to New York,
+the first thing I need to do is buy the airplane ticket.
+Once I have my ticket, I can go to the airport.
+I can check in my bags, and get my ticket.
+And once I have my ticket, or the boarding pass, I can go to the gate
+where I can get onto the plane.
+Once I'm on the plane, it can take off.
+Once it's in the air, it can be routed from Hong Kong to New York,
+by different air traffic controllers, as it
+travels through different air spaces.
+Once I get to New York, the plane has to land.
+It goes to the gate.
+I unload.
+I get off the plane.
+Eventually, I get my baggage from baggage claim.
+And then, if I have a complaint or something like that,
+I might go back to my travel agent, who sold me the tickets,
+and give a complaint or something like that.
+So you can see that when I want to go from Hong Kong
+to New York, what I have to do is, I have to start out at this level.
+Go all the way down to this level where the airplane's flying.
+And then, in order to get off the plane and complete my journey,
+I have to go back up the layer here.
+Each one of these layers implements a different service.
+So for example, the travel agent here only handles selling me the ticket
+and dealing with the airline, telling the airline where do I want to go.
+And so, the travel agent, then, doesn't need
+to know really that much about what's happening in the lower layers.
+In particular, it doesn't really care how, for example, the pilot
+is flying the plane or how the pilot is talking to air traffic controller.
+The travel agent doesn't need to know any of those details.
+So the layering hides those implementation details.
+And yet, the travel agent relies critically on proper functioning
+down here, in order to be selling me the ticket.
+And all of these things have to work correctly, in order
+for me to be happy when I get to the end of my journey,
+so that the travel agent doesn't have any problems because I'm complaining.
+Now if I'm traveling through a system like the air travel system, which
+has this kind of layered structure, then each layer
+needs a particular piece of information about me,
+in order for it to do its job.
+For example, I might get my ticket and I'm sitting here as the passenger.
+Once I get to check in and I check my bag,
+the check in counter is going to give me a claim tag.
+So that's going to be attached to me, so I can eventually claim my baggage back.
+It will also give me a ticket, telling me my seat number and the gate number,
+so that when I get to the gate and I get onto the plane, I know where to sit.
+Now, once I'm on the plane, then air traffic control
+needs to schedule the take off of the plane, and the landing,
+and the routing.
+And so in order to do that, it doesn't really
+care about where I'm sitting in the plane.
+It just only cares about the plane overall,
+and in particular, we care about, for example, the flight number, so it knows
+where to route that particular plane.
+And so you can see that as I go down this hierarchy as I'm traveling,
+I get more and more information attached to me.
+But when I go back up, I don't need the information anymore.
+So for example, once I've landed and I get off the plane, then the only thing
+I really need at that stage is the claim tag, in order
+for me to claim my baggage.
+And then I can go on the rest of my journey.
+So what we can see here is that as I go down the path of the layers here,
+I get more and more information added to me.
+But when I go back up, this information is irrelevant,
+because I've gone beyond the scope of the services required
+by that particular layer when I moved back up.
+Why do we use layering?
+Well we use layering when dealing with a complex system, because it enables
+us to identify the different parts of that system
+and the relationship between them.
+It also eases maintenance and changes, or updates to the system,
+because changes in the implementation of one layer of services
+do not affect the rest of the system.
+So for example, if I make a change to the way I'm servicing the aircraft,
+it doesn't make any difference to the job that the travel agent is doing.
+And so, in this sense, it kind of limits the amount of information
+each layer needs to know about the other layers.
+And so it kind of compartmentalizes the network
+into a set of layers, which are more easily understood,
+because they're only handling one particular type of service.
+And so when we're going to talk about the Internet,
+then we're going to talk about a similar kind of layered structure
+here, where the Internet protocol stack consists
+of these five different layers of the application, transport, network, link,
+and physical layers.
+And each of these layers has a different function.
+So the application layer is the thing that runs the kinds of applications
+that we have on our hosts.
+For example, on my mobile phone I may access email or browse the web.
+When I browse the web, I need to get information from the web server
+over to my mobile phone, and that's handled by the transport layer.
+But that data has to travel through the network,
+because the web server might be located at a remote location in the network,
+and it (the data) has to route its way through that network.
+And so that's handled by the network layer.
+Of course, the network itself consists of point-to-point links
+between different routers, and so those kinds of links
+are handled by the link layer.
+And those links might be implemented with different physical properties.
+Some of them might be wireless links, some of them
+might be wired links, and so on.
+Very similar to the way we talked about with the airline example, every time I
+transfer from one layer to the next layer, I have to add new information,
+in order for the layer to do its job.
+So instead of having passengers, in the Internet what I have are messages.
+For example, something like an email message.
+So I might take that.
+And then if I want to transport the email message
+from the server to my phone, the transport layer
+has to add the information that it needs.
+And then, as I go down the stack, I have to add more and more information.
+And that information becomes irrelevant as I go back up the stack,
+when I eventually take that email message
+and then transfer it into the email client on my phone.
+So then, in conclusion, then what we're going
+to be doing in this part of the course, is
+we're going to be talking about networking.
+And we're going to be dividing our discussion of networking
+into a discussion of each of these different layers.
+In fact, we won't really discuss the physical layer.
+So we're just going to discuss these four layers here.
+And in fact, we're going to talk about them
+starting from the bottom up to the top.
+So we'll start with a discussion the link layer,
+and then finally conclude with a discussion of the application layer.

@@ -1,0 +1,83 @@
+
+Hello, and welcome back to our course, a System View of Communications
+from Signals to Packets.
+Right now, we're in Part 3.
+I'd like to start out by reviewing what this course is about in general,
+and then focusing in on what this particular part is
+going to be discussing in detail.
+In general, this course is discussing the question of how
+we transmit information wirelessly.
+For example, we might have a person-- let's
+say the person on the right-hand side, he
+wants to send a text message to the person over here on the left-hand side.
+The two people might be located a far distance apart,
+perhaps in two different cities, or perhaps
+even in two different countries.
+How does that information from the person on the right-hand side
+get to the person on the left-hand side?
+In order to address this question we've broken up all of this communication
+into three steps. In the first part of the course,
+we talked about the first part, which is the link from the phone to a base
+station.
+The base station is the place where the phone communicates locally.
+And we talked about what it takes to communicate from one point
+to another point.
+In Part 2, what we talked about is how we can have multiple users sharing
+access to the same base station or access point using a technique
+called frequency division multiplexing.
+Now in this part, Part 3, what we'll be talking about
+is this. Assume that the person on the right-hand side
+has been able to make a connection successfully to the base station.
+Now, in order for him to complete the communication,
+the text message at the base station on the right-hand side
+has to make its way all the way over to the base station on the left-hand side
+through a set of links between pairs of base stations.
+Now, critical to this is that the two base stations are not
+connected directly to each other,
+but they're connected over a network.
+So very specifically then, this part of the course
+is going to be talking about networks.
+In general, a network allows us to connect many users together.
+In this picture here, what we can see is a connection
+between a set of 11 base stations.
+The network itself consists of many links between those base stations.
+Each base station we will call a point or a node within the network.
+Now, if I have a network consisting of n users or n base stations-- in this case
+here, n is equal to 11-- then the number of possible connections
+between pairs of base stations is n times n minus 1 divided by 2.
+That's because every base station can make a connection to every other base
+station.
+Right?
+So that's n minus 1 connections.
+And since there's n base stations, it's n times n minus 1.
+And because I'm double counting connections
+from one base station to the other one and back again, I have to divide by 2.
+So in this particular case, if I have n is equal to 11 base stations,
+then the total number of possible connections
+is 55-- 10 times 11 divided by 2.
+What we can see here though is that the number
+of connections I've sketched out over here
+is actually much smaller than that.
+In this case, it's about 17.
+The reason for that is because if I make every connection,
+that doesn't scale well because, for example, two base stations could
+be located a very, very far distance apart from each other.
+And making that direct connection could require a very, very long cable.
+The other problem with that is that the number of connections
+is going to scale approximately as the square of the number of nodes
+in the network.
+So for example, if I went up to 100 nodes in the network,
+I would have about on the order of 5,000 connections, which is quite a few.
+And this would be very, very bad if I had billions of users
+that I needed to connect.
+And so, in particular then, this part of the course
+is going to be talking about how can we communicate over a network
+where not every point is connected to every other point.
+And so how can we pass messages from one point to another
+and make sure that they get to their correct destinations?
+And how can we ensure that that works even if the individual links might
+be unreliable?
+And finally, on this network-- of course,
+the reason we all connect to networks like the Internet
+is so we can run our applications--
+how do we run our applications upon or on top of this infrastructure?

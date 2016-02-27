@@ -1,0 +1,195 @@
+
+
+In this video, I'd like to talk about packet switching, which
+is the way that different hosts on the network
+can communicate or connect with each other.
+So, let's take a look at the example picture of the Internet
+that we had before.
+And let's assume that we have an email server down here,
+and there's an email message that I want to retrieve from my mobile phone,
+let's say, over here.
+And so we have to make a connection between the mobile phone
+and the email server so that the message can travel through the network,
+in order to get to my mobile phone.
+How does that take place, or how does that connection get established?
+There's actually two possible ways this can happen.
+One is called circuit switching. The other one is called packet switching.
+Circuit switching is actually a very old technology.
+It was used in the original wired telephone networks.
+In circuit switching, what you do is you establish a dedicated circuit
+or a connection between the two hosts.
+Most modern networks now, though, use a technique
+that is called packet switching.
+In packet switching, what we do is we
+divide the data that's going to be sent from one host to the other
+into a set of smaller, discrete chunks, which are called packets,
+and send those individually through the network.
+And so what I'll do is I'll talk about those two
+in a little bit more detail here.
+Let's look at circuit switching, first.
+In circuit switching, what happens is that, for example,
+if I want to make a connection from this email server up to my mobile phone,
+I'll establish a fixed or dedicated connection.
+And so what that means is that I need to establish, or reserve, resources
+at every step along the way, so that I know that I always
+have a connection available.
+Now this requires that I set up the connection in advance
+before I transmit any data.
+The way I do this, is I take my network resources
+and I divide them into smaller pieces.
+For example, if I have a link from here to here,
+and there are two people that need to use this,
+I would have to take this link and divide it in half.
+So half of the link would be available for one connection and the other half
+would be available for this connection over here.
+We've already seen ways of taking a link and dividing it in a fixed way.
+For example, we talked about in part two, the idea of frequency division
+multiplexing, where different network operators were allocated
+different parts of the radio spectrum.
+And those are fixed in advance.
+Now in order to make a connection from here to here, what I would do
+is I would take this connection here, split it in two, and then take this connection
+here, and split it in two,
+so that I can make a connection from this one to this one and this one
+to this one over here.
+Now the advantage of making that reservation
+is that I have guaranteed performance because that connection is always
+available to me, no matter when I want it.
+The problem though, is that if I'm not using
+that, for example, if I'm in a telephone conversation
+where I might not be talking all the time,
+I've reserved that connection, or that part of the connection,
+but I'm not using it.
+And so that can be a little bit wasteful.
+So there's no sharing of resources once I've reserved them.
+Packet switching seeks to overcome that.
+In packet switching, what we do is we take the data stream, the end
+to end data stream, and we divide it into packets.
+So for example, over here I have two computers here that have data streams
+and I divided those data streams here into four packets each.
+What happens is that users share network resources using a process
+called statistical multiplexing.
+In statistical multiplexing, what happens
+is that users transmit the information, as needed.
+So for example, if this one here has to transmit a packet,
+it will just go ahead and transmit it into the network.
+and this continues. And traffic is assumed random.
+So we might have this one transmitting for a while,
+and then after that this one might transmit.
+But there's no regular structure determining how this link is shared.
+So they just go ahead and transmit as they want, randomly.
+And so that's why we call it statistical multiplexing,
+where statistical refers to the randomness in the data stream.
+When any particular host, here, is transmitting,
+it actually has full access to the full length bandwidth.
+So it can transmit as fast as that link will allow.
+And when it's not transmitting, the link is free to serve other users.
+Now, in this kind of packet switching network,
+it turns out that there is no guaranteed performance.
+But it allows for better sharing of the resources.
+And also, it allows for easier scaling of the network
+to larger sizes, especially when the network is dynamic.
+In other words, we can add nodes or subtract nodes
+from the network in a rapid time varying kind of way.
+So it turns out that packet switching then
+is now the dominant technology used in networks,
+in order to connect two different hosts.
+The advantages of packet switching, in comparison to circuit switching,
+are that there is no division of the bandwidth into smaller chunks.
+To there is no dedicated allocation or reservation of those chunks.
+That allows for better sharing of resources.
+But it also introduces some additional issues that need to be handled.
+One of those issues is what's called resource contention.
+Remember that users can just transmit whenever they want.
+And so what could happen that even though users are transmitting randomly,
+there might be two users, even more users,
+that might want to transmit at the same time.
+So there might be a collision there.
+Or if many, many users are trying to transmit at the same time,
+they might exceed the available link resources
+that can handle the connection.
+The other issue is that it introduces the need for queuing,
+because if I do have the possibility of exceeding the link resources,
+what I might have to do is wait until the link is free
+in order to transmit my packets.
+And so I need some place to store the data, or a queue,
+in order to allow that data to wait for the link to be available.
+In order to get an idea of the relative advantage of packet
+switching versus circuit switching, let's look at one particular example.
+In this example, I'm going to assume that I have one link that
+can sustain 1 Megabit per second.
+And I'm going to share that among N users.
+Each of those users requires 100 kilobits per second when active.
+For example, you might think of people talking during a conversation,
+and when they're talking, then in order to transmit that information
+I need 100 kilobits per second.
+But even if they're talking, they're not talking all the time.
+So for example, in this example, we're going
+to assume that the users are randomly active 10% of the time.
+The question then is how many users can we
+support using packet switching versus circuit switching?
+Let's look at circuit switching first, because it's a little bit easier.
+For circuit switching, remember I have to make a dedicated reservation.
+And the size of that reservation that I need to make
+has to satisfy each user's demands.
+Since each user demands 100 kilobits per second when they're active.
+I have to reserve a section of this link with this size.
+And so, if I take 1 Megabit per second and divide by 100 kilobits per second,
+then what I get is that a maximum of 10 users can
+be allocated 100 kilobits per second sections of that link,
+at the same time.
+And so, the maximum number of users I can support with circuit switching
+is 10.
+But it's a little bit wasteful because those 10 users are not
+using those reserved portions of the link all the time.
+They're only using it 10% of the time.
+So 90% of the time, even though they have the reservation,
+they're not using it.
+And so the question might be, well, why can't somebody else use that part
+of the link, if they're not using it?
+And that's what packet switching tries to allow.
+And so remember in packet switching, people
+can just send their data as necessary.
+So for packet switching, we could potentially have many more users.
+For example, let's look at the case when we had 35 users.
+Now since there are 35 users, but each user is only active 10% of the time,
+then on average, we have 3.5 users who are trying to access this link.
+Remember, we can support up to 10 users.
+And so, on average, we're fine.
+The problem though, is that everything here is random.
+And so it could be that on average 3.5 users are trying to access the link,
+but occasionally 11 users might want to access the link, or 12,
+or 13, or maybe even all 35.
+And in that case, the link can't handle it,
+because it can only handle 10 users.
+And so the link will be overloaded if I have 11, 12, 13, all the way up to 35,
+users who are trying to access the link at the same time.
+But it turns out, that that's not very likely.
+We can calculate the probability that the link is overloaded
+by summing all of the probabilities that 11 users try to access the link,
+12 users try to access the link, and so on.
+So that summation is shown over there, on the right hand side.
+Inside that summation is the probability that little n users
+are trying to access the link.
+That's given by a binomial distribution.
+That's the same kind of distribution that we
+get when we're looking at coin flips.
+So for example, you can think of each user as being a coin.
+And they might be active randomly 10% of the time.
+So in order to determine whether a user is active, I just flip a coin.
+And I flip a coin with probability p is equal to 10% of coming up heads,
+indicating that the user is active.
+And then the question is, well, what's the probability
+that I flip the coin 35 times, once for each user, and I get 11 heads?
+And so that probability is given by the binomial distribution,
+which is shown inside that summation.
+If I take all of those terms, and sum it from little N from 11 up to 35,
+which are the cases when the link is overloaded,
+I actually get a very, very small number, less than 0.0004.
+And so overloading happens only occasionally.
+And if I can handle that occasional overloading--
+and we'll talk about strategies for doing that-- then
+packet switching allows for many more users.
+Here in circuit switching, I only had 10, but for packet switching,
+I can handle 35, or even more, assuming that I
+can handle that occasional overloading.

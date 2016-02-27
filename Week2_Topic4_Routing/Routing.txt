@@ -1,0 +1,65 @@
+
+Let's take a look at some of the general problems in routing
+and how we formulate them, and some of the general properties of the two
+routing algorithms that we'll study in more detail.
+So the routing problem is to find for a given node-- let's
+say A-- what is the best path from that node A to all
+the other nodes in the network?
+So this is a global problem, because we want
+to know something about the entire network
+and how to get to any other node.
+But what we'd like to be able to do is use
+as much local processing and local information as possible,
+so that we keep the scalability of the network.
+So when we say something like this-- what
+is the best path from node A to every other node-- what do we mean by "best?"
+And so for routing, typically what we talk about
+is something which we call shortest path routing.
+So I show you a small network here consisting of five nodes.
+All of the links between different nodes are labeled by a particular cost,
+and so in a practical setting, you can think about this cost
+as being the delay.
+So for example, from A to B, you incur a delay of 1,
+so that's a relatively fast link.
+But, for example, from B to C, you incur a cost of 4,
+so that's a relatively slow link.
+And so every node then wants to find the paths to the other nodes that
+have minimum cost.
+Now we're going to assume that the costs are additive
+So for example, if I go from A to B to C, then the cost would be 5-- 1 plus 4.
+And so then if I looked at the possible paths to C,
+I can say, for example, look at two of them: from A directly to C,
+that would be a cost of 2, or ABC, that would be a cost of 5.
+In this case, the network would prefer to go from A to C directly.
+Now what we'd like to be able to do is solve this problem for all
+of the nodes that can be reached by A. We're
+going to study two algorithms for doing this, and both of them
+are going to follow a similar kind of plan.
+So the plan will be as follows.
+What we'll do is we'll follow a three-step procedure
+where periodically we're going to determine the live neighbors.
+This means we want to know which neighbors, which nodes in the network
+are our neighbors and whether they're functioning.
+And so in order for the network to update its status, what happens
+is that nodes periodically send packets, which
+we call HELLO packets, to their neighbors to tell them basically,
+yes, I'm alive.
+Now that's just tells the node who its physically connected neighbors are,
+but in order to get global information, we
+have to propagate more information than that.
+And so that takes place in the advertisement step.
+And so the different algorithms that we'll talk about
+will propagate different kinds of information in different ways,
+but this happens periodically as well, because sometimes that information
+can change.
+In this course, we'll just study the case where the information is static,
+but the algorithms that we'll study can be
+extended to handle dynamically changing environments as well,
+although the analysis becomes much more complicated.
+Now once I get some information from my neighbors, what I have to do then
+is integrate that information together in order
+to find out the routing through the network,
+or at least find a forwarding table that I
+can use that will give me the links that I send packets on that
+will be, in some sense, the best links to send those packets out
+on if they want to reach their desired destination.
