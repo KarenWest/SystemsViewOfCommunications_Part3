@@ -1,0 +1,76 @@
+﻿tx_msg = 'Hello!';           % text message to be transmitted
+
+p_loss = 0.4;         % error probability
+d_min = 2;            % minimum delay in unit of time-slot
+d_max = 5;            % maximum delay
+time_out = 30;        % time out
+
+% create the packets
+tx_bs = text2bitseq(tx_msg); 
+send_packet_list = packetize(tx_bs);
+
+send_packet_num = 1; % packet number to send
+num_packets = size(send_packet_list,1);
+
+
+% initialize list of received packets
+receiver_packet_list = [];
+
+% initialize the transport layer parametters
+start_transport(p_loss, d_min, d_max);
+
+
+
+run  = true; % set to false when the whole message has been sent
+while run,
+    %
+    % sender stop and wait protocol
+    %
+    
+    % If the timeout has expired, send is set to true
+    send = timeoutExpired();
+        
+    % check for ACK of previous packet
+    % send_ack is empty if no acknowlegment has been received
+    send_ack = sender_get_ack();
+             
+    % % % % Revise the following code   % % % %
+    if ~isempty(send_ack)
+        ack_num = binvec2dec(send_ack);
+        if ack_num == send_packet_num,
+            % successful package reception, send next packet
+            send_packet_num = 1;
+        end
+        if ack_num == num_packets;
+            % stop because all packets received
+            send = false;
+            run = false;
+        end
+    end
+    % % % % Do not change the code below % % % %
+    
+    % send a new packet
+    if send
+        packet = send_packet_list(send_packet_num,:);
+        sender_send_packet(packet);
+        resetTimeout(time_out);
+    end
+
+    %
+    % end of sender stop and wait protocol
+    %
+    
+    % execute one iteration of receiver
+    receiver_packet_list = receiver_stopwait(receiver_packet_list);   
+      
+    % execute one iteration of transport layer
+    if step_transport(),
+        % stop because max number of iterations reached
+        run = false;
+    end
+end
+
+rx_msg = reconstruct_msg(receiver_packet_list)
+
+% plot the traffic in the network
+transmission_display();

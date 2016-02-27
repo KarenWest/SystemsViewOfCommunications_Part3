@@ -1,0 +1,61 @@
+﻿%% code
+% Simulation for the stop and wait protocol
+
+
+tx_msg = 'PACKET';           % text message to be transmitted
+
+p_loss = 0.4;       % error probability
+d_min = 2;          % minimum delay in unit of time-slot
+d_max = 5;          % maximum delay
+time_out = 30;      % time out
+
+tx_bs = text2bitseq(tx_msg);
+
+% % % % Revise the following code   % % % %
+
+send_packet_list = [0 0 0 0 0 0 0 1 ...
+                    0 0 0 0 0 0 0 1 ...
+                    0 1 0 1 0 0 0 0];
+
+% % % % Do not change the code below % % % %
+
+% initialize list of received packets
+receiver_packet_list = [];
+
+% initialize the transport layer parametters
+start_transport(p_loss, d_min, d_max);
+% initialize sender
+sender_stopwait(send_packet_list,time_out);
+
+run = true;
+while run,
+    % % % % sender % % % %
+    % execute one iteration of sender
+    [done, noSentPackets ] =sender_stopwait();
+    if done
+        % all packets sent
+        run = false;
+    end
+    
+    % % % % receiver % % % %
+    % execute one iteration of receiver
+    receiver_packet_list = receiver_stopwait(receiver_packet_list);
+    
+    % % % % simulation step % % % %
+    
+    % execute one iteration of transport layer
+    if step_transport(),
+        % stop because max number of iterations reached
+        run = false;
+    end
+end
+
+display (['Simulation Time: ' num2str(getSimTime())]);
+display (['Numb. of packets sent correctly: ' num2str(noSentPackets )]);
+% todo: manage duplicated and/or unordered data
+rx_msg = reconstruct_msg(receiver_packet_list)
+
+% plot the traffic in the network
+if noSentPackets>0
+    transmission_display();
+end

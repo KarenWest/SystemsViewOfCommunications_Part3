@@ -1,0 +1,99 @@
+﻿%% code
+% Simulation for the stop and wait protocol
+
+
+tx_msg = 'PACKET';           % text message to be transmitted
+
+p_loss = 0.4;       % error probability
+d_min = 2;          % minimum delay in unit of time-slot
+d_max = 5;          % maximum delay
+time_out = 30;      % time out
+
+tx_bs = text2bitseq(tx_msg);
+
+% % % % Revise the following code   % % % %
+increment = 0;
+data = [];
+lastSeqNum = dec2binvec(length(tx_msg));
+disp(lastSeqNum);
+send_packet_matrix = [length(tx_msg):24];
+n_nodes = size(send_packet_matrix,1);
+send_packet_list = send_packet_matrix;
+%disp(send_packet_list);
+send_packet_cell = cell(n_nodes,1);
+send_packet_list = [0 0 0 0 0 0 0 1 ...
+                    0 0 0 0 0 0 0 1 ...
+                    0 1 0 1 0 0 0 0];
+k = [1:length(tx_msg)];
+packetSeqNums = dec2binvec(k);
+%disp(packetSeqNums);
+index1 = 1;
+index2 = 8;
+increment = 8;
+for n = 1:length(tx_msg)
+    packetSeqNum = packetSeqNums(n,:);
+    data = tx_bs(index1:index2);
+    %disp(packetSeqNum);
+    send_packet_cell{n}.a = packetSeqNum;
+    send_packet_cell{n}.b = lastSeqNum;
+    send_packet_cell{n}.c = data
+    %send_packet_list(n,:) = horizcat(packetSeqNum,lastSeqNum,data);   
+    %disp(send_packet_cell{n});
+    index1 = n + increment;
+    index2 = index1 + 7;
+end
+
+send_packet_concatCell = {send_packet_cell{1},send_packet_cell{2},send_packet_cell{3},send_packet_cell{4},send_packet_cell{5},send_packet_cell{6}};
+send_packet_convMatrix = cell2mat(send_packet_concatCell);
+for n = 1:6
+    %disp(send_packet_convMatrix(n));
+    send_packet_list(n,:) = horzcat(send_packet_convMatrix(n).a, send_packet_convMatrix(n).b, send_packet_convMatrix(n).c);
+end
+%send_packet_list = horzcat(send_packet_convMatrix(1)
+disp(send_packet_list);
+% % % % Do not change the code below % % % %
+
+% initialize list of received packets
+receiver_packet_list = [];
+
+% initialize the transport layer parametters
+start_transport(p_loss, d_min, d_max);
+% initialize sender
+sender_stopwait(send_packet_list,time_out);
+
+run = true;
+while run,
+    % % % % sender % % % %
+    % execute one iteration of sender
+    [done, noSentPackets ] =sender_stopwait();
+    if done
+        % all packets sent
+        run = false;
+    end
+    
+    % % % % receiver % % % %
+    % execute one iteration of receiver
+    receiver_packet_list = receiver_stopwait(receiver_packet_list);
+    
+    % % % % simulation step % % % %
+    
+    % execute one iteration of transport layer
+    if step_transport(),
+        % stop because max number of iterations reached
+        run = false;
+    end
+end
+
+display (['Simulation Time: ' num2str(getSimTime())]);
+display (['Numb. of packets sent correctly: ' num2str(noSentPackets )]);
+% todo: manage duplicated and/or unordered data
+rx_msg = reconstruct_msg(receiver_packet_list)
+
+% plot the traffic in the network
+if noSentPackets>0
+    transmission_display();
+end
+
+maybe try?
+dr = bin2dec(fliplr(dec2bin(d,n))); % Bits in dr are in reverse order where n is the number of bits to be reversed and where 0 <= d < 2^n. 
+- See more at: http://compgroups.net/comp.soft-sys.matlab/how-to-do-bit-reversal-in-matlab/861916#sthash.MW4wnIQo.dpuf

@@ -1,0 +1,100 @@
+
+Next, we will see how we can use MATLAB program
+to simulate the performance of the transport layer.
+So we consider a communication network where we have two nodes,
+and we will build a logical or virtual
+end to end connection between the transport layer of the 2 nodes.
+We will make several assumptions.
+For example, we will assume the forward and backward
+links will have the same error probability,
+and also we assume the time will be measured in the unit of time slot.
+So essentially, we are considering a discrete time system here.
+And also, the propagation delay for both the forward and the backward links
+will follow a discrete uniform distribution between two parameters,
+minimum delay and maximum delay.
+And also, the timeout here is set to be an integer times of the time-slot.
+
+In this program, we will see how we can use MATLAB to simulate the performance of the transport layer
+because you are going to complete the programs by yourself in the online exercise.
+
+I will not talk about too much the details.
+The message we want to send from the sender to the receiver
+is a text message of the English word "packet".
+There are four parameters we can change for the simulation.
+The first one is the error probability.
+We set the error probability to be 0 here, which
+indicates that there will be no packets lost on the forward and backward paths.
+The minimum and the maximum time delay for forward and backward paths
+are set to be 2 and 5 respectively.
+Here, the timeout is set to be 10.
+So if the error probability is 0, we know
+that there will be no packets lost.
+And if the timeout 10 here is greater or equal to the maximum round trip time,
+we know that there will be no retransmission.
+So we create a breakpoint here and run the program.
+Indeed, we found that the received message is exactly the same
+as the transmitted message.
+We have a program transmission display here,
+which can tell us exactly what happened, so we click Continue.
+In this figure, we have two rows of characters.
+In a first row, which is labeled by the green line,
+we can identify the time-slot, at which the packet was sent from the sender.
+And for the second row, which is labeled by the red line,
+we can identify the time-slot at which the packet was
+received by the receiver.
+So what happens is the packet P was sent at time-slot 1,
+and it successfully reaches the receiver at time-slot 6.
+The ACK packet was sent.
+It successfully reaches the sender, and then the new packet
+was sent, acknowledged, sent, acknowledged.
+So we have perfect reception at the receiver site.
+Now, if we change the timeout from 10 to 5, let's see what happens.
+Obviously now, for the received message, we have several duplicate packets.
+Now, what's the region?
+We go back to this figure.
+We can see that because the error probability is set to be 0,
+so all packet should arrive at the receiver
+and all ACK packets should be able to arrive at the sender.
+However, what happens here is at time-slot 1, packets P was sent.
+It successfully reaches the receiver, and then the ACK successfully
+reaches the sender.
+So the second package was sent.
+However, for the second packet, although it successfully
+reaches the receiver, by the time it reaches the receiver, the timer stops.
+That means the sender makes an assumption that the first packet A was lost.
+ So it retransmits the same packet A again.
+That's why we have retransmission and the duplicate packet.
+The comparison between the first two scenarios
+tells us if the channel is relatively good.
+So if the error probability is set to be very small, say 0,
+it's better we select a larger timeout.
+Now, let's change the timeout back to 10,
+but this time I will set the error probability to be 0.4.
+So this tells me that the channel is not good.
+And we are going to have lots of lost packets.
+Let's run the program.
+So obviously, this time, we also have lots of duplicate packets
+at the receiver side.
+Let's look at the figure.
+What happens now is at time-slot 1 packet p was sent?
+However, due to the bad channel, the packet could not reach the receiver.
+So by the time the timer stops, the sender
+could not receive the ACK packet.
+So it sends it again and again.
+ That's why we have many retransmissions and many duplicate packets
+for this case.
+Recall what happens for the first two scenarios.
+We can reduce the number of retransmissions
+by increasing the timeout.
+Let's see whether this helps for the third scenario.
+So we change the timeout from 10 to 30.
+We run the program again.
+Obviously, for this scenario, increasing the timeout will not help.
+Why?
+It is because all the retransmission and the duplicate packets
+is not because of the small timeout, it is because of the bad channel.
+In fact, for this case, if we increase the timeout from 10 to 30,
+there will be unnecessarily waiting for the lost packets.
+So the comparison between the last two scenarios
+tell us if the channel is relatively bad,
+it's better we use a smaller timeout.

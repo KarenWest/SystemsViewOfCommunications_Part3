@@ -1,0 +1,96 @@
+
+Hello everyone.
+Welcome to the lab demo for lab 3.
+In Part 3 of this course, we have been focusing on the layered protocol
+structure to provide service for a communication network.
+We have known that the physical layer mainly
+deals with the bits "On The Wire" issue, which has been solved in the first two
+parts of this course.
+In lab one, we talked about the link layer,
+which is about the data transfer between neighbors.
+And we introduced the ALOHA scheme or the ALOHA protocol,
+to handle the multiple access issue.
+In lab two, we talked about the network layer, whose major responsibility
+is about the forwarding and routing of a packet from the source
+to the destination.
+And we introduced the Dijkstra’s algorithm to find the shortest path.
+Today we will talk about the transport layer,
+whose major responsibility is to build a logical communication
+between processes.
+So what do we mean by logical?
+Consider the communication network here, where
+we have two nodes who want to communicate with each other.
+And the transport layer of the two nodes will
+try to build a logical end-to-end transport.
+So we can regard logical here as virtual.
+So basically the two transport layers will
+try to build a virtual link between the two nodes.
+It does not care what kind of modulation schemes
+is used in the physical layer.
+It does not care what kind of Multiple Access Protocol
+is used in the link layer.
+It even does not care how we set up the path
+between the sender and the receiver.
+It only cares about how to provide a reliable end-to-end connection
+between the two nodes.
+So how can we provide a reliable end-to-end communication?
+We need to guarantee several things.
+For example, we should guarantee that the sender does not
+send packets at a speed which is much higher than what
+the receiver can handle.
+And also, we should guarantee that the packet is successfully
+received by the receiver.
+So now let's see how we can achieve that purpose.
+We will introduce the stop-and-wait protocol.
+Consider the case where we have one sender, one receiver.
+We will use the two yellow lines here to represent the timeline.
+So at a given time instance, the sender will send a packet to the receiver.
+The packet will go through the forward path and reaches the receiver.
+Once the receiver receives the packet, it
+will send an acknowledgement packet, or the ACK packet back.
+The ACK packet will go through the backward path and reaches the sender.
+So the sender now knows that the packet is successfully
+received by the receiver, so it will send a new packet.
+And this process will go on and on.
+So it seems that the stop-and-wait protocol works well.
+However, we do have some issues.
+For example, it is possible that after the packet is sent from the sender,
+it is lost on its way from the sender to the receiver.
+And it's also possible that although the packet successfully
+reaches the receiver, however, the ACK packet is lost in the backward path.
+For both these two scenarios, the sender will stop and wait forever.
+So that means the communication process will stop.
+So how can we solve this issue?
+For that purpose, we introduce another parameter, time-out.
+So at any time instance when the sender sends a packet out,
+it will also start a timer, if by the time
+the timer stops the ACK packet does not come back,
+the sender will make the assumption that the packet is lost.
+So it will retransmit the same packet.
+A similar thing happens for the second scenario.
+So when the packet is sent out, the sender will start a timer.
+If by the time the timer runs out, or the timer stops,
+the ACK packet does not come back, the sender
+will make the assumption that the packet is lost and retransmit the same packet.
+However, there is a difference between the two scenarios.
+Can you figure it out?
+Yes, because the second timeout was triggered
+by the loss of the ACK packet, not the loss of the original packet.
+So the sender packet, in fact, reached the receiver.
+So if the sender retransmits the same packet again,
+there will be a duplicate packet at the receiver side.
+And the receiver needs to know how to handle the duplicate packet.
+So next question is how can we choose the timeout number?
+For the first two scenarios, where the packet is lost on its way,
+if we choose the timeout to be too large
+then there will be unnecessary waiting for the lost packet.
+But this does not mean that we should choose
+a very small timeout. For example, if the timeout is smaller than the round trip
+time which is the time for a packet to go from the sender to the receiver
+and come back, what happens is, by the time the timer stops,
+the ACK packet will not come back, and this will trigger a retransmission.
+So if we make the timeout to be too small
+there will be unnecessary retransmissions.
+The selection of the timeout represents a trade-off
+between unnecessary waiting for the lost packets
+and unnecessary retransmissions.

@@ -1,0 +1,54 @@
+﻿tx_msg = 'Hello World!';  % text message to be transmitted
+
+p_loss = 0.25;       % error probability
+d_min = 2;          % minimum delay in unit of time-slot
+d_max = 5;          % maximum delay
+time_out = 30;      % time out
+
+tx_bs = text2bitseq(tx_msg);
+% create the list of the packets to be sent
+send_packet_list = packetize(tx_bs);
+
+% initialize list of received packets
+receiver_packet_list = [];
+
+% initialize the transport layer parameters
+start_transport(p_loss, d_min, d_max);
+% initialize sender
+sender_stopwait(send_packet_list,time_out);
+
+run = true;
+while run,
+    % % % % sender % % % %
+    % execute one iteration of sender
+    [done, noSentPackets ] = sender_stopwait();
+    if done
+        % all packets sent
+        run = false;
+    end
+    
+    % % % % receiver % % % %
+    % execute one iteration of receiver
+    receiver_packet_list = receiver_stopwait(receiver_packet_list);
+    
+    % % % % simulation step % % % %
+    
+    % execute one iteration of transport layer
+    if step_transport(),
+        % stop because max number of iterations reached
+        run = false;
+    end
+end
+display (['Simulation Time: ' num2str(getSimTime())]);
+display (['Number of packets sent correctly: ' num2str(noSentPackets )]);
+
+rx_msg = reconstruct_msg(receiver_packet_list);
+display(['The received message is: ' rx_msg]);
+
+% plot the traffic in the network
+transmission_display();
+
+% % % % Revise the following code   % % % %
+throughput = noSentPackets / getSimTime();
+% % % % Do not change the code below % % % %
+display (['Throughput: ' num2str(throughput) ' packets per slot']);

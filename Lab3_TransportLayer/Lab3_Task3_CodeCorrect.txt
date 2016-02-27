@@ -1,0 +1,68 @@
+﻿tx_msg = 'Hello World!';   % text message to be transmitted
+
+p_loss = 0.6;         % error probability
+d_min = 2;            % minimum delay in unit of time-slot
+d_max = 5;            % maximum delay
+time_out = 10;        % time out
+
+
+tx_bs = text2bitseq(tx_msg); 
+send_packet_list = packetize(tx_bs);
+
+% initialize the transport layer parametters
+start_transport(p_loss, d_min, d_max);
+% initialize sender
+sender_stopwait(send_packet_list,time_out);
+% initialize list of received packets
+receiver_packet_list = [];
+
+run = 1;
+while run,
+    % execute one iteration of sender
+    [done, noSentPackets ] =sender_stopwait();
+    if done
+        % all packets sent
+        run = false;
+    end
+    
+    % receiver
+    receiver_packet = receiver_get_packet();
+    if ~isempty(receiver_packet)
+        ack = receiver_packet(1:8);
+        receiver_send_ack(ack);
+        receiver_packet_list = [receiver_packet_list; receiver_packet];
+    end
+    
+    if step_transport(),
+        % stop because max number of iterations reached
+        run = 0; 
+    end
+end
+display (['Simulation Time: ' num2str(getSimTime())]);
+display (['Number of packets sent correctly: ' num2str(noSentPackets )]);
+
+rx_msg_1 = reconstruct_msg(receiver_packet_list);
+display(['The message before filtering is: ' rx_msg_1]);
+
+% % % % Revise the following code   % % % 
+revised_packet_list = [];
+npacket = size(receiver_packet_list,1);
+last_deliv = 0;
+for c=1:npacket
+    packet = receiver_packet_list(c,:);
+    seq_num = binvec2dec(packet(1:8));
+    % compare to last_deliv
+    if seq_num == last_deliv+1,
+        revised_packet_list = [revised_packet_list; packet];
+        last_deliv = seq_num;
+    end
+end
+
+
+% % % % Do not change the code below % % % %
+
+rx_msg_2 = reconstruct_msg(revised_packet_list);
+display(['The message after filtering is: ' rx_msg_2]);
+
+% plot the traffic in the network
+%transmission_display();
