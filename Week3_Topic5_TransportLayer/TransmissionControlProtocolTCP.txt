@@ -1,0 +1,146 @@
+
+The transformation control protocol, or TCP,
+is an example of a transport layer protocol
+that ensures reliable and in order packet delivery.
+TCP has many properties and is much more complicated protocol than UDP.
+TCP is point to point.
+There's one sender application and one receiver application
+here, whereas in UDP, what's happening is you really just open up a port,
+and you just start receiving data.
+And you don't really care where that data is coming from.
+with TCP, you actually have a connection here,
+so it's connection oriented from a single sending application
+to a single receiving application.
+And so what typically happens with that is in order
+to set up that connection (that's called connection management)
+there's a handshaking process, where there's
+some information that is exchanged between the sender and the receiver,
+for example, some information about the state of the sender
+and the state of the receiver that's used to manage that connection.
+The connection between the sender and receiver is actually bi-directional,
+so either of the two parties can act as a sender or receiver at any time.
+So we can send information in both directions there.
+The key things that we'll be talking though
+are the fact that you can get reliable segment delivery.
+So that means that even though the network layer can
+be losing packets or datagrams, the TCP protocol
+has a mechanism based on package acknowledgements that
+enables it to recover from missing packets, or lost packets.
+The other thing that might happen is that packets might arrive out of order.
+And so TCP also has a mechanism to ensure
+in order packet or segment delivery.
+And that uses the idea of queues, or buffers,
+that are holding packets so that it can actually
+rearrange the packets as they come in to make sure
+that they arrive at the application in order,
+even if they don't arrive at the transport layer in order.
+So it's like you're collecting a bunch of things
+and then you reorder them before you pass them
+on up to the next higher level.
+And so in order to do that, you need to store the information, at least
+for a short time, in order to do that.
+Other properties of TCP, which we won't talk about in much detail,
+are flow control and congestion control.
+These two are included in order to ensure
+that the receiving host, or receiving application, and the connection itself,
+don't get overwhelmed with too much traffic.
+So what we'll focus on then is reliable data transfer.
+And so what are the key issues that need to be dealt with in order
+to ensure reliable transfer?
+And those are two things.
+One is the fact that packets might be lost.
+And the other one is that packets or datagrams might arrive out of order.
+And so let's just review some of the reasons that that might happen.
+So datagrams in the IP network can be lost for a multiplicity of reasons.
+One of those might be routing failures.
+Remember the network layer has to dynamically figure out
+what's happening in the current state of the network
+so it knows how to direct packets to the correct location.
+But what might happen is that the data that it
+has to base its routing decisions on is old.
+And for example, it sends it down a path, which maybe is no longer valid.
+And so the packet might be lost in that case.
+Typically what happens inside the router is that because a lot of data
+is coming in at one time, it has to store the data that it's getting,
+or the packets that it's getting, in order to figure out
+where to send each of them.
+And so because those queues or waiting lists are limited,
+they might overflow, in which case any new incoming packets would be lost.
+Also within the link layer itself, there might be
+repeated transmissions of the packet.
+For example, in the Aloha protocol, you repeatedly transmit the same packet
+until you go collision-free.
+But because of repeated collisions, you might lose a packet that way.
+And, in particular, there might be, on the link layer, bit errors
+that are introduced.
+And those might be uncorrectable.
+And so those would be detected in this.
+And the question is well, if I can't correct for them, what
+do I do in order to deal with that?
+Datagrams can also arrive out of order in the network.
+And that could be due to the fact that the datagrams
+might take different paths as the network changes its state.
+So some connections might be favored at one time,
+but other ones might be favored at another time.
+There might be congestion in the network at a certain node, which
+would lead to variable delays, especially
+if we have queues within the network.
+And so that might cause some variability in the time
+of arrival of different packets.
+And also we might actually have datagram duplication by the network.
+So for example, the datagram might be sent out
+and then actually arrive at the receiver twice, rather than just once.
+And so given these obstacles to reliable data transfer, what's
+our basic strategy that we're going to use to ensure reliable data transfer?
+And so what we're going to do is we're going to add
+additional information to the header.
+So what I show you on the right hand side there,
+is the TCP segment format.
+What you can see is it's considerably more
+complex than that associated with UDP, because of the fact
+that it's providing more services than UDP does.
+And we'll focus on reliable data transfer.
+And so the key fields that are added to the header
+in order to ensure reliable data transfer
+are the sequence number and the acknowledgement number.
+And so the sender and the receiver both have
+roles to play within this process of reliable data transfer.
+So for the sender, what it does is it will take a message from an application
+and it will break it up into a bunch of segments.
+Now those segments (for example different parts
+of a particular file or an email) have a particular order
+that they have to be delivered in.
+And so each of the segments then would be labeled with a sequence number.
+The sequence number might start from some offset,
+and that's included in the header as well.
+Now what it will do is it will send the segments out over the network layer,
+and it will store the segments that it has sent in a buffer.
+So that's a queue, or someplace where it stores, so it
+knows what segments it's sent out.
+Now what will happen is that when the segment gets sent out
+and gets to the receiver, the receiver will
+send an acknowledgement to the sender for each packet that it will have.
+And it will indicate which segment it received.
+So it will tell you what was the sequence number of the segment
+that it received.
+And so when the sender then receives that acknowledgement
+from the destination, it will then remove that segment from the buffer.
+And so the sender then knows that well, whatever I thought
+was still being sent, now I know that it was received.
+And so I can remove that from the buffer.
+But if I don't receive an acknowledgement
+after a certain amount of time, then I know that I sent this
+because it's stored in my buffer,
+and I can retransmit it after a certain amount of time.
+So that amount of time is called the time out.
+The receiver then will receive the segments from the sender.
+And those might be out of order.
+And so what the receiver will do is it will use that sequence number in order
+to reorder the packets before it takes that data
+and sends it back up to the application layer,
+so that when you get an email, for example, all of the words in that email
+are all in the correct order.
+So the end of the email doesn't occur before the email,
+even though the end of the email might have
+arrived before the start of the email.
+The transport protocol will take care of that problem.

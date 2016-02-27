@@ -1,0 +1,236 @@
+
+In this video, we'll be talking about the sliding window
+protocol, which is a way of increasing the throughput of a reliable transfer protocol,
+
+in particular, with respect to the stop and wait protocol
+that we studied before.
+So let's just recap what we know about the stop and wait protocol.
+So if you recall, the way the stop and wait protocol works is it
+has a number of packets that it wants to send.
+I'm going to number them by 1, 2, 3, 4, and so on.
+And what it does is it starts out with the first packet it wants to send.
+Sends it over to the receiver.
+It will take some time to get there.
+The receiver will then receive packet 1, and send an acknowledgement
+back to the sender.
+Once the sender receives that acknowledgement,
+it will then send the next packet,
+packet 2, which will go to the receiver, which will acknowledge.
+And then the sender will receive the acknowledgement, and so on.
+And so we saw that the throughput of the stop and wait protocol
+was relatively low.
+If the amount of time it takes for a packet to go out to the receiver
+and come back with the acknowledge is the round trip time RTT,
+then you can see that we're only sending one packet for every round trip time.
+So the throughput is just 1 over RTT.
+In fact, the stop and wait protocol is a way
+of ensuring reliable transport of packets, even
+in the case of packet loss.
+And so the stop and wait protocol will still work when there's packet loss,
+but what will happen is the throughput will go down.
+The throughput will go down by an amount 1 minus L, where L is the loss.
+So if the loss is 90% then the throughput will be only 10%
+of what it was without losses.
+Now, assuming that's the time for the sender to send the packet
+is relatively small, then you can see that what's happening
+is that the network is actually sitting here idle for most of the time.
+And so, the question is well can we use that idle time
+to improve how rapidly we can send packets?
+And so that's the role of the sliding window protocol.
+So for the sliding window protocol, what we have is we have a window of packets
+that we can send that don't have to have an acknowledgement.
+So in this case we have a window size of four.
+So we can send four packets, basically one after the other,
+where we don't have to get an acknowledgement before sending
+any of these packets.
+And so there's a small space here between the packets here
+that corresponds to the amount of time it takes the sender to send the packet.
+So if the sender takes this amount of time to send the first packet,
+then only at this point can it send the second packet.
+It takes this amount of time then it can send the third packet and so on.
+Then those go over to the receiver.
+Once the receiver receives this first packet what it does
+is it acknowledges that back.
+And now that the sender has received this packet
+here, it knows that packet one has been received correctly. Then what happens
+is it will advance the window, right?
+It knows that this one has been received.
+So only 2, 3, and 4 are not received or he doesn't know anything about
+whether 2, 3, and 4 were received or not.
+And so, since the window size is four, it can take that opportunity
+to send another packet, packet 5, out.
+Then what will happen is that when the acknowledgement for packet 2
+comes back, it can then send packet 6.
+So you can see here what's happening is that as the acknowledgements are coming
+back, the sender is then taking this window of four packets
+and starting out from 1-4 and then just sliding it down.
+So that's why we call this protocol the sliding window protocol.
+Now, these other packets, 3 and 4, are going to be received as well,
+or acknowledged as well.
+So we're going to get these packets here sent, 7 and 8,
+once those acknowledgements are received.
+And then what happens is that those will get sent over to the receiver.
+Received and acknowledged.
+The acknowledgement will come back then the sender can send some more.
+The receiver will acknowledge.
+The sender will receive those acknowledgements
+and send again and so on.
+And so, this general process of sending these packets one after the other,
+even before we know that the process of receiving packet 1 is complete,
+is known as pipelining.
+So what we're doing is overlapping multiple transmissions
+where we don't know whether the first one was complete or not,
+but we're just going to send the second one anyways.
+Now this works pretty well and it seems like what
+we've done is we've reduced the amount of time
+that the channel is idle. And so what we can do
+is then ask, well, does that improve the throughput?
+It seems like it does.
+The question though is what happens when there is a packet loss?
+And so let's look at the problem of handling packet loss at the sender.
+So let's assume that we've sent 4 packets, just like we did before.
+Those four packets are received by the receiver.
+The receiver sends back the acknowledgement.
+But what happens is that the acknowledgment for packet 4
+is lost in the network.
+Now the acknowledgements for 1, 2 and 3 will be received
+and so then the sender will send 5, 6, 7.
+But now the window contains 4, 5, 6, 7, and it's waiting for those packets
+to be acknowledged.
+And what it will do is it will check periodically
+to make sure whether it's been waiting a long time for any one of those packet
+acknowledgements.
+And so here for, if it's waiting for the acknowledgement for packet 4,
+it will have to wait forever because that acknowledgement was lost.
+And so what the sender will do
+is it will wait for a certain amount of time, RTO, which
+is called the retransmission timeout.
+And then if it hasn't received the acknowledgement for packet 4
+by the retransmission timeout, what it will do is it will retransmit packet 4.
+And so when it retransmits packet 4 over the network, what you can see
+is that at the receiver that I'm going to get a duplicate packet.
+I received packet 4 twice:
+Once here and once here.
+Now this problem of duplication was also found in the stop and wait protocol.
+We also saw there that if an acknowledgement was lost,
+then the stop and wait protocol will resend the packet
+and the packet will be duplicated at the receiver.
+Now, as this packet here, packet 4, is being
+sent over the network, of course at the same time
+the acknowledgements for 5, 6, and 7 are coming back.
+And so then the sender can transmit the next set of packets
+and so on.
+And so if we work through the way that the receive/acknowledgement
+protocols will work, at this point here
+when the acknowledgement for packet 4 comes back,
+the next packet that's going to be sent is going to be
+the one after packet 10, which is packet 11.
+So the sender has to keep track of which was the last set of packets that
+it sent so it's not going to just take the next packet after the one
+that it receives, but it's going to send the next packet
+after the last one it sent.
+But you can see here that all of the packets here in this case
+were received in order, but there was a duplication here of packet 4.
+So one of the things that we can see then with the packet loss
+is it can introduce duplication of packets,
+just like we saw in the stop and wait protocol.
+There are other things that can happen as well, though.
+So not only can packets be duplicated, but we can also
+have packets received out of order.
+And in this case, an example of that is shown over here.
+So what happened here was that the packet 4 was sent out
+and the packet that was sent out was lost.
+So that never appears at the receiver.
+And so the receiver then only acknowledges
+1, 2, 3, which we assume get through the network.
+The sender then sends the packets 5, 6, 7, over the network.
+But it waits for the retransmission timeout for packet 4,
+realizes that it doesn't get it,
+and so it resends packet 4.
+But now, what happens you can see here is that packet 4 was not
+received in this case here.
+And so now packet 4 occurs here.
+And so the first time we see packet 4 is actually after we've
+received packets 5, 6, and 7.
+So packet loss then can cause packets at the receiver to be either duplicated
+or received out of order.
+And so, remember what the receiver has to do in the reliable transport
+protocol is not only ensure that all packets get to the application,
+but it has to ensure that all packets get to the application in order.
+So in this case here, even though the receiver has received packet 5,
+it cannot send packet 5 to the application yet because the last one it
+sent to the application was packet 3.
+So it has to wait till it receives packet 4 before it
+can send the rest of the packets here.
+So it has to store these packets here, 5, 6, and 7, until it gets this one.
+And once it receives packet 4, then it can send 4, 5, 6, and 7.
+And then wait for a packet 8 and so on, in this protocol here.
+How many packets does the receiver need to be
+able to store in order to ensure that it delivers packets in order
+to the application?
+It turns out that actually the number of packets that it needs to store
+is unlimited.
+And the reason for that is that retransmissions may also be lost.
+So here, let's see another example here.
+Very similar to the previous one.
+Packet 4 has gone out.
+It was lost inside the network.
+And so after the retransmission timeout, RTO, the sender resends packet 4,
+that one also gets lost.
+And then, here, it waits for another retransmission timeout, RTO.
+And then resends packet 4.
+And then finally packet 4 gets received by the receiver.
+And now what you can see is that the receiver has actually
+received now 6 packets.
+Before it received the next packet it needs to deliver to the application.
+But you can imagine, though, what could happen
+is that this transition here, packet 4's transmission, could also be lost.
+In which case, it would receive another three packets
+before the sender resends packet 4. That one could also be lost.
+And so, because you could potentially lose all of the retransmissions,
+the number of packets that you'd have to store
+would get bigger and bigger and bigger.
+Of course there is a finite limit, and after a while this would fail
+and you'd have to do something else to handle that.
+Finally, let's examine the throughput of the sliding window protocol.
+For this analysis, what we're going to assume is that there's no packet loss
+and that the round trip time, RTT, is constant.
+Now remember in the stop and wait protocol
+when we analyze the throughput, in one round trip time,
+RTT, we only send 1 packet.
+So in that case the throughput was 1 over RTT.
+Now within one round trip time we're sending W packets,
+in this case W is equal to 2, and so now the throughput is W divided by RTT.
+So in this case here, with W is equal to 2, the throughput would be doubled.
+Now this seems to imply then that we could arbitrarily
+increase the throughput simply by increasing W (to be) arbitrarily large.
+However, there is a limit to that and that limit is given
+by the rate of the slowest link, B.
+So, remember the network.
+There's multiple links in the network.
+One of those is going to be the slowest one.
+And that's going to the limit the amount of time it takes for one packet
+to pass through that particular link.
+So I'm going to call the rate that it can send in packets per second, B,
+And so then the amount of time it takes for that packet
+to pass through that slowest link is 1 over B.
+So in order to send one packet, it has to take 1 over B.
+So then, to send two packets it has to take 2 over B, (for these packets) 3 over B, and so on.
+And so, the maximum window size, W_max, is limited by the fact
+that W_max times 1 over B can't be larger than the round trip time.
+So in the best case, W_max times 1 over B is equal to the round trip time.
+And if I just take B over to the other side there, then what you can see
+is W_max is equal to B times the round trip time.
+And so if that's the maximum that W can be, then since the throughput
+is just W divided by RTT, that has to be less than B times RTT divided by RTT,
+or B. So the maximum throughput of the sliding window protocol
+is equal to the speed, or the rate, of the slowest
+link in the network between the sender and the receiver.
+Now, in the case of packet loss, that throughput is going to be lower.
+In fact, it's going to be lower by the same factor we saw in the stop
+and wait protocol.
+But in this particular analysis what we've done
+is we've assumed no packet loss and constant round trip time.
+And so the analysis becomes slightly more complex,
+if the round trip time is not constant (it's random.)
+but similar kinds of considerations still apply.

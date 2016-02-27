@@ -1,0 +1,237 @@
+
+
+The User Datagram Protocol, or UDP, is one of the commonly used transport
+protocols on the internet.
+The User Datagram Protocol is a very, very simple internet transport
+protocol, sometimes called a no frills protocol.
+Its simplicity is one of its key advantages.
+So it's really just a very minimal extension
+of the functions of the IP network layer.
+Remember, the IP network layer provides for communication between hosts.
+And so the UDP provides for communication between applications
+running on those hosts.
+And it really adds very little to that, except for ensuring
+communication between applications.
+And so, the UDP protocol has the same disadvantages as the IP protocol.
+In particular, segments in that protocol may be lost or delivered out of order.
+Nonetheless, it has a lot of applications,
+especially in situations where, if we lose packets,
+it doesn't really make that much difference,
+where it's more important that we actually
+get the packets in a timely fashion.
+So for example, real-time systems where delay might be critical
+would use the UDP protocol.
+Multimedia streaming protocols are using the UDP protocol, typically,
+because of the fact that when you're watching a video
+and you miss one particular small part of it,
+maybe that's not such a important issue as making sure
+that the video keeps running.
+And so, those kind of applications would then
+be loss tolerant but still rate sensitive,
+because you want your video to go at a constant rate.
+Other ones would be the domain name system,
+which we'll talk about a little bit later on
+when we talk about applications,
+but this is the system that provides for decoding of names on the internet.
+And also, the Dynamic Host Configuration Protocol, or DHCP,
+which we talked about when we talked about the network layer.
+The key services that UDP provides on top of the network layer
+are multiplexing, demultiplexing, and error detection.
+All of these rely upon information that's added to the application data
+when we construct the UDP segment format,
+as shown on the right hand side over there.
+We add a header to the application data. It's a quite short header,
+and it contains four fields:
+the source port, destination port, the length, and the checksum.
+And it's the first two of these that are used when we talk
+about multiplexing and demultiplexing.
+And so, those are the source port number, and the destination port number.
+
+To illustrate, let's take a look at multiplexing first.
+And here we show you an example of a sending host here,
+for example, your laptop computer.
+And that's running several applications simultaneously.
+So for example, those applications might be email, your web browser, and perhaps
+Skype (you're talking to your friend)
+Now, each of those applications is called a process,
+and I abbreviate those with P and a number.
+And those processes, or applications, all talk to the transport layer
+through something which is called the socket.
+So the socket you can kind of think about
+as being a door connecting the application to the transport layer
+where the application passes all of its information through that door,
+or that socket.
+And in this case here, all of the three different applications
+have their own socket associated with it.
+Each of those sockets is labeled with its own number, or in this case here
+I use letters A, B, and C. Now, in order to ensure
+application-to-application communication, what we have to ensure
+is that the host here, which has multiple applications on it,
+when it sends to another host, let's say
+over here, which also has multiple applications running on it, it has
+to know which source port it's coming from,
+and which destination port it's going to.
+For example, if application here, P3, wants
+to talk to application P2, which is running on host 1, what it will do
+is when it sends that data out through this single pipe over here,
+it will have to label that by adding that additional header information
+indicating that it came from source port A
+and is going to destination port B on host 1.
+Now, you notice here that the information
+about the IP address of the sending host and the receiving host
+is not included here, because that information is
+added in the network layer.
+And so, as another example, we might have application P4 here
+talking to application P8.
+And so, in that case the header information would contain information
+about source port B and destination port A. And P5 talking to P7,
+the source port would be C, and the destination port would be port B.
+And so, what you can see here then is that all of these applications
+then are all going through this single network pipe out over here.
+But they're all being shared through this transport layer.
+And so, that process of sharing that channel is known as multiplexing.
+Now, at the receiving end, for example, if we
+say the host here is now the receiving host,
+it might be receiving information from different applications running
+on different hosts.
+And all of that information coming from all
+of these three different hosts and applications
+running on those different hosts, are all
+going to be coming through this same pipe over here.
+And so, the demultiplexing process is taking information
+coming from this single pipe and sorting it out to the different applications
+running on this single host here.
+So for example host 1 here might be a running application
+P1 sending information to P3.
+And so, again, we'd have to have the labeling of the header
+to indicate the source port A and the destination port A.
+And you can see here, for example, the other applications here
+also sending their information to applications on the receive host.
+And the demultiplexing process is then taking all the information
+coming through this common pipe, and then
+sorting it out into different applications
+running on the receive host.
+So one analogy here that you might think about that might be useful
+is that of a mail room.
+For example, at the university here we typically get our mail
+coming in through one truck.
+And all of those letters that are coming in,
+you can think about those as being segments in the UDP protocol.
+And what happens is that those are all jumbled up.
+I have many different people working at the university.
+They're all getting mail.
+And so, what has to happen is that when the mail truck comes,
+that single mail truck comes in, our mail room
+then has to take all the mail that's coming in
+and distribute it to the different people within the university.
+And so, you can kind of think about these being different mail
+slots, and the applications as being different people in the university.
+And so, that's what the demultiplexing process is doing. It's really just
+taking all the packets or letters coming in here
+and distributing it to the different people, or the different applications.
+The second service provided by the UDP protocol is error detection.
+We've already seen error detection when we
+looked at the problem of correcting bit errors, or detecting bit errors,
+in Part 1.
+And there we saw that in order to do this error detection or error
+correction, we had to add additional information.
+In the UDP protocol, that additional information used for error detection
+is contained in the checksum.
+And so, in order to ensure that we can detect errors at the receiver,
+the sender has to do some error detection coding.
+And so, what the sender will do is it will actually compute this checksum.
+And the way it does that, it takes all of the information in the UDP segment,
+and it considers it as a sequence of 16-bit integers.
+So for example, the source port number is a 16-bit integer,
+the destination port number is a 16-bit integer.
+And so, you get a sequence of all these 16-bit integers,
+and it will just add all of those integers together.
+It will add it in a way that will generate another 16-bit number.
+And so, because of the fact that when I add two 16-bit numbers I might generate
+carry, what you have to do is take that carry and then add it to the LSB
+to maintain the 16 bits.
+And I'll give you an example of that shortly.
+Once it's added all that data together, it
+has kind of a summary of all the data inside that UDP segment.
+Then it will take the complement of that sum.
+So let's take a look at an example here where
+we assume that the segment data consists of only two 16-bit numbers.
+So here's two 16-bit numbers.
+And what it will do first then is add those two 16-bit numbers
+using binary addition.
+And so, if you perform that summation, you'll
+get this number here, which is now bigger than 16 bits
+because the 1 plus 1 over here generated a carry.
+Actually, there was a carry from here.
+So it was 1 plus 1 plus 1, generated a carry, which gave us 3, which is 1 1
+in binary.
+So now, you can see here these two 16-but numbers, when added together,
+gave us a 17-bit number.
+That's not always going to happen, but it happened in this case.
+And so, in order to maintain the 16 bits, what we do
+is we take this carry bit and we add it to the least significant bit.
+So we take this one, we add it to that one over there.
+And what that will do is then give us a new sum
+here where the 17-bit number here has now been turned into a 16-bit number.
+And then, what we can do is take the complement of all of those bits
+individually.
+That will give us this, which is the checksum.
+Now that checksum is the additional information
+that the sender adds to enable the receiver to do error detection.
+So when the receiver gets the UDP segment, what it will do
+is it will go through exactly the same process that the sender did.
+It will compute the checksum of the received segment,
+and it will compare its computed checksum with the checksum
+that's contained in the UDP segment itself.
+And if those two things are the same, then it
+will assume that there's no bit error, and it will just
+deliver the segment to the application.
+Now, these two things could be the same,
+the computer segment and the checksum segment could be the same,
+and there still could be errors.
+We saw examples of that when we talked about error detection and error
+correction coding in Part 1.
+But nonetheless, what we do know is that if they are different,
+then we know for sure that one or more bit errors has occurred.
+And in that case, what we do is we just discard the segment.
+We throw away that segment.
+And that means the segment there would be lost.
+And so, that's one reason why the UDP protocol is not reliable,
+because if there is a bit error during transmission,
+that segment is just discarded.
+So then in summary, the UDP protocol has several advantages
+that make it useful for applications, especially those
+where the exact contents are not that critical,
+but the content is time sensitive.
+Its advantages are that it's extremely simple.
+We saw that we really only added four numbers in the header
+there, and so because of that simplicity there
+tends to be less delay in the transmission via UDP.
+There's no need to, for example, set up explicit connections from one process
+to the other process.
+Really, what happens with UDP is that once you know the destination port
+number, you just take the data and you just send it into that port.
+So you don't have to set up any agreement or connection beforehand.
+If you have a UDP port open, you just take the data wherever it comes from,
+and you just send it into that port at the host.
+And so, that means that there's very, very little overhead.
+And remember, we saw that it was a very short header
+that we added, just 64 bits.
+And also, there's no congestion control.
+There's no control over how quickly we're sending information.
+So a application that's sending data over a UDP network
+can send information as quickly as it wants.
+What might happen is that the receiving end
+might be overwhelmed with that data.
+But what would happen in that case is that if it's overwhelmed
+it would just start dropping the segments that it can't handle.
+And we assume that there are some applications, for example,
+multimedia streaming where that's OK.
+So for all of these advantages, which really accrue from it simplicity,
+there are some disadvantages to the UDP protocol.
+Those are that segments may be lost or may arrive out of order.
+And those things are not corrected by the UDP protocol.
+You could try to correct for those in the application layer,
+but if you do want to correct for those and it's critical
+that you don't have those disadvantages, then what you do
+is you would look at a different kind of transfer protocol, for example TCP.

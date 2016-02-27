@@ -1,0 +1,212 @@
+
+
+How well does the stop-and-wait protocol work?
+Well, we know that it can reliably deliver packets,
+but how quickly can it deliver packets?
+In order to measure that, we consider the throughput.
+The throughput of the transport layer is measured
+in terms of segments per unit time.
+So the more segments that I can deliver within a certain amount of time, let's
+say 1 second, then the better the performance of that transport layer is.
+We're going to estimate the throughput as the reciprocal of T, the expected
+time between sending a packet and getting its acknowledgment.
+Because the minute we get the acknowledgment for that packet,
+then we send the next packet on its way.
+And so, if we know that time T, then the throughput is just 1 over T,
+because we're sending one packet every T seconds.
+In this analysis, we're going to consider
+only the effect of packet loss.
+So even though there is the possible effect in the network layer
+where the time that it takes for the packet to arrive at the receiver,
+and then the time for the receiver to send
+the acknowledgement back to the sender, can be random,
+we're going to assume that that's going to be constant.
+So there's no variability in the time to deliver
+a packet or its acknowledgement.
+And we're also going to assume that the time to transmit a packet
+is negligible in comparison to the total time it takes for us to send the packet
+and receive the acknowledgment back.
+So now let's start our analysis of the throughput
+by assuming that there are no losses.
+So in this particularly simple case, what
+happens is we send the segment out. It gets received.
+The acknowledgment comes back. We send the next segment out,
+and we receive that back.
+And so, remember, under our assumption, we're
+assuming that this time and this time are constant.
+And so, we're going to call the combined time
+to go out and back with the acknowledgement
+the round trip time, RTT.
+And for every packet that's going to be the same, because there's no losses,
+and all these times are assumed to be constant.
+So the time from sending the segment to a receiving its acknowledgement
+is just the round trip time.
+And so the throughput then is just 1 over that,
+or 1 over the round trip time.
+So for example, if the round trip time was two seconds, then
+our throughput would be 1/2, or half a packet per second.
+So this is a simple example because of the fact that we don't have any losses.
+So when we do have losses, then the problem
+is that the time that it takes for a packet to go out
+and to receive its acknowledgement is variable.
+That's because sometimes packets can be lost either
+going out to the receiver, or the acknowledgment can be lost.
+It doesn't really matter which of those happens. The analysis of the throughput
+is the same.
+So let's assume that the packet is lost on its way out to the receiver.
+Now in this case, what happens is that the packet is lost,
+so the receiver never receives it.
+It never sends the acknowledgment.
+So now, the sender then waits for the RTO, the retransmission timeout period
+before resending segment 1.
+Now, we're going to assume in this example
+that segment 1 is received by the receiver,
+the receiver sends the acknowledgement back.
+There's no packet loss in this case here.
+And now at this point in time the acknowledgement 1,
+or the acknowledgement for packet 1, has been received.
+And so, the time, you can see, is the combination of the RTO,
+plus an additional RTT, the round trip time.
+But this time here, for segment going out and acknowledgement coming back,
+is variable or random because of the fact
+that packets could have been lost here.
+If a packet was lost here, then I would have to wait another RTO,
+and then I would then perhaps get a packet or the acknowledgement
+back in the next RTT.
+Or I might have to wait many, many RTOs before I actually
+get the acknowledgment coming back.
+And so, in order to deal with this, we examine the two cases.
+Either the packet goes out and comes back right away after the round trip
+time, or there's a packet loss.
+And so, we're going to introduce a probability here L, of a packet loss.
+And so, this is going to be the round trip segment loss probability.
+So it's not just the probably that it's lost on the way out here,
+but it also includes the possibility that it can be lost on the way back.
+So wherever it occurs, there's some probability L
+that either the sending packet or the acknowledgement packet gets lost.
+And so now there's two possibilities for the time.
+If the packet is not lost, which occurs with probability 1 minus L,
+then the time is just this situation here.
+It's just RTT.
+If a packet is lost, then what happens is that I have to wait for RTO.
+And now, when I resend this packet, what's going to happen
+is that I am exactly at the same situation that I was over here.
+And so, now I have the time to get the acknowledgement for this packet here
+is also given by T. So the total time to get
+the packet back for segment 1
+is going to be the RTO plus the time it will take, T.
+So it's a little bit confusing perhaps because T occurs on both sides.
+But it doesn't really matter because we can solve for T very easily,
+as shown in this next slide over here.
+So in order to solve for T, what we're going to do
+is we're going to notice that on the right hand side of the equation
+we have an L times T. So we're going to move that L times T over
+to the left hand side of the equation.
+When we do that, we get a minus sign over there.
+And so, now you can see we've isolated the T on the left hand
+side of the equation.
+We divide through by 1 minus L. The 1 minus L cancels the 1 minus L
+next to RTT, and it also divides L next to RTO.
+And so, the final time that we get is going
+to be the round trip time plus a little bit extra.
+It's going to be L divided by 1 minus L times the RTO, the timeout.
+And so, you can see here that if we assume that there are no losses,
+then we get exactly the same expression that we had before.
+If there's no losses, then L is equal to 0,
+and the time is just the round trip time.
+But if there are losses, then the time is
+going to get bigger by an amount that depends on L.
+And so, then the question is, how do we choose RTO?
+What we can do is we can, first of all, notice
+that if we have a loss probability, and we look at how the dependency of T
+depends on the loss probability, we can see that it
+increases with a loss probability.
+As I said before, if the loss probability is 0 over here,
+then we just get the round trip time.
+But then, as the loss probability increases,
+we get an amount that increases with the loss probability,
+eventually reaching infinity because, if all the packets are lost,
+then we just have to wait forever in order for a packet
+to be delivered successfully.
+And so, now what we can see here is that, according
+to the expression that we had before, if I have the loss probability of 1/2,
+then the time here T is equal to the round trip time plus RTO,
+which is the timeout time.
+And so, if we want to make the time that we
+have to wait for the acknowledgment to be received to be small,
+we want to make RTO small.
+However, we don't want to make it too small,
+because typically what we need to do is choose the timeout time
+to be bigger than the round trip time.
+Because what we want to do is we want to send the transmission,
+or resend the packet after a certain amount of time.
+But we want to wait at least the round trip time.
+We don't want to send it before that because we're still
+waiting for the packet to come back in that case.
+We could do it and the protocol could handle it,
+but that would just be a waste because we're still waiting for the packet.
+And so, we shouldn't make any decisions about what to do then.
+And so, this is assuming that the round trip time is known.
+If the round trip time was actually random, then what we should do
+is choose the timeout time, RTO, so that the probability
+of unnecessary retransmissions is low.
+So we want to make that relatively large.
+And so, in order to do this, we would probably
+need to estimate the statistics of RTT
+what's the average round trip time, what's the variance of that.)
+in order to assign a value of RTO that makes
+the probability of a retransmission as small as possible.
+So now, given that, the question is, well,
+what is the best case throughput of the stop and wait protocol?
+So let's assume that the round trip time is constant.
+So if the round trip time is constant, then we
+should just wait for that round trip time.
+And if we don't see anything by the round trip time,
+then we know that something must be lost,
+because we're assuming there's no variability in the round trip time.
+And so then, the timeout period should just
+be a little bit longer than the round trip time,
+because the minute we wait the round trip time and we don't see anything,
+then we know the packet was lost.
+And so, according to our previous expression,
+we had this thing here: that the expected time
+between the sending of the packet and the receiving
+of its corresponding acknowledgement was given by this.
+Now we set the RTO to be as small as possible.
+That's just setting it to be RTT.
+And so, now we have RTT here and RTT here.
+I'm going to change this 1 here to be 1 minus L divided by 1 minus L.
+So I can combine these two, and so you can see here I
+have a minus L plus the L over here.
+So I just get a 1 RTT divided by 1 minus L. And so in this case
+here, if I take the value there of T and compute the throughput
+by taking the reciprocal, I'll get 1 minus L divided by RTT.
+And so, this reduces to our previous expression in the case
+where the loss probability was 0.
+In that case, we just had one over the round trip time.
+But as the loss probability increases, then you
+can see that our throughput gets smaller and smaller.
+
+So in what cases should we use the stop and wait protocol?
+Well, the stop and wait protocol has a big advantage.
+It's very simple to implement.
+It's a little bit tricky in terms of dealing
+with a reordering of the packets and what to do when packets are lost,
+but still relatively simple.
+And so, when do we want to use this?
+Well, we want to use it when the throughput is not a big concern,
+but we want to have good reliability in a relatively simple protocol.
+And this protocol would also be very good in the case
+where the round trip time was very, very short,
+for example, on the same order of the time
+it takes to transmit just one segment.
+In that case, if we had very, very small round trip time,
+then remember, the throughput is just 1 over the round trip time.
+Then I would get a relatively high throughput in that case.
+Unfortunately, typically in the Internet what happens
+is that the speed of the links is very fast.
+And so, the amount of time it takes to transmit a segment
+is going to be relatively short compared to the round trip time.
+And so, that suggests that the stop and wait protocol is not necessarily
+going to be very efficient, and we should
+investigate other possible protocols.

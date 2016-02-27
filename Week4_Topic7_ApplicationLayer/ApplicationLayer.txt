@@ -1,0 +1,158 @@
+
+
+Let's talk about the application layer.
+Remember, when talking about networking, we've
+divided the internet protocol stack into five different layers,
+and the application layer sits here at the top.
+Now, the application layer deals with basically all the kinds
+of typical applications that we run on our mobile phones or our computers.
+So this includes things like email web browsing, instant messaging,
+peer-to-peer file sharing, multiuser network games, video streaming,
+video conferencing, Voice over IP, and all those kinds of applications
+that we're used to running.
+And the application layer, just like the transport layer,
+typically runs just in the host.
+Remember that these lower layers here, can also run it in the router's
+that make up the network itself, but the end systems, the hosts,
+are typically the only ones running these two.
+And so as users, we're only really interacting
+with this application layer.
+Now, we've seen here that there are many, many different applications
+that we can possibly run, and so many times people
+talk about something which is called the internet "Hourglass".
+and so the internet "Hourglass" refers to the idea
+that there are many different applications that we want to run.
+And at the bottom of the internet protocol stack,
+there is the link layer in the physical layer.
+And there are many different link technologies that we can use as well.
+For example, wired ethernet or wireless are the ones that we take likely use,
+but there are other ones, as well, that we can use.
+So there are many, many applications that we can run at the top.
+At the bottom, the link and the physical layer,
+there are many different kinds of media that we might be transmitting over.
+But in the middle there, the transport layer and the network layer,
+there's really only a few.
+There's really probably typically only TCP and UDP are the ones
+that we use on a daily basis, and both of those all
+go through only one network protocol, the internet protocol.
+So even though we have this wide variety of applications and link technologies,
+everything goes to the same kind of communication or network and transport fabric.
+
+When we talk about applications, it's difficult.
+Because we have a wide variety of different kinds of applications.
+But we typically divide application architectures,
+the way that the applications are structured,
+into three different kinds of architectures.
+One is a client server architecture.
+The next one is a peer to peer architecture
+or commonly abbreviated by P2P, and the final one
+would be a hybrid, some kind of combination of those two.
+So let's take a look at those different kinds of architectures
+that our applications are using.
+
+The first one that we'll talk about is the client-server architecture.
+The client-server architecture is used commonly,
+for example, when we're talking about web pages.
+Usually, we have a computer here, which is called the client.
+It is talking to a server. I'm going to called it the web server.
+and usually what it's doing is it's requesting web pages from the server.
+And the server's then sending these back,
+and so we'll talk about that web server architecture or the HTTP
+protocol that's used to send this one in a little bit more detail later on.
+But the key idea is that there's really only one or a very few number
+of servers over here.
+This is a host that's always on.
+So I can always access the server whenever I want, hopefully.
+And it typically has a permanent IP address.
+It's always fixed in one location, so I always know where to access that.
+On the other hand, there are many different clients
+that can be remotely located away from the server connected
+to it through a network.
+And so they could be spread over a wide geographical range,
+and there could be very many of them.
+And each of them communicate only with the server, right?
+So if I'm trying to get let's say, pages from Google or something,
+then this person might be doing a search, this person be doing a search,
+and so on.
+But they're not talking each other.
+They don't communicate directly with to each other
+in this client-server architecture but only to the server.
+And so these things might be laptop computers or mobile phones.
+And so they might be moving around to different locations in the network.
+And so as they move around within the network,
+they're going to be allocated different names or different addresses,
+and so their IP addresses maybe dynamic even though the one for the server
+is typically fixed.
+So, like I said, web pages is one typical client-server architecture.
+Email is also a client-server architecture.
+Even though I send you an email, what I really do
+is I send the email to the server, and then
+this client, over here who wants to get the email,
+would talk to the server to get that.
+But there's no direct communication between these two.
+So client-server architecture typical applications
+would be web pages and email.
+The peer-to-peer architecture is used also, for example, most predominately
+in peer-to-peer file sharing.
+In this case here, there's no always on server.
+There are an arbitrary number of end systems
+that all directly communicate with each other.
+And because they are not managed centrally, they might be on.
+They might be off the network.
+And so they're intermittently connected to the network at different times.
+And because we have control over these peers,
+they can be moving around to different IP addresses and so on.
+And so the big advantage of the peer-to-peer architecture
+is that it's highly scalable.
+Anyone who wants to join this architecture,
+if they're running the right application layer software,
+can just join this peer-to-peer architecture.
+So we can make it handle an arbitrarily or let's say, a large number of peers
+fairly easily.
+But because it's completely decentralized,
+it can be somewhat difficult to manage.
+And so the kind of advantages and disadvantages
+of the client-server architecture, and the peer-to-peer architecture,
+and dealing with those kinds of things have given rise
+to hybrid architectures.
+So I'll talk about two particular examples of hybrid architectures.
+One of them is Skype.
+And the other one is instant messaging.
+So Skype is the video calling service that many of us use.
+And we know that we have Skype user names,
+but we might be accessing Skype to call our friends via our mobile phones
+or our laptop computers through a variety of different mechanisms, right?
+So we might have many different ways we can communicate to Skype,
+but in order for me to complete a call, I
+need to know the address of my friend.
+And so what happens Skype is that there's
+a centralized server that stores the address the remote party
+that I want contact with.
+But then once I know that address, then I
+make a direct client-to-client communication with that remote party,
+with my friend.
+So there's no communication through the server for that.
+It's just an exchange of information about addresses.
+It's very similar with instant messaging.
+We have, again, a centralized server.
+And this centralized server is detecting where
+different clients are in the world, whether they're actually connected or not.
+
+So for example, it knows whether somebody is reachable at any time,
+so it knows the state of all the people.
+And so when people come on to the network,
+they register where they are, their IP address with the central server.
+And then if I want to contact a friend through an instant messaging, what
+I'll do is I'll ask the central server where's my friend?
+What's the address of him?
+And I'll be able to connect to him directly.
+And so any of these chatting messages that I send
+don't go through this centralized server.
+This is really just kind of like a yellow pages or a look-up table.
+And the chatting between clients, all those messages,
+just go directly between those two clients.
+So you can see here, this is more the peer-to-peer architecture here,
+but it's combined with a centralized client-server architecture there.
+So we can see that in supporting the wide variety of possible applications
+that we're using on our mobile devices, we
+have a number of different architectures that we might be using.

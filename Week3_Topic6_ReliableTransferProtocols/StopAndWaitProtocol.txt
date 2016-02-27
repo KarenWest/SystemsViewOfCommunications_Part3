@@ -1,0 +1,115 @@
+
+
+The stop-and-wait protocol is a simple example of a reliable data transfer protocol.
+
+In the stop-and-wait protocol, if you consider
+the case where there are no packet losses at first, what we have is
+we have the sender sending a segment n,
+let's say n is equal to 1, the first segment.
+It gets to the receiver.
+The receiver acknowledges that by sending back
+an acknowledge that tells it that it received packet 1,
+and once the sender knows that the receiver has received packet 1
+through the acknowledgement, it then sends segment 2,
+and then, it gets to the receiver.
+The receiver acknowledges segment 2, and then
+the sender sends segment 3, and so on.
+And so this is called the stop-and-wait protocol, because what the sender does
+is he sends one segment, and then he stops.
+He waits until he gets the acknowledgement,
+and then he sends the next one.
+And so in this simple case, actually if there's no packet loss,
+there's really no need for a reliable data protocol.
+So here, let's take a look at the case where you actually have packet loss.
+Suppose that we have the sender sending segment 1,
+and it goes out to the receiver, and then on the way to the receiver,
+it gets lost.
+Now in this particular version of the protocol, what would happen?
+Well, we can see that, in this case here,
+the receiver is going to be waiting for the segment,
+right, in order to send the acknowledgement.
+But the segment never comes, and so it never sends the acknowledgement.
+On the sender side, what happens is, is waiting for that acknowledgement,
+but that acknowledgement never comes, and so now what happens
+is the protocol essentially just hangs.
+It's just "Waiting for Godot".
+It's waiting for something that never happens.
+In order to handle this situation, we need to modify our protocol.
+In particular, we're going to modify the behavior of the sender.
+We're going to leave the receiver protocol the same
+and modify the sender.
+Now in this new protocol, what's going to happen
+is it's going to start out the same.
+The sender is going to set the n equal to 1.
+Send that first segment, it's going to go out and get lost.
+And now when it's waiting for the acknowledgement
+to come back, that acknowledgement will never come back, and what will happen
+is we'll introduce a timeout here where the sender will
+wait for a certain amount of time.
+And if it doesn't see the acknowledgement within that period
+of time, it will resend segment 1.
+It'll leave n unchanged,
+go back to step 1, and resend segment 1.
+And then it will then start waiting again.
+Now in this case here, it got to the receiver,
+and then the receiver sent the acknowledgement back.
+And now that happened before the timeout,
+and now the sender is free to go on and to transmit
+the next segment in the sequence.
+Now this is not the only place a packet could be lost.
+In fact, a packet could be lost when we do an acknowledge.
+And so what happens in that case is that, with the same protocol,
+we have the sender sending out segment 1.
+It goes to the receiver.
+The receiver sends the acknowledgement, but now the acknowledgement gets lost.
+Again, the sender will be waiting forever unless it has this timeout.
+After the timeout, it will resend segment 1.
+Now it gets to the receiver, and the receiver
+sends acknowledgement back, which goes back to the sender.
+Now, the sender is free to send the next segment in the sequence.
+If we look at the receiver side, what we can see
+is that there are actually two copies of segment 1 that have been received.
+Originally, we wanted to have a protocol where every segment gets sent and is
+received exactly once.
+But now, what we have is that every segment
+is sent and is received at least once. So it
+can be received more than one time.
+It will be there at least once, but could be there more than one time.
+And in order to deal with this, we can't have
+the receiver doing the same protocol.
+We can't just have receivers getting the packets
+and sending them right to the application.
+We have to introduce an additional filtering process,
+so that means that we need to modify this receiver protocol to handle this.
+Our revised protocol is shown here.
+We've left the sender protocol the same and only modified
+what happens at the receiver.
+In particular, we have a new variable here,
+which we call last_deliv, which tells us what was the last packet delivered
+to the application.
+And in the beginning, we started out with, let's say, last_deliv equals 0,
+indicating that no packet was delivered to the application.
+And now, what's going to happen is the sender is going to send segment 1.
+It's going to get to the receiver.
+The receiver will acknowledge that.
+It will get lost.
+But in any event, the receiver now is going
+to send segment 1 to the application.
+Now in this case, we're going to update the last_deliv variable
+to be 1, indicating that the last packet delivered to the application was 1.
+Now, because of the fact that the acknowledgement got lost in this case,
+the sender is actually going to resend segment 1, as you can see over here.
+You're going to get segment 1 again, and it's going to check the segment number
+and compare that with last_deliv.
+And, in this case here, last_deliv and the one that it's received,
+are exactly the same.
+It knows that it's already delivered this one,
+so it won't deliver this one to the application.
+That will prevent the duplication of the packet at the application.
+Although, we still see it (duplication) within the transport protocol.
+And then, it will continue on, so the acknowledgement will come back.
+The sender will then send segment 2.
+And if segment 2 goes through, then it will compare the segment number, 2,
+to the last_deliv, 1, and it will then deliver segment 2.
+And this is the stop-and-wait protocol in its complete form,
+dealing with the problem of lost packets.

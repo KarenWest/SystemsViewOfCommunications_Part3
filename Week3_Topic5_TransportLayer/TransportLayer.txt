@@ -1,0 +1,100 @@
+
+Let's talk about the transport layer.
+If you recall, we break our discussion of networking up into five layers,
+and the transport layer sits here second from the top.
+The role of the transport layer is to provide
+for logical communication between applications,
+sometimes called processes, which are running on different hosts.
+For example, your mobile phone, or your laptop computer would be a host.
+The transport layer actually runs in the end system or the host.
+Common examples of the transport layer in the internet are UDP and TCP,
+Let's take a look at an example of this kind of logical communication.
+What I show you here is a sender connected to a receiver
+through a network.
+You might be running an application for example, like email on our sender here,
+and we want to send a message over to the receiver.
+It's the job of the transport layer to make
+sure that the email message goes from the sender here over to the receiver.
+And in this particular case, we'll be looking at the case of reliable data
+transfer where there are certain non-idealities in the network, which
+the transport layer has to correct for.
+So remember, what happens is that the message here needs to be broken up.
+So the transport layer will break the message up into segments,
+and it will add its own header, attached to that, so that it
+can handle those segments properly.
+Those segments then go into the network where they become datagrams,
+and then those datagrams then go through the link layer into the network.
+And now the network is handling all the routing of those packages.
+And what might happen is what comes out of the network then is the two
+packages, but what's happened is because the two packages,
+or the two datagrams have taken different paths,
+they come out in a different order.
+So when they come up to the network layer
+they're in a different order
+than when they went into the network.
+And so it's the job of the transport layer
+to take those two incorrectly ordered packets,
+and rearrange them so that when it gets passed up to the application
+we get the correct message.
+Now, the transport layer may seem somewhat similar to the network layer,
+so I'd like to talk a little bit about the differences between the transport
+layer and the network layer.
+And the idea is the network layer is providing
+logical communication between hosts.
+So a host might be running many different applications,
+but all of those applications will be sending packages out, or segments out
+through the transport layer, and those would all be
+going through the same network layer.
+And so what the network layer it is doing,
+remember, is ensuring that the packages get from the host to the other host,
+the destination host, through a network consisting of routers.
+And so what happens then is that the application layer
+would pass the information to the transport layer,
+then to the network, layer and then that would go down into the host, through,
+and then come back up, and get to the next router.
+
+And in the router, it's only implementing the network layer.
+So remember, the network layer is handling
+these ideas of routing (figuring out what the best route through the network is)
+and doing that by forwarding it to the correct output of the router.
+And so the router then only implements the network layer,
+and then it will then pass it on to the next router, and the next router,
+and so on eventually reaching the host.
+And then at the host it will go all the way up through that protocol stack,
+and the transport layer will take the datagrams from the network layer,
+and then pass them to the application.
+We'll be talking about two transport layer protocols.
+In particular, one of them is User Datagram Protocol and the other one
+is the Transmission Control Protocol.
+So the User Datagram Protocol, commonly called UDP
+is a very simple extension of the internet protocol lying in the network layer.
+
+So the transport layer lies right on top of the network layer,
+and the UDP protocol really doesn't add that much extra to the IP protocol.
+And so remember that what can happen in the network
+is that packages can be lost, or packets can be lost, or arrive out of sequence,
+and that can also happen in the UPD protocol.
+On the other hand, the Transmission Control Protocol
+is considerably more complex, and this allows for reliable sending of segments
+through the network.
+And so in this case here, what we can be guaranteed through the TCP protocol
+is that if we get the message the message will be received in order,
+and all of the data will be present.
+There's nothing going to be missing there.
+So then the transport layer will do many different functions:
+some of them are multiplexing/ demultiplexing, and error detection.
+These two are implemented by both UDP and TCP.
+There are other functions also typically associated with the transport layer.
+for example, reliable data transfer where we handle packets missing
+or out of order. We'll be spending a considerable amount
+of time talking about this one.
+And then there are other functions like flow control, congestion control,
+which are ensuring that the network or the host, the receiving host,
+doesn't get overwhelmed with too much traffic,
+and also connection management.
+These ones here are implemented by TCP, but not by UDP.
+And so moving forward, what I'll do is I'll talk about UDP first.
+And in that context, I'll talk about multiplexing and demultiplexing.
+And then we'll talk about TCP, and I will focus mainly
+on a discussion about how we execute reliable data transfer
+in that discussion.

@@ -1,0 +1,222 @@
+
+As another example of the application layer,
+let's take a look at the domain name system, or DNS.
+The domain name system is the internet's directory service.
+You can kind of think about it like the yellow pages.
+You can have somebody's name but you want
+to know their phone number so you can get in touch with them.
+Remember that when we are talking over the network, in order to reach a host
+we need to know it's IP address.
+Which is typically a number like this, but it's hard to remember.
+Just like a telephone number is hard to remember,
+but a name is relatively easy to remember.
+For example, our website is that one like there,
+and it's easier to remember than the numbers down there.
+So what you'd like to then have is a directory service
+that allows you to map host names to IP addresses,
+just like you can map person names to telephone numbers or passport
+numbers or social security IDs or anything like that.
+So, the services that the DNS runs over are primarily provided by UDP.
+And remember, UDP is that transport layer protocol
+that allows for very low overhead communication between two hosts.
+But it's not very reliable.
+But in this case here, because the kind of information that you're exchanging
+is relatively short, just a name and a number,
+then it's relatively well suited for the UDP protocol.
+And if there are any errors that are introduced,
+those can be handled at the application, rather than at the transport layer.
+The domain name system resides on a distributed database.
+And so there are multiple machines that all collectively
+contain the domain name system.
+And the way this is implemented or organized
+is a hierarchy of many name servers.
+And so one question you might ask is, well,
+why do you implement it in this kind of distributed way?
+It's a distributed database.
+Why don't you do it centralized?
+Why don't you just have a single server or a big supercomputer running
+a server that's just getting information or requests from different people
+or different clients in order to get an idea about where
+the remote host that they're interested in are, in terms of their IP address?
+Well, there are several problems with this centralized solution.
+Number 1, the reliability is not good because if something
+happens to that one centralized computer then everybody in the entire world
+is basically without this service.
+The other thing is that this centralized system
+has to be located physically somewhere.
+And so, if you're away from that system, which most of the users
+are going to be, then it's going to take you a long time
+to reach that system for the messages to go to the system
+and then come back to you.
+Also, you can imagine if everybody's surfing the web at the same time
+and they need to look up these host names,
+then everybody's trying to get access to this one central location
+and there's going to be a lot of traffic going into that location, which
+could be easily overwhelmed.
+And then the final question is, where is this big connected supercomputer
+going to live?
+Which country is going to control that?
+Because they could then start to deny access to other people and then
+that would be a problem for people communicating information and whatnot.
+So it's not politically feasible, especially
+now that the internet is really a global network.
+So for all these reasons, we would rather have the domain name system
+operating as a distributed service.
+So let's look at it at the very, very local level
+and see what has to take place in the domain name system.
+So, at the local level each ISP or company, for example UST,
+might have their own local default name server.
+So if a requesting host down there from my own domain and I need to get,
+like I say, access to a particular address
+like www.ece.ust.hk, what I'll first do is
+I'll make a contact to my local DNS server.
+So I'll make that request.
+And then what will happen is that the server will hopefully
+say OK, I know where that is, here is the IP address.
+You can send all of you requests for information
+to this IP address or the host at this IP address.
+So it turns out that every host that you might want to reach
+is registered with at least two, what are called, authoritative name servers.
+So these authoritative name servers store that host's IP address and name.
+But the problem is that no server contains all named IP address mapping.
+So my local server would typically only store
+the kinds of named IP addresses mappings that are commonly accessed
+from my, let's say, university.
+But the relatively uncommon ones wouldn't be stored there.
+And also what might be happening is that IP addresses
+might be changing over time as well.
+So then the question is, well, sure that's fine,
+everybody locally can have their own DNS server
+and they can only send their requests and get replies from that local server.
+But what happens if the local server doesn't know a particular address?
+So for example, suppose that I want to access this course, which
+is available at www.edx.org, but my local DNS server doesn't know it
+or maybe it's changed.
+What can we do in that case?
+Well in that case, what we do is we resort
+to this hierarchical database which is distributed
+ over many, many different locations.
+And I illustrate that hierarchical database, as shown down here.
+So my local server would be at some lower level of this hierarchy.
+At the top of this hierarchy are what are called the root DNS servers.
+At the next level of the hierarchy are what's
+called a Top-Level Domain, or TLD servers.
+And then down here are the authoritative DNS servers.
+And so, for example, let's take the example of trying
+to get the IP address for www.edx.org.
+So now if my local server doesn't know what
+the IP address for that is, what it can do is it can query the root server.
+The root server sits here at the top of the hierarchy and it gets the request.
+And then the route server will say, well, OK, you want www.edx.org.
+Maybe he doesn't know that either, but he knows a server that has the listings
+for all of the hosts that have .org after it.
+And so those are the Top-Level Domain, or TLD, servers.
+So for example there's a com DNS server that would contain all the addresses
+for the web pages that end with the .com, for example google.com.
+There's an org DNS server that would contain the address for edx.org.
+And so there's also countrywide domain name servers.
+For example, .hk is the one we use in Hong Kong,
+but .jp is the one they use in Japan.
+And so there are many, many different top-level domain servers.
+Which are really telling you, well if you want to know something like .org
+or this last part, where is the first place that you should go to for that?
+So the client then will say, OK route DNS server where is this address?
+He goes, well I'm not sure but why don't you ask the org DNS server.
+So then client would then ask this org DNS server, where do I get www.edx.org?
+And he would say, well I don't know about that
+but I know where to get edx.org, right?
+So the client would get that information about where that DNS server is and then
+it would then ask the edx.org DNS server, this one down here,
+to get the IP address for www.edx.org.
+And then, it would know where it goes.
+So it's this kind of hierarchical situation,
+where sitting at the very, very top we have these root name servers.
+And there are very, very few of those root name servers.
+In fact there are 13 of them worldwide.
+But, it turns out, I'll talk about later on, that those are actually
+not that frequently contacted.
+But they're really responsible for maintaining this overall hierarchy
+so that we can find any kind of address.
+And so those ones are all listed over here.
+Let's take a look at how this DNS frame resolution process takes place.
+There's two ways that we can respond to a query, for example, by my computer.
+Let's say it is called www.ust.hk, wants to get some information from this host,
+www.edx.org.
+And so there are two possible ways to respond to that query
+or that query can be resolved.
+One is called the iterative query, the other one
+is called the recursive query.
+So let's look at the iterative query first.
+This is the process and we kind of outlined briefly previously.
+So if I'm interested in www.edx.org, the first thing I'll do
+is I'll ask my local DNS server ust.hk with serving all
+the computers within the ust.hk domain.
+Maybe he doesn't know, so he'll ask the root server.
+The root server will tell him well, why don't you contact
+the org top-level domain server?
+So he'll tell you the address of the top-level domain service that
+has the addresses for all the things that end with org.
+So then the local server will then ask this top-level domain server.
+It will say, well I don't know but maybe you can ask edx.org.
+And finally, it will then take that information
+and go find edx.org or the domain name server
+there, and then get the information from there about where www.edx.org is.
+And finally that IP address will come back to the resolving host.
+And so then he'll be able to know which IP address to go
+to to access this kind of information.
+So this is the process that we kind of briefly sketched at first.
+There also other ways that we can do it that might be a recursive query.
+So for example what might happen is we're
+trying to get access to the same www.edx.org.
+We send a request to our local DNS server.
+The server asked the root DNS server.
+The root DNS server doesn't know, so he might directly
+ask the top-level domain name server.
+The top-level domain name server doesn't know about this particular address,
+www.edx.org.
+But it knows about edx.org.
+So it goes and asks the authoritative server for edx.org.
+He knows, so he'll send the information back.
+You'll pass it back to the root DNS server.
+And then finally back to the local DNS server.
+And then that will come back to me.
+So, the recursive query here, you can see,
+is going to put a lot more load on the root DNS server
+because a root DNS server has to go and get the information,
+rather than just responding directly with the information about the location
+of the top-level domain name server.
+In fact, because of the fact that we typically
+use what's called record caching and updating,
+many times the local DNS server will already know the top-level domain name
+server already.
+So once a server, any name server, my local one
+learns a particular mapping, for example www.edx.org,
+it will cache that mapping.
+So for example, if it knows the top-level domain server for org,
+it can go there directly, without having to go to the root name server.
+Now of course, these cached entries are sitting in my local memory.
+But what can happen is remember that the network is dynamic,
+so that kind of information could become outdated.
+So there's a certain timeout where those cached entries
+will disappear after some time.
+It says, well, that information is too old, I better go back out
+and get the newest information.
+But for short periods of time, maybe we can assume that that's OK,
+and we can just pass the information that we just
+remembered back to our local host.
+And so these typically-- what would happen
+is that the local name servers will already
+know the top-level domain servers.
+And so that means that the root name server actually are
+not very, very often visited at all.
+And so what we've seen here, then, is an example of another kind of application.
+It's a directory application called the domain name service.
+And this is using a different transport protocol,
+but still running on the application layers using the UDP protocol, which
+is that unreliable protocol.
+But still following also something like the client server architecture
+that we talked about before.
+So unlike the http protocol, which operated over TCP,
+this one here is different in that it operates over UDP,
+because the messages are relatively short, and any kind of errors
+can probably be handled at the application level.

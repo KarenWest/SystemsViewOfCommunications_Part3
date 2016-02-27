@@ -1,0 +1,83 @@
+
+
+In this final video, I'd like to try to tie everything together
+by discussing how information is transferred over the network using
+this layered architecture and using that understanding
+to understand what we mean when we say the internet hourglass
+and how that hourglass structure has allowed the internet to spread
+and proliferate like it has.
+So remember, we've divided our discussion of the internet protocol
+stack into five different layers, and when information
+is transferred over the network it has to pass
+up and down through these layers.
+For example, suppose we have an application sending
+on this host over here that wants to communicate with a host over there
+through the network.
+Remember, what happens is that there's data at the application layer
+and it has to pass down through each of these layers,
+and as it passes down to each of these layers additional information
+is added to those, to the message, in order
+for the transport layer and the following layers to do its job.
+Once it gets to the link layer it will go on into the network,
+and it will go back up and to the network layer in the router.
+And at this point here, the network layer
+knows where the eventual destination of the information is,
+so it will know which link to go out on the router here.
+So we'll go out, let's say, on this next link over here,
+and the same thing will happen at the next router.
+
+And then finally once it reaches the host,
+it will all the way up to the application layer.
+And what you can see is that as it goes up through each of those layers,
+the header information from that layer is stripped off
+by the next higher layer.
+
+What's critical to note in this layer communication structure
+is that the end to end layers, the application and the transport layers
+are implemented only in the hosts.
+So the routers, which kind of make up the,
+let's say, the connection fabric of the network, only
+implement the network, link, and physical layer.
+And so you can see that the layers here that are shared across all of them
+is really the network layer.
+In fact, there are many, many different possible link
+technologies and physical communication media over which the links can operate.
+And so this idea that we have many possible applications traveling
+over many different possible physical links
+but all sharing one network architecture is what
+is known as the internet hourglass.
+And so what we remember is that applications eventually
+have to communicate with each other on different hosts.
+They go down through the transport network
+and down to the link layer protocol and then back up the stack over here.
+But what you can see is that this kind of layered architecture
+has this kind of hourglass kind of structure,
+where there are many possible different applications running
+on the top here and many different possible link
+technologies, for example, wired technologies, wireless technologies,
+and all sorts of new technologies that are being introduced.
+However, this is all unified, right?
+Despite the huge variety here and the huge variety
+here, they're all unified by the fact that there are only a few transport protocols.
+
+We discussed two of them, TCP and UDP.
+But in fact the key is there's only one network protocol, the IP network protocol.
+
+And so this is what allows this huge variety of different applications
+to communicate with each other.
+And so the fact that I only have one network protocol to deal with
+makes things extremely scalable.
+I can design my applications without having
+to worry about different possible network protocols,
+and I can design my link technologies without having to worry about the fact
+that there are many different kinds of applications running over the thing.
+And so this fact that I have a single network protocol,
+the IP network protocol, is what has enabled the internet
+to grow like it has, and which is what is allowing us to investigate
+all sorts of new kinds of technologies, for example
+like the internet of things, where now not only people but also devices
+are connected into the internet.
+In conclusion, then, I'd like to thank you for your attention
+through all three parts of this class.
+I hope you've learned something, and I hope
+you've enjoyed taking this class as much as we've enjoyed making it for you.

@@ -1,0 +1,134 @@
+
+Let's talk about HTTP, or the Hypertext Transfer Protocol,
+which is the application layer protocol that we use when we're surfing the web.
+So when we're surfing the web, commonly we're
+using our browser to access web pages.
+And on that web page, we might see different things like text, images,
+we might click on links to hear sounds and things like that.
+So a web page consists of a base, what's called HTML,
+or HyperText Markup Language file.
+That typically contains some text, perhaps the text that we read.
+And also references several objects, for example,
+it might include an image or audio file or some kind of applet
+that we might run on that web page.
+And our browser then will take this base HTML file and use it to figure out,
+well, what objects do I want to display to the user and how
+should I format that.
+So there might be text on one side and an image on another side.
+And so this base HTML file would contain the information
+about how the browser should format that information for presentation
+to the user.
+And so, all of these objects here, the HTML file
+and the images and audio files and things like that, all reside on what's
+called a web server.
+That's essentially just a computer, which maintains a file structure just
+like the file structure we maintain on our regular computer,
+except for that computer is a host that's located in the network.
+So that host will have its own name, called the host name.
+And so, for example, if you are accessing
+the web page of our department, the host name that you would be accessing
+would be this one, www.ece.ust.hk
+But if you went to our home page, you would
+see some images, pictures, some text, and you also
+see the logo of our department.
+The logo of our department would be in the upper left hand corner,
+somewhere up here.
+And that's actually it's its own separate JPEG file.
+And so that's contained on our computer, which
+is this host here, in that directory with that file name
+that you can see there.
+And so all of the things that you'd see on our web page
+would be different objects that would then be formatted in the correct way,
+according to the base HTML file.
+Now when you use your computer, you might access our computer
+through different browsers, right.
+So one of you might be using Chrome, for example, to access our web page.
+Another one might be using Internet Explorer.
+It turns out that, even though those are different applications,
+they're still using the same application layer protocol, this HTTP,
+or Hypertext Transfer Protocol, to communicate the web pages
+to communicate to the web server to get the web pages and objects to display.
+So the application layer here is using the client-server model
+that we talked about previously.
+The communication over the transport layer uses TCP.
+Remember, we talked about two transport layer protocols, TCP and UDP.
+And TCP is, the more reliable one.
+That's the one that includes the request acknowledgements that we talked
+about to ensure reliable delivery.
+The reason for that is that when we display the web page,
+we want to make sure that everything is there
+and everything's in the right place so that we're seeing what the web page
+designer actually wants us to see.
+So we don't want to have any loss or anything like that.
+Like I said, the web page, or the HTTP, uses a client-server model.
+Server here, often called the web server,
+holds those HTML files and objects.
+So that might be the www.ece.ust.hk host.
+And when you are running Chrome here and you type that into your address bar
+of Chrome, what Chrome will do is it will
+send a request to our server saying, hey send us this web page
+and all the associated objects, right.
+That request will go over the TCP protocol
+that will set up a connection between your computer and our web server.
+And through that connection, then we'll send the information back
+to you, the information that you requested
+that will go into your browser and the browser
+will then figure out how to format all those objects correctly
+so that you can read about the kinds of people
+that we have in the department and the kind of research
+that we're doing and so on.
+So your client, then, is the one who is requesting the web
+page and the associated objects and then figuring out
+how to display that information.
+
+One thing that you might notice is that sometimes web pages are updated,
+but you don't see those updates right away.
+It takes you some time to actually see those updates.
+So, perhaps, sometimes you have to keep on refreshing your browser in order
+to get their latest updates.
+The reason for that is that, in order to avoid too much traffic going to the web
+server, typically we use what are called web caches.
+A cache is commonly used to refer to some kind of storage location.
+And for web catches, those storage locations
+are also sometimes called proxy servers.
+Or they also might be used within your browser itself.
+And those are located remotely from the origin server.
+And so what happens is that you might have multiple clients here
+that are requesting the same web page from the origin server for display
+on their browsers as you can see over here,
+but rather than both talking to the server directly, what they might do
+is talk to this proxy server or talk to this cache
+and get a copy of the web page from this proxy server.
+So what will happen is it will send the request to the server,
+the server will check to see whether somebody has recently
+accessed that or not.
+If somebody recently accessed, for example, perhaps this guy
+recently accessed it, he will have a copy of that object or web page
+that this guy is interested in and he'll be
+able to send that directly back to him without having
+to go to the origin server.
+Of course, if he doesn't have the information required,
+then what he will have to do is he will actually
+have to make a request to the origin server that
+contains the original version of the web page
+and then get that and then send it on to the client over here.
+And so what can be happening then is that even
+though what's at the origin server can be
+updated, what's happening at the proxy server might not be updated, right.
+Because he's storing things for later use
+so that he doesn't have to go to the origin server.
+And so what happens then is that can cause a delay between changes
+that are being reflected on the origin server
+and the things that are reflected in our browser.
+So this proxy server, or cache, might be located at some remote server
+or, alternatively, in many modern browsers,
+that is maintained within your browser itself so that, you know,
+for example, when you go forward in a web page
+and you go back to the old web page, you don't have to go back out to the server
+and recollect that data, it will just assume
+that things haven't changed by that much and just show you
+the same files it just showed you the last time you did it.
+And so this shows you then one particular example
+of an application layer protocol, which is using the client server
+architecture that we talked about in the application layer.
+And in the transport layer is using the reliable transport protocol, or TCP.

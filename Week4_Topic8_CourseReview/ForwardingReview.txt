@@ -1,0 +1,194 @@
+
+What we've seen is that the Internet is a massive network with global reach,
+consists of a myriad of different technologies making it up.
+And so in order to organize our discussion of the Internet
+we talked about the IP protocol stack, which divided
+our discussion into different layers.
+Now, in the course we started by talking about the link layer
+and then eventually going up to the application layer,
+and so in this review what I'll do is I'll start from the application
+and then go down to the link layer.
+At the top level of the Internet protocol
+stack is the application layer.
+The application layer basically runs the applications
+that we use on a daily basis, email, web browsing, messaging, and things like that.
+
+And so this is actually what's running in those hosts or end systems
+like our mobile phone or our PC.
+We looked at different application architectures.
+For example, the client-server architecture,
+where clients are all individually connecting to one central server,
+versus a peer-to-peer architecture, where
+peers or hosts are free to connect directly with each other.
+And in particular we looked at two applications
+using the client-server architecture in detail.
+That was the HTTP protocol, which is used in web browsers,
+and the DNS protocol, which is used for domain name resolution.
+The next layer in the Internet protocol stack is the transport layer.
+The transport layer is what provides for logical communication
+between applications running on different hosts.
+Among the many different functions provided by the application layer,
+we concentrated on two of them, multiplexing and demultiplexing,
+and reliable data transfer.
+We also discussed two different transport layer protocols,
+one of them being the User Datagram Protocol, or UDP, the other one
+being the Transmission Control Protocol, or TCP.
+Both of these protocols rely on multiplexing and demultiplexing.
+The key difference between them is that the TCP protocol
+allows for reliable data transmission where
+packets are guaranteed to arrive in order without any missing packets,
+whereas you have no guarantee of that in the UDP protocol.
+As I said, both of these protocols rely upon multiplexing and demultiplexing.
+And the idea of multiplexing and demultiplexing
+is that the sending host needs to send information from multiple applications
+that it might be running over a common network link here.
+In demultiplexing the reverse process has to happen at the receiver.
+Data coming in from one network link has to be distributed
+among different applications.
+So, for example, suppose we have application P4 here
+on the sending host that wants to communicate with application P3
+with the receiving host.
+What the transport layer will do is it will assign a socket to application
+P4, let's say socket B. And when it sends it out
+it will label the segment that it sends out
+using the source port B as well as the destination port
+on the receiver, which would be A, corresponding the application
+P3 over there.
+And that is what allows the Transport Layer
+Protocol to direct the data from that network link
+to the correct application.
+The key difference between UDP and TCP then
+is the fact that TCP allows for reliable data transport.
+We studied two algorithms for reliable data transport,
+one of them being the stop and wait protocol, the other one being
+through a sliding window protocol.
+The key to ensuring reliable data transfer
+is that the receiver needs to acknowledge successful receipt
+of the packet to the sender.
+Now, in the stop and wait protocol what happens
+is that once the sender sends its packet it stops and waits
+for the acknowledgment to come from the receiver
+before sending the next packet.
+And so this allows the sender to ensure that the packet was received
+and if it doesn't get the acknowledgement within a certain amount
+of time it will resend the packet.
+The disadvantage of the stop and wait protocol
+is it has a relatively low throughput.
+It's 1 over 1 minus L divided by RTT, where
+RTT is the round-trip time, the time it takes for the packet to go out
+and the acknowledgement to come back.
+The factor 1 minus L takes into account the loss probability, L,
+which is the probability that the packet will be lost at some point
+either on the way out or coming back.
+The throughput then decreases as the loss probability increases.
+The problem with the stop and wait protocol
+is that the sender and receiver have to spend
+a lot of time just waiting for this reception and acknowledgement to occur.
+And so in the sliding window protocol what we allow
+is we allow for multiple packets to be sent out over the network
+without being acknowledged.
+In the sliding window protocol there's a parameter W corresponding
+to the window size, which is the number of packets
+that we allow to be sent out without an acknowledgement.
+And so in this case here we have W is equal to 4 allowing for four packets
+to be sent out one after the other, and then
+once the acknowledgement for packet one is received then
+it can send the next packet in the sequence, packet five, and so on.
+The big advantage of the sliding window protocol
+is that it allows us to increase the throughput by a factor of W. However,
+the value of W is ultimately limited by the speed at which we can transmit
+one packet out over the network.
+The next layer in the Internet protocol stack is the network layer.
+The network layer is what's responsible for delivering packets
+from a source host to a destination host over the network.
+In the Internet, all traffic in the network layer
+follows what's called the Internet Protocol.
+The network layer provides multiple functions,
+the most important among these are the addressing, forward, and routing.
+So in order for us to send information from a source to a destination
+we need to assign an address to every source and destination.
+In fact, the IP addressing scheme assigns a global address,
+or a unique global address, to every network interface.
+So that might be a host or it might be a router or actually
+a link from every router.
+And so we saw that the IP addresses follow a form that's seen like this.
+You might have seen that when you're setting up your network at home.
+And we saw that the particular form of this
+allows for us to organize the IP addresses into subnets.
+Next problem that's solved by the networking layer
+is the problem of forwarding.
+And so what forwarding allows us to do is
+provide for distributed routing of networks or packets.
+So once the packet, let's say, comes into node C,
+if C knows the correct path or the shortest path to every other node
+is shown in green here, then what it can do
+is it can route the packets out the correct link.
+So, for example, suppose a packet comes into node C
+and it wants to get to node with address H.
+We can see graphically down here that it should go out link 3,
+and so the forwarding table contains that information.
+For destination H it tells you you should go out on link 3.
+And so if you look at this, it gives you the corresponding output link
+for every possible destination in the network.
+The forwarding algorithm relies on knowledge of the best path,
+and finding that best path is the job of the routing algorithm.
+For example, I might want to find the best path from node A
+to every other node as shown in green over here.
+Now, we discussed two different types of routing algorithms
+in the network layer.
+One was the Distance Vector Algorithm.
+The other one was the Link State Algorithm.
+Remember that the Distance Vector Algorithm
+was this decentralized algorithm which involved iterative computation where
+we just have message passing about the cost
+to reach each potential destination, but that message passing took
+place just between nearest neighbors.
+The Link State Algorithm on the other hand relied on global information,
+but in order to get that global information
+it relied upon message flooding where messages were spread out
+over the entire network so that each node has information
+about the entire network topology so it can plan the routes
+according to that global knowledge.
+The final layer that we talked about in the Internet protocol stack
+is the link later.
+In the link layer what we do is we look at handling data transfer from one node
+to a physically adjacent node.
+For example, an example of this might be the 802.11 or WiFi protocol.
+There are many services provided by the Internet protocol stack,
+but the most critical one that we talked about was Media Access Control.
+The idea here is that there might be multiple hosts that
+are trying to access the same node.
+And the particular case that we looked at in that case
+was the Aloha protocol, which was a simple example
+of a randomized contention protocol.
+And in the Aloha protocol, which was named after a protocol developed
+in Hawaii, we have this idea that nodes can just transmit information
+whenever they want.
+But if there is a collision which is detected then what they have to do
+is they have to wait and try to retransmit that packet
+after a random amount of time.
+We saw that we could analyze the efficiency of the slotted Aloha
+protocol where efficiency is defined as the fraction of the time
+that I successfully transmit a packet.
+We saw that that efficiency depended on the probability
+that the node is transmitting and it also
+depended on the number of nodes, N, in the network.
+So if I had a smaller number of nodes in the network, for example,
+N is equal to 3 is shown in blue here, then
+I can receive a higher efficiency if I chose the probability
+that the node transmit to be correctly.
+In particular, for each possible value of N,
+for maximum efficiency what I have to do is transmit each packet
+with probability P is equal to 1 over N. So,
+for example, for five nodes I had to do 0.2, or 1 over 5.
+But what we saw is that as N goes to infinity, as the number of nodes
+goes to infinity, the efficiency eventually reaches a bound here,
+which is about 37%.
+So that might seem to you to be relatively inefficient
+but we have to realize that this is an extremely simple protocol
+and so that's a big advantage, especially when we're talking
+about trying to scale this network up.
+And so in conclusion then what we've done
+is we've discussed the Internet by dividing the Internet functionality
+into five different layers, and we've discussed each of these four layers
+on the top here in detail.

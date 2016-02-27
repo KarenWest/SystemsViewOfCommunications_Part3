@@ -1,0 +1,116 @@
+
+Let's review what we've covered in this part of the course, Part 3,
+of a system view of communications from signals to packets.
+Generally speaking, this course has been concerned
+with the question of how we transmit information wirelessly between two
+users who might be located Y distance apart.
+For example, someone on the right hand side in Hong Kong
+might be transmitting an email to somebody who will receive it
+on his mobile phone in New York.
+We've divided this problem up into three different parts, which we've covered
+in different sections of this course.
+In Part 1, we talked about the point to point link
+from the phone to a base station.
+In Part 2, we talked about how multiple users might share access
+to the same base station using frequency division multiplexing.
+And now in this part of the course, Part 3, what we've talked about
+is the network part.
+Inside here, you can see that once I've made the connection to the base
+station on the right hand side, I need to route that email or text
+message to the base station on the left hand side.
+But the problem is, there's not a direct connection.
+That connection has to take place over multiple halves.
+And the route that that email message or SMS message might take is variable.
+
+There are multiple pathways that I can get from the base station
+on the right over to the base station on the left.
+We've grounded our discussion of networks
+with one particular example, which is the internet.
+The most pervasive network we have in today's society.
+The network, the internet, is a very complex entity.
+It's actually a network of smaller networks.
+What you can see here is different squares here,
+indicating different networks.
+For example, I might have a home network or a mobile network.
+For example, I might want to use my mobile phone here
+to access my email server at my work or college institution down here.
+Each individual network consists of nodes and connections between nodes.
+And we've talked about the nodes as being different types.
+One type of node is a router, which is actually making up the way
+that the network is interconnected.
+And I have to take my data and pass it between different routers
+in order to get it to a node which is called the host or the end system.
+So the end systems might be the PC here or the web mail server
+down here that I'm accessing in order to read my email.
+Each of those nodes is interconnected by a communication link.
+And there are many different physical media
+that can support communication links.
+They might be wired links.
+For example fiber optic using light, copper, using electricity.
+Or wireless links, for example, radio or satellite networks.
+This internet you can see consists of many different parts
+with a huge variety of different types of technologies
+used in those different parts.
+So we need some way of organizing our discussion here.
+And we talked a little bit about the organization of the internet,
+overall, as having some kind of rough hierarchy.
+So we saw that in the center or the top level of this hierarchy,
+there are these Tier 1 ISPs that are providing global or national coverage
+over a wide region.
+And there are several of these Tier 1 ISPs
+that all interconnect with each other in order to provide us
+with global interconnectivity.
+And so this is not a strict hierarchy, where you have one person at the top
+and then go down, but you have multiple people
+at the top or multiple Tier 1 ISPs.
+In the end, what I want to do as a user is connect to a user,
+let's say on the other side over there.
+In order to do that I have to go up and down the hierarchy.
+So for example, if I'm in Hong Kong and I
+want to connect to New York. I need to connect through my local ISP,
+might be my university, into connection in Hong Kong,
+and then go up to a more global connection.
+And what you can see here is that in order
+for me to communicate from let's say Hong Kong to New York,
+I have to travel through a wide variety of different networks.
+But there is this rough hierarchy where the tier ones are providing
+larger coverage than the local ISPs, but it's not strict, if you can see here.
+There's multiple reporting, or multiple lines,
+where the Tier 2 might connect to multiple Tier 1 ISPs
+or Tier 2 ISPs might connect in parallel with each other.
+This rough hierarchy then allows us to build a huge network with global reach.
+And the question is well, if I have this huge network,
+how do I actually make the connection from this user
+over here down to the user down there?
+And it turns out that those connections are established using
+a technology called packet switching.
+So in packet switching what we do is we take the data that we want to send
+and we divide it into smaller packets.
+And then we send those packets over the network using a technique
+called statistical multiplexing, where the users can then just
+send their data whenever they have it, randomly,
+and the network can handle that.
+And we saw that there are many different potential problems
+with packet switching.
+For example, there might be collisions.
+Two people might, or two users, might want
+to access the same link at the same time.
+And so links might be overloaded and things like that.
+And so we discussed different ways of dealing with that.
+But the big advantage of packet switching though is that through packet
+switching what we can do is we can, number one make
+better use of the network resources because we
+can have better sharing of resources in comparison with other technologies,
+like circuit switching.
+And also it allows us for better scaling of the network
+so that as we start to connect more and more devices to the internet, now
+people are talking about the internet of things
+where not only people but devices are being connected to the internet.
+And so you can see that the network is going to grow
+and we need a scale away to do that and packet switching
+is what allows us to do that.
+
+And so then in conclusion then, what we've seen
+is we've seen a particular example of the network, the internet.
+And we've seen that it has this rough hierarchical structure
+and connections are established through a technique called packet switching.
